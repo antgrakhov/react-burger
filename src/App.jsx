@@ -7,7 +7,7 @@ import BurgerConstructor from "./components/burger-constructor/burger-constructo
 import data from './utils/data.json'
 
 import styles from './app.module.css'
-import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css'
+import '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function App() {
     return <>

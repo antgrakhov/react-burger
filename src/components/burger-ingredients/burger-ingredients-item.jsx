@@ -1,5 +1,7 @@
 import React from 'react'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ingredientVariantShape} from '../../utils/prop-types'
+
 import styles from './burger-ingredients.module.css'
 
 export default function BurgerIngredientsItem({item}) {
@@ -20,4 +22,8 @@ export default function BurgerIngredientsItem({item}) {
             {item.name}
         </h3>
     </>
+}
+
+BurgerIngredientsItem.propTypes = {
+    item: ingredientVariantShape.isRequired
 }

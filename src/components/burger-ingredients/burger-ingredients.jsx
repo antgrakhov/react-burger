@@ -2,6 +2,7 @@ import React from 'react'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredientsItem from './burger-ingredients-item'
 import PropTypes from 'prop-types'
+import {ingredientArray} from '../../utils/prop-types'
 
 import styles from './burger-ingredients.module.css'
 
@@ -61,5 +62,5 @@ export default function BurgerIngredients({className, data}) {
 
 BurgerIngredients.propTypes = {
     className: PropTypes.string,
-    data: PropTypes.array.isRequired
+    data: ingredientArray.isRequired
 }
