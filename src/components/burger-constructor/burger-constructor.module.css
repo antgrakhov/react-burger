@@ -57,6 +57,7 @@
 .total {
     justify-content: flex-end;
     column-gap: 40px;
+    max-width: 568px;
     padding-top: 10px;
 }
 

@@ -1,11 +1,15 @@
 import React from 'react'
 import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import OrderDetails from '../order-details/order-details'
+import Modal from '../modal/modal'
 import PropTypes from 'prop-types'
 import {ingredientArray} from '../../utils/prop-types'
 
 import styles from './burger-constructor.module.css'
 
 export default function BurgerConstructor({className, data}) {
+    const [isShowOrderDetails, setIsShowOrderDetails] = React.useState(false)
+
     const topBurgerIngredient = {
         ...data[0],
         name: 'Краторная булка N-200i (верх)',
@@ -15,6 +19,14 @@ export default function BurgerConstructor({className, data}) {
         ...data[0],
         name: 'Краторная булка N-200i (низ)',
         price: 20
+    }
+
+    function handleShowModal() {
+        setIsShowOrderDetails(true)
+    }
+
+    function handleCloseModal() {
+        setIsShowOrderDetails(false)
     }
 
     return <section className={`${styles.container} ${className}`}>
@@ -57,10 +69,18 @@ export default function BurgerConstructor({className, data}) {
                 610
                 <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large">
+            <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                onClick={handleShowModal}
+            >
                 Оформить заказ
             </Button>
         </div>
+        {isShowOrderDetails && <Modal onClose={handleCloseModal}>
+            <OrderDetails/>
+        </Modal>}
     </section>
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import BurgerIngredientsItem from './burger-ingredients-item'
+import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
 import PropTypes from 'prop-types'
 import {ingredientArray} from '../../utils/prop-types'
 
@@ -47,9 +47,10 @@ export default function BurgerIngredients({className, data}) {
                         <dd className={styles['list-wrap']}>
                             <ul className={styles.list}>
                                 {data.filter(item => item.type === ingredient).map(item =>
-                                    <li key={item._id} className={styles.item}>
-                                        <BurgerIngredientsItem item={item}/>
-                                    </li>
+                                    <BurgerIngredientsItem
+                                        key={item._id}
+                                        item={item}
+                                    />
                                 )}
                             </ul>
                         </dd>
