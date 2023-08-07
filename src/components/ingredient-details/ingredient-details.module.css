@@ -1,0 +1,33 @@
+.title,
+.list {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
+.thumb {
+    max-width: 100%;
+    height: auto;
+}
+
+.list {
+    display: flex;
+    column-gap: 20px;
+    margin-top: 32px;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.param {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    flex: 1 0 0;
+    color: var(--text-inactive-color);
+}

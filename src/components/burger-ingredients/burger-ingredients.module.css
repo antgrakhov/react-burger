@@ -1,0 +1,62 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    margin: 0 0 20px;
+    font-size: 36px;
+    line-height: 1.1;
+}
+
+.tabs {
+    display: flex;
+}
+
+.wrapper {
+    position: relative;
+    flex-grow: 1;
+    margin-top: 40px;
+}
+
+.content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.list-wrap {
+    margin: 24px 0 40px;
+}
+
+.list-wrap:last-child {
+    margin-bottom: 0;
+}
+
+.list {
+    --gap-column: 24px;
+
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--gap-column);
+    row-gap: 32px;
+    margin: 0;
+    padding: 0 16px;
+    list-style: none;
+}
+
+.subtitle {
+    margin: 0;
+}
+
+
+
+
+
+
+
+
