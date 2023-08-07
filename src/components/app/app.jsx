@@ -2,11 +2,11 @@ import React from 'react'
 import AppHeader from '../app-header/app-header'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
+import {getIngredients} from '../../utils/burger-api'
+
 
 import styles from './app.module.css'
 import '@ya.praktikum/react-developer-burger-ui-components'
-
-const dataUrl = 'https://norma.nomoreparties.space/api/ingredients'
 
 export default function App() {
     const [isLoading, setIsLoading] = React.useState(false)
@@ -14,24 +14,22 @@ export default function App() {
     const [data, setData] = React.useState([])
 
     React.useEffect(() => {
-        getData()
-    }, []);
-
-    function getData() {
-        setHasError(false)
         setIsLoading(true)
 
-        fetch(dataUrl)
-            .then(res => res.json())
+        getIngredients()
             .then(res => {
-                setData(res.data)
                 setIsLoading(false)
+
+                if ( res.success === true ) {
+                    setData(res.data)
+                } else {
+                    setHasError(true)
+                }
             })
             .catch(e => {
                 setHasError(true)
-                setIsLoading(false)
-            });
-    }
+            })
+    }, []);
 
     return <>
         <AppHeader/>
@@ -41,7 +39,7 @@ export default function App() {
                     <BurgerIngredients data={data} className={styles.section}/>
                     <BurgerConstructor data={data} className={styles.section}/>
                 </>}
-                {!isLoading && hasError && <p className={`${styles.error} text text_type_main-large`}>К сожалению, при загрузке данных произошла ошибка. Попробуйте перезагрузить страницу</p>}
+                {!isLoading && hasError && <p className={`${styles.error} text text_type_main-medium`}>К сожалению, при загрузке данных произошла ошибка.<br/> Попробуйте перезагрузить страницу</p>}
             </div>
         </main>
     </>
