@@ -22,9 +22,6 @@
     list-style: none;
 }
 
-.item {
-}
-
 .item:last-child {
     margin-left: auto;
 }
@@ -34,7 +31,7 @@
     align-items: center;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 1.1em;
     right: 0;
     flex: 1 0 0;
     width: 290px;
@@ -48,11 +45,9 @@
     display: flex;
     align-items: center;
     column-gap: var(--gap);
-    color: inherit;
-}
-
-.link:not([href]) {
     color: var(--text-inactive-color);
 }
 
-.href {}
+.active {
+    color: inherit;
+}
