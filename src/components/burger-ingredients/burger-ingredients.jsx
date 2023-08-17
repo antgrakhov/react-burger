@@ -35,6 +35,16 @@ export default function BurgerIngredients({className}) {
         }
     }
 
+    function handleTabClick(tab) {
+        const activeEl = document.getElementById(tab)
+
+        if ( activeEl ) {
+            activeEl.scrollIntoView({behavior: 'smooth'})
+        }
+
+        setTabActive(tab)
+    }
+
     return <section className={`${styles.container} ${className}`}>
         <h1 className={styles.title}>Соберите бургер</h1>
 
@@ -44,7 +54,7 @@ export default function BurgerIngredients({className}) {
                     key={ingredient}
                     value={ingredient}
                     active={tabActive === ingredient}
-                    onClick={setTabActive}
+                    onClick={handleTabClick}
                 >
                     {ingredientsData[ingredient].label}
                 </Tab>
@@ -55,7 +65,7 @@ export default function BurgerIngredients({className}) {
             <dl className={`${styles.content} custom-scroll`}>
                 {Object.keys(ingredientsData).map(ingredient =>
                     <React.Fragment key={ingredient}>
-                        <dt id={`ingredients-${ingredient}`}>
+                        <dt id={ingredient}>
                             <h2 className={styles.subtitle}>{ingredientsData[ingredient].label}</h2>
                         </dt>
                         <dd className={styles['list-wrap']}>

@@ -3,14 +3,14 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import Modal from '../modal/modal'
 import {ingredientVariantShape} from '../../utils/prop-types'
-import {BurgerIngredientsContext} from '../../services/burger-ingredients-context'
+import {BurgerGeneralContext} from '../../services/burger-general-context'
 
 import styles from './burger-ingredients-item.module.css'
 
 export default function BurgerIngredientsItem({item}) {
     const currentIngredientId = item._id
 
-    const {selectedIngredients} = React.useContext(BurgerIngredientsContext)
+    const {selectedIngredients} = React.useContext(BurgerGeneralContext)
     const [isShowDetails, setIsShowDetails] = React.useState(false)
 
     function handleShowDetails() {

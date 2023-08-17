@@ -4,6 +4,7 @@ import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
 import PropTypes from 'prop-types'
 import {sendSubmitOrder} from '../../utils/burger-api'
+import {BurgerGeneralContext} from '../../services/burger-general-context'
 import {BurgerConstructorContext} from '../../services/burger-constructor-context'
 
 import styles from './burger-constructor.module.css'
@@ -12,17 +13,22 @@ export default function BurgerConstructor({className}) {
     const [isShowOrderDetails, setIsShowOrderDetails] = React.useState(false)
     const [hasError, setHasError] = React.useState(false)
 
+    const {selectedIngredients} = React.useContext(BurgerGeneralContext)
     const {
-        selectedIngredients,
         priceTotal,
         setOrderNumber
     } = React.useContext(BurgerConstructorContext)
 
     const ingredientsData = React.useMemo(
         () => {
+            const _selectedIngredients = [...selectedIngredients]
+
             return {
-                bun: selectedIngredients.filter(item => item.type === 'bun')[0],
-                inside: selectedIngredients.filter(item => item.type !== 'bun')
+                bun: {
+                    top: _selectedIngredients.shift(),
+                    bottom: _selectedIngredients.pop(),
+                },
+                inside: _selectedIngredients,
             }
         },
         [selectedIngredients]
@@ -36,7 +42,7 @@ export default function BurgerConstructor({className}) {
         setIsShowOrderDetails(false)
     }
 
-    function handlesendSubmitOrder() {
+    function handleSendSubmitOrder() {
         const data = {
             ingredients: selectedIngredients.map(ingredient => ingredient._id)
         }
@@ -60,9 +66,9 @@ export default function BurgerConstructor({className}) {
             <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={`${ingredientsData.bun.name} (верх)`}
-                price={ingredientsData.bun.price}
-                thumbnail={ingredientsData.bun.image}
+                text={`${ingredientsData.bun.top.name} (верх)`}
+                price={ingredientsData.bun.top.price}
+                thumbnail={ingredientsData.bun.top.image}
             />
         </div>
         <div className={styles['list-wrap']}>
@@ -85,9 +91,9 @@ export default function BurgerConstructor({className}) {
             <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={`${ingredientsData.bun.name} (низ)`}
-                price={ingredientsData.bun.price}
-                thumbnail={ingredientsData.bun.image}
+                text={`${ingredientsData.bun.bottom.name} (низ)`}
+                price={ingredientsData.bun.bottom.price}
+                thumbnail={ingredientsData.bun.bottom.image}
             />
         </div>
         <div className={styles.total}>
@@ -99,14 +105,16 @@ export default function BurgerConstructor({className}) {
                 htmlType="button"
                 type="primary"
                 size="large"
-                onClick={handlesendSubmitOrder}
+                onClick={handleSendSubmitOrder}
             >
                 Оформить заказ
             </Button>
         </div>
         {isShowOrderDetails && <Modal onClose={handleCloseModal}>
-            {!hasError && <OrderDetails/>}
-            {hasError && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
+            <>
+                {!hasError && <OrderDetails/>}
+                {hasError && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
+            </>
         </Modal>}
     </section>
 }
