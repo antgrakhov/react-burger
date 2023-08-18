@@ -2,51 +2,75 @@ import React from 'react'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
 import PropTypes from 'prop-types'
-import {ingredientArray} from '../../utils/prop-types'
 
 import styles from './burger-ingredients.module.css'
+import {BurgerIngredientsContext} from '../../services/burger-ingredients-context'
 
-const ingredients = {
-    bun: {
-        label: 'Булки'
-    },
-    sauce: {
-        label: 'Соусы'
-    },
-    main: {
-        label: 'Начинки'
-    }
-}
-
-export default function BurgerIngredients({className, data}) {
+export default function BurgerIngredients({className}) {
     const [tabActive, setTabActive] = React.useState('bun')
+
+    const {data} = React.useContext(BurgerIngredientsContext)
+
+    const ingredientsData = {
+        bun: {
+            label: 'Булки',
+            data: React.useMemo(
+                ()=>data.filter(item => item.type === 'bun'),
+                [data]
+            )
+        },
+        sauce: {
+            label: 'Соусы',
+            data: React.useMemo(
+                ()=>data.filter(item => item.type === 'sauce'),
+                [data]
+            )
+        },
+        main: {
+            label: 'Начинки',
+            data: React.useMemo(
+                ()=>data.filter(item => item.type === 'main'),
+                [data]
+            )
+        }
+    }
+
+    function handleTabClick(tab) {
+        const activeEl = document.getElementById(tab)
+
+        if ( activeEl ) {
+            activeEl.scrollIntoView({behavior: 'smooth'})
+        }
+
+        setTabActive(tab)
+    }
 
     return <section className={`${styles.container} ${className}`}>
         <h1 className={styles.title}>Соберите бургер</h1>
 
         <nav className={styles.tabs}>
-            {Object.keys(ingredients).map(ingredient =>
+            {Object.keys(ingredientsData).map(ingredient =>
                 <Tab
                     key={ingredient}
                     value={ingredient}
                     active={tabActive === ingredient}
-                    onClick={setTabActive}
+                    onClick={handleTabClick}
                 >
-                    {ingredients[ingredient].label}
+                    {ingredientsData[ingredient].label}
                 </Tab>
             )}
         </nav>
 
         <div className={styles.wrapper}>
             <dl className={`${styles.content} custom-scroll`}>
-                {Object.keys(ingredients).map(ingredient =>
+                {Object.keys(ingredientsData).map(ingredient =>
                     <React.Fragment key={ingredient}>
-                        <dt id={`ingredients-${ingredient}`}>
-                            <h2 className={styles.subtitle}>{ingredients[ingredient].label}</h2>
+                        <dt id={ingredient}>
+                            <h2 className={styles.subtitle}>{ingredientsData[ingredient].label}</h2>
                         </dt>
                         <dd className={styles['list-wrap']}>
                             <ul className={styles.list}>
-                                {data.filter(item => item.type === ingredient).map(item =>
+                                {ingredientsData[ingredient].data.map(item =>
                                     <BurgerIngredientsItem
                                         key={item._id}
                                         item={item}
@@ -63,5 +87,4 @@ export default function BurgerIngredients({className, data}) {
 
 BurgerIngredients.propTypes = {
     className: PropTypes.string,
-    data: ingredientArray.isRequired
 }

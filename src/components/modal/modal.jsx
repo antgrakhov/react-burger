@@ -26,7 +26,7 @@ export default function Modal({children, label, onClose}) {
         return () => {
             document.removeEventListener('keydown', handleEscPressed);
         };
-    }, []);
+    }, []) // eslint-disable-line
 
     return modalRootEl && createPortal(
         <div className={styles.container}>

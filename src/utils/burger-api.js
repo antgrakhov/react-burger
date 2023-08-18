@@ -5,6 +5,19 @@ const getIngredients = async () => {
     return checkResponse(result)
 }
 
+const sendSubmitOrder = async (data) => {
+    const result = await fetch(
+        `${NORMA_API}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(data)
+        }
+    )
+    return checkResponse(result)
+}
+
 const checkResponse = (result) => {
     return result.ok
         ? result.json()
@@ -12,5 +25,6 @@ const checkResponse = (result) => {
 }
 
 export {
-    getIngredients
+    getIngredients,
+    sendSubmitOrder
 }
