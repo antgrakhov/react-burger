@@ -24,11 +24,8 @@ export default function BurgerConstructor({className}) {
             const _selectedIngredients = [...selectedIngredients]
 
             return {
-                bun: {
-                    top: _selectedIngredients.shift(),
-                    bottom: _selectedIngredients.pop(),
-                },
-                inside: _selectedIngredients,
+                bun: _selectedIngredients.find(ingredient => ingredient.type === 'bun'),
+                inside: _selectedIngredients.filter(ingredient => ingredient.type !== 'bun'),
             }
         },
         [selectedIngredients]
@@ -66,9 +63,9 @@ export default function BurgerConstructor({className}) {
             <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={`${ingredientsData.bun.top.name} (верх)`}
-                price={ingredientsData.bun.top.price}
-                thumbnail={ingredientsData.bun.top.image}
+                text={`${ingredientsData.bun.name} (верх)`}
+                price={ingredientsData.bun.price}
+                thumbnail={ingredientsData.bun.image}
             />
         </div>
         <div className={styles['list-wrap']}>
@@ -91,9 +88,9 @@ export default function BurgerConstructor({className}) {
             <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={`${ingredientsData.bun.bottom.name} (низ)`}
-                price={ingredientsData.bun.bottom.price}
-                thumbnail={ingredientsData.bun.bottom.image}
+                text={`${ingredientsData.bun.name} (низ)`}
+                price={ingredientsData.bun.price}
+                thumbnail={ingredientsData.bun.image}
             />
         </div>
         <div className={styles.total}>
