@@ -1,6 +1,6 @@
 const NORMA_API = 'https://norma.nomoreparties.space/api'
 
-const getIngredients = async () => {
+const loadIngredients = async () => {
     const result = await fetch(`${NORMA_API}/ingredients`)
     return checkResponse(result)
 }
@@ -25,6 +25,6 @@ const checkResponse = (result) => {
 }
 
 export {
-    getIngredients,
+    loadIngredients,
     sendSubmitOrder
 }

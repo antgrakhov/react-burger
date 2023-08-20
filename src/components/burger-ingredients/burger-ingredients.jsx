@@ -1,36 +1,35 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
 import PropTypes from 'prop-types'
 
 import styles from './burger-ingredients.module.css'
-import {BurgerIngredientsContext} from '../../services/burger-ingredients-context'
 
 export default function BurgerIngredients({className}) {
+    const {items} = useSelector(store => store.ingredients)
     const [tabActive, setTabActive] = React.useState('bun')
-
-    const {data} = React.useContext(BurgerIngredientsContext)
 
     const ingredientsData = {
         bun: {
             label: 'Булки',
             data: React.useMemo(
-                ()=>data.filter(item => item.type === 'bun'),
-                [data]
+                ()=>items.filter(item => item.type === 'bun'),
+                [items]
             )
         },
         sauce: {
             label: 'Соусы',
             data: React.useMemo(
-                ()=>data.filter(item => item.type === 'sauce'),
-                [data]
+                ()=>items.filter(item => item.type === 'sauce'),
+                [items]
             )
         },
         main: {
             label: 'Начинки',
             data: React.useMemo(
-                ()=>data.filter(item => item.type === 'main'),
-                [data]
+                ()=>items.filter(item => item.type === 'main'),
+                [items]
             )
         }
     }

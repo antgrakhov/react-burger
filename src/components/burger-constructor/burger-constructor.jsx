@@ -1,35 +1,67 @@
-import React from 'react'
+import React, {useMemo} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {useDrop} from 'react-dnd'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
+import emptyImage from '../../images/empty.png'
 import PropTypes from 'prop-types'
-import {sendSubmitOrder} from '../../utils/burger-api'
-import {BurgerGeneralContext} from '../../services/burger-general-context'
-import {BurgerConstructorContext} from '../../services/burger-constructor-context'
+import {
+    ADD_CONSTRUCTOR_BUN_ITEM,
+    ADD_CONSTRUCTOR_INSIDE_ITEM,
+    REMOVE_CONSTRUCTOR_INSIDE_ITEM,
+} from '../../services/actions/constructor'
+import {getBurgerPriceTotal} from '../../utils/get-burger-price-total'
 
 import styles from './burger-constructor.module.css'
 
 export default function BurgerConstructor({className}) {
+    const {selectedItems} = useSelector(store => store.ingredientsConstructor)
+    const dispatch = useDispatch()
+
+    const bunItem = useMemo(() => {
+        return selectedItems.find(el => el.type === 'bun')
+    }, [selectedItems])
+    const insideItems = useMemo(() => {
+        return selectedItems.filter(el => el.type !== 'bun')
+    }, [selectedItems])
+
+    const priceTotal = getBurgerPriceTotal(selectedItems)
+
+    const [{canDropBun, isOverBun}, dropBunRef] = useDrop(() => ({
+        accept: 'bun',
+        drop(item) {
+            dispatch({
+                type: ADD_CONSTRUCTOR_BUN_ITEM,
+                payload: item,
+            })
+        },
+        collect(monitor) {
+            return {
+                canDropBun: monitor.canDrop(),
+                isOverBun: monitor.isOver(),
+            }
+        }
+    }))
+
+    const [{canDropInside, isOverInside}, dropInsideRef] = useDrop(() => ({
+        accept: ['main', 'sauce'],
+        drop(item) {
+            dispatch({
+                type: ADD_CONSTRUCTOR_INSIDE_ITEM,
+                payload: item,
+            })
+        },
+        collect(monitor) {
+            return {
+                canDropInside: monitor.canDrop(),
+                isOverInside: monitor.isOver(),
+            }
+        }
+    }))
+
     const [isShowOrderDetails, setIsShowOrderDetails] = React.useState(false)
     const [hasError, setHasError] = React.useState(false)
-
-    const {selectedIngredients} = React.useContext(BurgerGeneralContext)
-    const {
-        priceTotal,
-        setOrderNumber
-    } = React.useContext(BurgerConstructorContext)
-
-    const ingredientsData = React.useMemo(
-        () => {
-            const _selectedIngredients = [...selectedIngredients]
-
-            return {
-                bun: _selectedIngredients.find(ingredient => ingredient.type === 'bun'),
-                inside: _selectedIngredients.filter(ingredient => ingredient.type !== 'bun'),
-            }
-        },
-        [selectedIngredients]
-    )
 
     function handleShowModal() {
         setIsShowOrderDetails(true)
@@ -40,45 +72,65 @@ export default function BurgerConstructor({className}) {
     }
 
     function handleSendSubmitOrder() {
-        const data = {
-            ingredients: selectedIngredients.map(ingredient => ingredient._id)
-        }
-
-        sendSubmitOrder(data)
-            .then(res => {
-                if ( res.success === true ) {
-                    setOrderNumber(res.order.number)
-                    handleShowModal()
-                } else {
-                    setHasError(true)
-                }
-            })
-            .catch(() => {
-                setHasError(true)
-            })
+        // const data = {
+        //     ingredients: items.map(ingredient => ingredient._id)
+        // }
+        //
+        // sendSubmitOrder(data)
+        //     .then(res => {
+        //         if ( res.success === true ) {
+        //             setOrderNumber(res.order.number)
+        //             handleShowModal()
+        //         } else {
+        //             setHasError(true)
+        //         }
+        //     })
+        //     .catch(() => {
+        //         setHasError(true)
+        //     })
     }
 
-    return <section className={`${styles.container} ${className}`}>
+    function handleRemoveInsideItem(id, uniqueId) {
+        dispatch({
+            id,
+            uniqueId,
+            type: REMOVE_CONSTRUCTOR_INSIDE_ITEM
+        })
+    }
+
+    return <section
+        ref={dropBunRef}
+        className={`${styles.container} ${className} ${canDropBun ? styles.canDropBun : ''} ${isOverBun ? styles.isOverBun : ''}`}
+    >
         <div className={styles.top}>
             <ConstructorElement
                 type="top"
-                isLocked={true}
-                text={`${ingredientsData.bun.name} (верх)`}
-                price={ingredientsData.bun.price}
-                thumbnail={ingredientsData.bun.image}
+                item={bunItem}
+                text={bunItem ? bunItem.name + ' (верх)' : 'Добавьте булку'}
+                thumbnail={bunItem ? bunItem.image : emptyImage}
+                price={bunItem ? bunItem.price : 0}
+                isLocked
             />
         </div>
         <div className={styles['list-wrap']}>
-            <ul className={`${styles.list} custom-scroll`}>
-                {ingredientsData.inside.map((item, i) =>
-                    <li key={`${item._id}${i}`} className={styles.item}>
+            <ul
+                ref={dropInsideRef}
+                className={`${styles.list} custom-scroll ${canDropInside ? styles.canDropInside : ''} ${isOverInside ? styles.isOverInside : ''}`}
+            >
+                {insideItems.map(item =>
+                    <li key={item.uniqueId} className={styles.item}>
                         <button className={styles.dragger}>
                             <DragIcon type="primary"/>
                         </button>
                         <ConstructorElement
+                            item={item}
                             text={item.name}
-                            price={item.price}
                             thumbnail={item.image}
+                            price={item.price}
+                            handleClose={()=> handleRemoveInsideItem(
+                                item._id,
+                                item.uniqueId
+                            )}
                         />
                     </li>
                 )}
@@ -87,10 +139,11 @@ export default function BurgerConstructor({className}) {
         <div className={styles.bottom}>
             <ConstructorElement
                 type="bottom"
-                isLocked={true}
-                text={`${ingredientsData.bun.name} (низ)`}
-                price={ingredientsData.bun.price}
-                thumbnail={ingredientsData.bun.image}
+                item={bunItem}
+                text={bunItem ? bunItem.name + ' (низ)' : 'Добавьте булку'}
+                thumbnail={bunItem ? bunItem.image : emptyImage}
+                price={bunItem ? bunItem.price : 0}
+                isLocked
             />
         </div>
         <div className={styles.total}>

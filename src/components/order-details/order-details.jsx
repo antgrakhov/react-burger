@@ -1,10 +1,9 @@
 import React from 'react'
-import {BurgerConstructorContext} from '../../services/burger-constructor-context'
 
 import styles from './order-details.module.css'
 
 export default function OrderDetails() {
-    const {orderNumber} = React.useContext(BurgerConstructorContext)
+    const {orderNumber} = '12345'
 
     return <div className={styles.container}>
         <h5 className={`${styles.num} text_type_digits-large`}>

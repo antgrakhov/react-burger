@@ -1,17 +1,26 @@
 import React from 'react'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {useDrag} from 'react-dnd'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import Modal from '../modal/modal'
 import {ingredientVariantShape} from '../../utils/prop-types'
-import {BurgerGeneralContext} from '../../services/burger-general-context'
 
 import styles from './burger-ingredients-item.module.css'
+import {useSelector} from "react-redux";
 
 export default function BurgerIngredientsItem({item}) {
-    const currentIngredientId = item._id
-
-    const {selectedIngredients} = React.useContext(BurgerGeneralContext)
     const [isShowDetails, setIsShowDetails] = React.useState(false)
+
+    const {selectedCounts} = useSelector(store => store.ingredientsConstructor)
+    const currentIngredientCount = selectedCounts[item._id]
+        ? selectedCounts[item._id].count
+        : 0
+
+    // eslint-disable-next-line no-empty-pattern
+    const [{}, dragSource] = useDrag({
+        type: item.type,
+        item: {...item}
+    })
 
     function handleShowDetails() {
         setIsShowDetails(true)
@@ -21,22 +30,16 @@ export default function BurgerIngredientsItem({item}) {
         setIsShowDetails(false)
     }
 
-    const currentIngredientCount = React.useMemo(
-        () => {
-            return selectedIngredients.filter(ingredient =>
-                ingredient._id === currentIngredientId
-            )
-        },
-        [currentIngredientId, selectedIngredients]
-    )
-
     return <li
+        ref={dragSource}
         className={styles.container}
         onClick={handleShowDetails}
+        draggable
     >
-        {currentIngredientCount.length > 0 &&
-            <Counter
-                count={currentIngredientCount.length}
+        {
+            currentIngredientCount > 0
+            && <Counter
+                count={currentIngredientCount}
                 size="default"
                 extraClass="m-1"
             />

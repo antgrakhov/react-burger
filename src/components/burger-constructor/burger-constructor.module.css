@@ -9,6 +9,16 @@
     padding-top: 100px;
 }
 
+.canDropBun > div > div:first-child,
+.canDropInside::after {
+    outline: 1px dashed rgba(255, 255, 255, .5);
+}
+
+.isOverBun > div > div:first-child,
+.isOverInside::after {
+    outline: 1px dashed rgba(255, 255, 255, 1);
+}
+
 .top,
 .item,
 .bottom {
@@ -34,9 +44,19 @@
     scroll-snap-type: y mandatory;
 }
 
+.list::after {
+    position: absolute;
+    left: 32px;
+    top: 1px;
+    right: 34px;
+    bottom: 1px;
+    content: '';
+}
+
 .item {
     position: relative;
     scroll-snap-align: start;
+    z-index: 1;
 }
 
 .dragger {
