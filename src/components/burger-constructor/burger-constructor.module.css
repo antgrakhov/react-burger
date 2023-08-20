@@ -9,14 +9,26 @@
     padding-top: 100px;
 }
 
-.canDropBun > div > div:first-child,
+.canDropBun .top > div:first-child,
+.canDropBun .bottom > div:first-child,
 .canDropInside::after {
     outline: 1px dashed rgba(255, 255, 255, .5);
 }
 
-.isOverBun > div > div:first-child,
+.isOverBun .top > div:first-child,
+.isOverBun .bottom > div:first-child,
 .isOverInside::after {
     outline: 1px dashed rgba(255, 255, 255, 1);
+}
+
+.canDropInside::after,
+.isOverInside::after {
+    position: absolute;
+    left: 32px;
+    top: 1px;
+    right: 34px;
+    bottom: 1px;
+    content: '';
 }
 
 .top,
@@ -26,9 +38,9 @@
 }
 
 .list-wrap {
+    position: relative;
     flex-grow: 1;
     min-height: 272px;
-    position: relative;
 }
 
 .list {
@@ -42,15 +54,6 @@
     list-style: none;
     overflow-y: auto;
     scroll-snap-type: y mandatory;
-}
-
-.list::after {
-    position: absolute;
-    left: 32px;
-    top: 1px;
-    right: 34px;
-    bottom: 1px;
-    content: '';
 }
 
 .item {

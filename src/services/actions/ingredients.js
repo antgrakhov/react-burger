@@ -1,4 +1,4 @@
-import { loadIngredients } from '../../utils/burger-api'
+import {loadIngredients} from '../../utils/burger-api'
 
 const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'
@@ -12,16 +12,18 @@ const getIngredients = () => {
 
         loadIngredients()
             .then(result => {
+                let action = {
+                    type: GET_INGREDIENTS_FAILED
+                }
+
                 if ( result.success === true ) {
-                    dispatch({
+                    action = {
                         type: GET_INGREDIENTS_SUCCESS,
                         payload: result.data
-                    })
-                } else {
-                    dispatch({
-                        type: GET_INGREDIENTS_FAILED
-                    })
+                    }
                 }
+
+                dispatch(action)
             })
             .catch(() => {
                 dispatch({

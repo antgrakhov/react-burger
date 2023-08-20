@@ -24,12 +24,14 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items: action.payload,
-                ingredientsRequest: false
+                ingredientsRequest: false,
+                ingredientsFailed: false,
             }
         }
 
         case GET_INGREDIENTS_FAILED: {
             return {
+                ...state,
                 items: [],
                 ingredientsRequest: false,
                 ingredientsFailed: true,

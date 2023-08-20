@@ -5,7 +5,7 @@ const loadIngredients = async () => {
     return checkResponse(result)
 }
 
-const sendSubmitOrder = async (data) => {
+const submitOrder = async (data) => {
     const result = await fetch(
         `${NORMA_API}/orders`, {
             method: 'POST',
@@ -26,5 +26,5 @@ const checkResponse = (result) => {
 
 export {
     loadIngredients,
-    sendSubmitOrder
+    submitOrder
 }

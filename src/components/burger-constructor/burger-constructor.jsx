@@ -11,12 +11,22 @@ import {
     ADD_CONSTRUCTOR_INSIDE_ITEM,
     REMOVE_CONSTRUCTOR_INSIDE_ITEM,
 } from '../../services/actions/constructor'
+import {
+    HIDE_ORDER_MODAL,
+    SHOW_ORDER_MODAL,
+    sendSubmitOrder,
+} from '../../services/actions/order'
 import {getBurgerPriceTotal} from '../../utils/get-burger-price-total'
 
 import styles from './burger-constructor.module.css'
 
 export default function BurgerConstructor({className}) {
     const {selectedItems} = useSelector(store => store.ingredientsConstructor)
+    const {
+        orderRequest,
+        orderFailed,
+        isShowModalOrder
+    } = useSelector(store => store.order)
     const dispatch = useDispatch()
 
     const bunItem = useMemo(() => {
@@ -60,41 +70,27 @@ export default function BurgerConstructor({className}) {
         }
     }))
 
-    const [isShowOrderDetails, setIsShowOrderDetails] = React.useState(false)
-    const [hasError, setHasError] = React.useState(false)
-
-    function handleShowModal() {
-        setIsShowOrderDetails(true)
-    }
-
-    function handleCloseModal() {
-        setIsShowOrderDetails(false)
-    }
-
-    function handleSendSubmitOrder() {
-        // const data = {
-        //     ingredients: items.map(ingredient => ingredient._id)
-        // }
-        //
-        // sendSubmitOrder(data)
-        //     .then(res => {
-        //         if ( res.success === true ) {
-        //             setOrderNumber(res.order.number)
-        //             handleShowModal()
-        //         } else {
-        //             setHasError(true)
-        //         }
-        //     })
-        //     .catch(() => {
-        //         setHasError(true)
-        //     })
-    }
-
     function handleRemoveInsideItem(id, uniqueId) {
         dispatch({
             id,
             uniqueId,
             type: REMOVE_CONSTRUCTOR_INSIDE_ITEM
+        })
+    }
+
+    function handleSendSubmitOrder() {
+        dispatch({
+            type: SHOW_ORDER_MODAL
+        })
+
+        dispatch(sendSubmitOrder({
+            ingredients: selectedItems.map(ingredient => ingredient._id)
+        }))
+    }
+
+    function handleCloseModal() {
+        dispatch({
+            type: HIDE_ORDER_MODAL
         })
     }
 
@@ -112,10 +108,11 @@ export default function BurgerConstructor({className}) {
                 isLocked
             />
         </div>
-        <div className={styles['list-wrap']}>
-            <ul
-                ref={dropInsideRef}
-                className={`${styles.list} custom-scroll ${canDropInside ? styles.canDropInside : ''} ${isOverInside ? styles.isOverInside : ''}`}
+        <div
+            ref={dropInsideRef}
+            className={`${styles['list-wrap']} ${canDropInside ? styles.canDropInside : ''} ${isOverInside ? styles.isOverInside : ''}`}
+        >
+            <ul className={`${styles.list} custom-scroll`}
             >
                 {insideItems.map(item =>
                     <li key={item.uniqueId} className={styles.item}>
@@ -156,14 +153,15 @@ export default function BurgerConstructor({className}) {
                 type="primary"
                 size="large"
                 onClick={handleSendSubmitOrder}
+                disabled={selectedItems.filter(item => ['main', 'sauce'].includes(item.type)).length === 0}
             >
                 Оформить заказ
             </Button>
         </div>
-        {isShowOrderDetails && <Modal onClose={handleCloseModal}>
+        {isShowModalOrder && !orderRequest && <Modal onClose={handleCloseModal}>
             <>
-                {!hasError && <OrderDetails/>}
-                {hasError && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
+                {!orderFailed && <OrderDetails/>}
+                {orderFailed && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
             </>
         </Modal>}
     </section>
