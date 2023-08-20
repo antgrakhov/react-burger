@@ -28,13 +28,18 @@ export const constructorReducer = (state = initialState, action) => {
                 count: 2,
             }
 
+            const {
+                topUniqueId,
+                bottomUniqueId
+            } = action.payload
+
             newItems.unshift({
                 ...newItem,
-                uniqueId: action.payload.topUniqueId
+                uniqueId: topUniqueId
             })
             newItems.push({
                 ...newItem,
-                uniqueId: action.payload.bottomUniqueId
+                uniqueId: bottomUniqueId
             })
 
             return {
@@ -67,8 +72,10 @@ export const constructorReducer = (state = initialState, action) => {
             }
         }
         case REMOVE_CONSTRUCTOR_INSIDE_ITEM: {
-            const id = action.payload.id
-            const uniqueId = action.payload.uniqueId
+            const {
+                id,
+                uniqueId
+            } = action.payload
             const newCounts = {...state.selectedCounts}
 
             if ( newCounts[id] ) {
@@ -87,8 +94,10 @@ export const constructorReducer = (state = initialState, action) => {
         }
         case MOVE_CONSTRUCTOR_INSIDE_ITEM: {
             const newItems = [...state.selectedItems]
-            const indexFrom = action.payload.indexFrom
-            const indexTo = action.payload.indexTo
+            const {
+                indexFrom,
+                indexTo
+            } = action.payload
 
             newItems.splice(indexFrom, 1)
             newItems.splice(
