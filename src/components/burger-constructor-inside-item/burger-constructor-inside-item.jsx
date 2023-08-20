@@ -60,15 +60,15 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
 
             dispatch({
                 type: MOVE_CONSTRUCTOR_INSIDE_ITEM,
-                dragIndex,
-                hoverIndex
+                payload: {
+                    indexFrom: dragIndex +1, // sorting without `bun` zero-index item
+                    indexTo: hoverIndex +1 // sorting without `bun` zero-index item
+                }
             })
 
             item.index = hoverIndex
         },
     })
-
-    const opacity = isDragging ? 0 : 1
 
     dragRef(dropRef(ref))
 
@@ -83,7 +83,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
     return <li
         ref={ref}
         className={styles.item}
-        style={{opacity}}
+        style={{opacity: isDragging ? 0 : 1}}
         data-handler-id={handlerId}
     >
         <button className={styles.dragger}>

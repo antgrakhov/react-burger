@@ -84,8 +84,20 @@ export const constructorReducer = (state = initialState, action) => {
             }
         }
         case MOVE_CONSTRUCTOR_INSIDE_ITEM: {
+            const newItems = [...state.selectedItems]
+            const indexFrom = action.payload.indexFrom
+            const indexTo = action.payload.indexTo
+
+            newItems.splice(indexFrom, 1)
+            newItems.splice(
+                indexTo,
+                0,
+                [...state.selectedItems][indexFrom]
+            )
+
             return {
-                ...state
+                ...state,
+                selectedItems: newItems,
             }
         }
         default: {
