@@ -2,7 +2,10 @@ import React from 'react'
 import {useDispatch} from 'react-redux'
 import {useDrag, useDrop} from 'react-dnd'
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import {MOVE_CONSTRUCTOR_INSIDE_ITEM, REMOVE_CONSTRUCTOR_INSIDE_ITEM} from '../../services/actions/constructor'
+import {
+    MOVE_CONSTRUCTOR_INSIDE_ITEM,
+    REMOVE_CONSTRUCTOR_INSIDE_ITEM
+} from '../../services/actions/constructor'
 
 import styles from './burger-constructor-inside-item.module.css'
 
@@ -11,7 +14,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
     const ref = React.useRef(null)
     const dispatch = useDispatch()
 
-    const [{ isDragging }, dragRef] = useDrag({
+    const [{isDragging}, dragRef] = useDrag({
         type: acceptType,
         item: () => {
             return {
@@ -24,7 +27,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
         }),
     })
 
-    const [{ handlerId }, dropRef] = useDrop({
+    const [{handlerId}, dropRef] = useDrop({
         accept: acceptType,
         collect(monitor) {
             return {
@@ -74,9 +77,11 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
 
     function handleRemoveInsideItem(id, uniqueId) {
         dispatch({
-            id,
-            uniqueId,
-            type: REMOVE_CONSTRUCTOR_INSIDE_ITEM
+            type: REMOVE_CONSTRUCTOR_INSIDE_ITEM,
+            payload: {
+                id,
+                uniqueId,
+            }
         })
     }
 

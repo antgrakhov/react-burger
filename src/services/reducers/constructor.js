@@ -1,4 +1,3 @@
-import {v4 as uuid} from 'uuid'
 import {
     ADD_CONSTRUCTOR_BUN_ITEM,
     ADD_CONSTRUCTOR_INSIDE_ITEM,
@@ -14,26 +13,28 @@ const initialState = {
 export const constructorReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_CONSTRUCTOR_BUN_ITEM: {
-            const newItems = state.selectedItems.filter(item => item.type !== 'bun')
-            const prevBunItem = state.selectedItems.find(item => item.type === 'bun')
             const newCounts = {...state.selectedCounts}
+            const prevBunItem = state.selectedItems.find(item => item.type === 'bun')
 
             if ( prevBunItem ) {
                 newCounts[prevBunItem._id].count = 0
             }
 
-            newCounts[action.payload._id] = {
-                type: action.payload.type,
+            const newItems = state.selectedItems.filter(item => item.type !== 'bun')
+            const newItem = {...action.payload.item}
+
+            newCounts[newItem._id] = {
+                type: newItem.type,
                 count: 2,
             }
 
             newItems.unshift({
-                ...action.payload,
-                uniqueId: uuid()
+                ...newItem,
+                uniqueId: action.payload.topUniqueId
             })
             newItems.push({
-                ...action.payload,
-                uniqueId: uuid()
+                ...newItem,
+                uniqueId: action.payload.bottomUniqueId
             })
 
             return {
@@ -44,18 +45,16 @@ export const constructorReducer = (state = initialState, action) => {
         }
         case ADD_CONSTRUCTOR_INSIDE_ITEM: {
             const newItems = [...state.selectedItems]
-            const newItem = {
-                ...action.payload,
-                uniqueId: uuid()
-            }
+            const newItem = {...action.payload.item}
+            const itemId = action.payload._id
             const newCounts = {...state.selectedCounts}
 
             newItems.splice(-1, 0, newItem)
 
-            if ( newCounts[action.payload._id] ) {
-                newCounts[action.payload._id].count = ++newCounts[action.payload._id].count
+            if ( newCounts[itemId] ) {
+                newCounts[itemId].count += 1
             } else {
-                newCounts[action.payload._id] = {
+                newCounts[itemId] = {
                     type: action.payload.type,
                     count: 1
                 }
@@ -68,18 +67,21 @@ export const constructorReducer = (state = initialState, action) => {
             }
         }
         case REMOVE_CONSTRUCTOR_INSIDE_ITEM: {
-            const newItems = [...state.selectedItems]
+            const id = action.payload.id
+            const uniqueId = action.payload.uniqueId
             const newCounts = {...state.selectedCounts}
 
-            if ( newCounts[action.id] ) {
-                newCounts[action.id].count = newCounts[action.id].count > 0
-                    ? --newCounts[action.id].count
+            if ( newCounts[id] ) {
+                newCounts[id].count = newCounts[id].count > 0
+                    ? --newCounts[id].count
                     : 0
             }
 
             return {
                 ...state,
-                selectedItems: newItems.filter(item => item.uniqueId !== action.uniqueId),
+                selectedItems: [...state.selectedItems].filter(item =>
+                    item.uniqueId !== uniqueId
+                ),
                 selectedCounts: newCounts
             }
         }

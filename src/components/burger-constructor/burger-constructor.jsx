@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react'
+import {v4 as uuid} from 'uuid'
 import {useSelector, useDispatch} from 'react-redux'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
@@ -43,7 +44,11 @@ export default function BurgerConstructor({className}) {
         drop(item) {
             dispatch({
                 type: ADD_CONSTRUCTOR_BUN_ITEM,
-                payload: item,
+                payload: {
+                    item,
+                    topUniqueId: uuid(),
+                    bottomUniqueId: uuid(),
+                },
             })
         },
         collect(monitor) {
@@ -59,7 +64,12 @@ export default function BurgerConstructor({className}) {
         drop(item) {
             dispatch({
                 type: ADD_CONSTRUCTOR_INSIDE_ITEM,
-                payload: item,
+                payload: {
+                    item: {
+                        ...item,
+                        uniqueId: uuid()
+                    }
+                },
             })
         },
         collect(monitor) {

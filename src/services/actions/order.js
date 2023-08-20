@@ -21,7 +21,9 @@ const sendSubmitOrder = (items) => {
                 if ( result.success === true ) {
                     action = {
                         type: SEND_ORDER_SUCCESS,
-                        orderNumber: result.order.number
+                        payload: {
+                            orderNumber: result.order.number
+                        }
                     }
                 }
 
