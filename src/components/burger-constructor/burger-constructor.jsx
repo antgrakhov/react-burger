@@ -1,7 +1,8 @@
 import React, {useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
+import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burger-constructor-inside-item'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
 import emptyImage from '../../images/empty.png'
@@ -9,7 +10,6 @@ import PropTypes from 'prop-types'
 import {
     ADD_CONSTRUCTOR_BUN_ITEM,
     ADD_CONSTRUCTOR_INSIDE_ITEM,
-    REMOVE_CONSTRUCTOR_INSIDE_ITEM,
 } from '../../services/actions/constructor'
 import {
     HIDE_ORDER_MODAL,
@@ -70,14 +70,6 @@ export default function BurgerConstructor({className}) {
         }
     }))
 
-    function handleRemoveInsideItem(id, uniqueId) {
-        dispatch({
-            id,
-            uniqueId,
-            type: REMOVE_CONSTRUCTOR_INSIDE_ITEM
-        })
-    }
-
     function handleSendSubmitOrder() {
         dispatch({
             type: SHOW_ORDER_MODAL
@@ -114,22 +106,12 @@ export default function BurgerConstructor({className}) {
         >
             <ul className={`${styles.list} custom-scroll`}
             >
-                {insideItems.map(item =>
-                    <li key={item.uniqueId} className={styles.item}>
-                        <button className={styles.dragger}>
-                            <DragIcon type="primary"/>
-                        </button>
-                        <ConstructorElement
-                            item={item}
-                            text={item.name}
-                            thumbnail={item.image}
-                            price={item.price}
-                            handleClose={()=> handleRemoveInsideItem(
-                                item._id,
-                                item.uniqueId
-                            )}
-                        />
-                    </li>
+                {insideItems.map((item, index) =>
+                    <BurgerConstructorInsideItem
+                        key={item.uniqueId}
+                        index={index}
+                        ingredient={item}
+                    />
                 )}
             </ul>
         </div>
@@ -144,16 +126,16 @@ export default function BurgerConstructor({className}) {
             />
         </div>
         <div className={styles.total}>
-            <div className={`${styles.price} text_type_digits-medium`}>
+            {priceTotal > 0 && <div className={`${styles.price} text_type_digits-medium`}>
                 {priceTotal}
                 <CurrencyIcon type="primary" />
-            </div>
+            </div>}
             <Button
                 htmlType="button"
                 type="primary"
                 size="large"
                 onClick={handleSendSubmitOrder}
-                disabled={selectedItems.filter(item => ['main', 'sauce'].includes(item.type)).length === 0}
+                disabled={selectedItems.length === 0}
             >
                 Оформить заказ
             </Button>

@@ -3,6 +3,7 @@ import {
     ADD_CONSTRUCTOR_BUN_ITEM,
     ADD_CONSTRUCTOR_INSIDE_ITEM,
     REMOVE_CONSTRUCTOR_INSIDE_ITEM,
+    MOVE_CONSTRUCTOR_INSIDE_ITEM,
 } from '../actions/constructor'
 
 const initialState = {
@@ -80,6 +81,11 @@ export const constructorReducer = (state = initialState, action) => {
                 ...state,
                 selectedItems: newItems.filter(item => item.uniqueId !== action.uniqueId),
                 selectedCounts: newCounts
+            }
+        }
+        case MOVE_CONSTRUCTOR_INSIDE_ITEM: {
+            return {
+                ...state
             }
         }
         default: {
