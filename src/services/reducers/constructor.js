@@ -3,6 +3,7 @@ import {
     ADD_CONSTRUCTOR_INSIDE_ITEM,
     REMOVE_CONSTRUCTOR_INSIDE_ITEM,
     MOVE_CONSTRUCTOR_INSIDE_ITEM,
+    CLEAR_CONSTRUCTOR,
 } from '../actions/constructor'
 
 const initialState = {
@@ -109,6 +110,11 @@ export const constructorReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectedItems: newItems,
+            }
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return {
+                ...initialState,
             }
         }
         default: {

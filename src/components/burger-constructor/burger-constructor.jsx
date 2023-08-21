@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import {
     ADD_CONSTRUCTOR_BUN_ITEM,
     ADD_CONSTRUCTOR_INSIDE_ITEM,
+    CLEAR_CONSTRUCTOR,
 } from '../../services/actions/constructor'
 import {
     HIDE_ORDER_MODAL,
@@ -93,6 +94,10 @@ export default function BurgerConstructor({className}) {
     function handleCloseModal() {
         dispatch({
             type: HIDE_ORDER_MODAL
+        })
+
+        dispatch({
+            type: CLEAR_CONSTRUCTOR
         })
     }
 
