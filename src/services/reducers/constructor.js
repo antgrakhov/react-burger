@@ -52,16 +52,19 @@ export const constructorReducer = (state = initialState, action) => {
         case ADD_CONSTRUCTOR_INSIDE_ITEM: {
             const newItems = [...state.selectedItems]
             const newItem = {...action.payload.item}
-            const itemId = action.payload._id
+            const {
+                _id,
+                type
+            } = action.payload.item
             const newCounts = {...state.selectedCounts}
 
             newItems.splice(-1, 0, newItem)
 
-            if ( newCounts[itemId] ) {
-                newCounts[itemId].count += 1
+            if ( newCounts[_id] ) {
+                newCounts[_id].count += 1
             } else {
-                newCounts[itemId] = {
-                    type: action.payload.type,
+                newCounts[_id] = {
+                    type,
                     count: 1
                 }
             }
