@@ -11,7 +11,7 @@ export default function OrderDetails() {
             {orderNumber}
         </h5>
         <p className={`${styles.description} text_type_main-medium`}>идентификатор заказа</p>
-        <p className={styles.begin}>Ваш заказ начали готовить</p>
-        <p className={`${styles.wait} text_color_inactive`}>Дождитесь готовности на орбитальной станции</p>
+        <p>Ваш заказ начали готовить</p>
+        <p className="text_color_inactive">Дождитесь готовности на орбитальной станции</p>
     </div>
 }

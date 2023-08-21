@@ -6,6 +6,8 @@ import {
     MOVE_CONSTRUCTOR_INSIDE_ITEM,
     REMOVE_CONSTRUCTOR_INSIDE_ITEM
 } from '../../services/actions/constructor'
+import PropTypes from 'prop-types'
+import {ingredientVariantShape} from '../../utils/prop-types'
 
 import styles from './burger-constructor-inside-item.module.css'
 
@@ -105,4 +107,9 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
             )}
         />
     </li>
+}
+
+BurgerConstructorInsideItem.propTypes = {
+    index: PropTypes.number.isRequired,
+    ingredient: ingredientVariantShape.isRequired,
 }
