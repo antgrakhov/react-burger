@@ -1,116 +1,164 @@
-import React from 'react'
-import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import React, {useMemo} from 'react'
+import {v4 as uuid} from 'uuid'
+import {useSelector, useDispatch} from 'react-redux'
+import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {useDrop} from 'react-dnd'
+import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burger-constructor-inside-item'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
+import emptyImage from '../../images/empty.png'
 import PropTypes from 'prop-types'
-import {sendSubmitOrder} from '../../utils/burger-api'
-import {BurgerGeneralContext} from '../../services/burger-general-context'
-import {BurgerConstructorContext} from '../../services/burger-constructor-context'
+import {
+    ADD_CONSTRUCTOR_BUN_ITEM,
+    ADD_CONSTRUCTOR_INSIDE_ITEM,
+    CLEAR_CONSTRUCTOR,
+} from '../../services/actions/constructor'
+import {
+    HIDE_ORDER_MODAL,
+    SHOW_ORDER_MODAL,
+    sendSubmitOrder,
+} from '../../services/actions/order'
+import {getBurgerPriceTotal} from '../../utils/get-burger-price-total'
 
 import styles from './burger-constructor.module.css'
 
 export default function BurgerConstructor({className}) {
-    const [isShowOrderDetails, setIsShowOrderDetails] = React.useState(false)
-    const [hasError, setHasError] = React.useState(false)
-
-    const {selectedIngredients} = React.useContext(BurgerGeneralContext)
+    const {selectedItems} = useSelector(store => store.ingredientsConstructor)
     const {
-        priceTotal,
-        setOrderNumber
-    } = React.useContext(BurgerConstructorContext)
+        orderRequest,
+        orderFailed,
+        isShowModalOrder
+    } = useSelector(store => store.order)
+    const dispatch = useDispatch()
 
-    const ingredientsData = React.useMemo(
-        () => {
-            const _selectedIngredients = [...selectedIngredients]
+    const bunItem = useMemo(() => {
+        return selectedItems.find(el => el.type === 'bun')
+    }, [selectedItems])
+    const insideItems = useMemo(() => {
+        return selectedItems.filter(el => el.type !== 'bun')
+    }, [selectedItems])
 
-            return {
-                bun: _selectedIngredients.find(ingredient => ingredient.type === 'bun'),
-                inside: _selectedIngredients.filter(ingredient => ingredient.type !== 'bun'),
-            }
+    const priceTotal = getBurgerPriceTotal(selectedItems)
+
+    const [{canDropBun, isOverBun}, dropBunRef] = useDrop(() => ({
+        accept: 'bun',
+        drop(item) {
+            dispatch({
+                type: ADD_CONSTRUCTOR_BUN_ITEM,
+                payload: {
+                    item,
+                    topUniqueId: uuid(),
+                    bottomUniqueId: uuid(),
+                },
+            })
         },
-        [selectedIngredients]
-    )
+        collect(monitor) {
+            return {
+                canDropBun: monitor.canDrop(),
+                isOverBun: monitor.isOver(),
+            }
+        }
+    }))
 
-    function handleShowModal() {
-        setIsShowOrderDetails(true)
+    const [{canDropInside, isOverInside}, dropInsideRef] = useDrop(() => ({
+        accept: ['main', 'sauce'],
+        drop(item) {
+            dispatch({
+                type: ADD_CONSTRUCTOR_INSIDE_ITEM,
+                payload: {
+                    item: {
+                        ...item,
+                        uniqueId: uuid()
+                    }
+                },
+            })
+        },
+        collect(monitor) {
+            return {
+                canDropInside: monitor.canDrop(),
+                isOverInside: monitor.isOver(),
+            }
+        }
+    }))
+
+    function handleSendSubmitOrder() {
+        dispatch({
+            type: SHOW_ORDER_MODAL
+        })
+
+        dispatch(sendSubmitOrder({
+            ingredients: selectedItems.map(ingredient => ingredient._id)
+        }))
     }
 
     function handleCloseModal() {
-        setIsShowOrderDetails(false)
+        dispatch({
+            type: HIDE_ORDER_MODAL
+        })
+
+        dispatch({
+            type: CLEAR_CONSTRUCTOR
+        })
     }
 
-    function handleSendSubmitOrder() {
-        const data = {
-            ingredients: selectedIngredients.map(ingredient => ingredient._id)
-        }
-
-        sendSubmitOrder(data)
-            .then(res => {
-                if ( res.success === true ) {
-                    setOrderNumber(res.order.number)
-                    handleShowModal()
-                } else {
-                    setHasError(true)
-                }
-            })
-            .catch(() => {
-                setHasError(true)
-            })
-    }
-
-    return <section className={`${styles.container} ${className}`}>
+    return <section
+        ref={dropBunRef}
+        className={`${styles.container} ${className} ${canDropBun ? styles.canDropBun : ''} ${isOverBun ? styles.isOverBun : ''}`}
+    >
         <div className={styles.top}>
             <ConstructorElement
                 type="top"
-                isLocked={true}
-                text={`${ingredientsData.bun.name} (верх)`}
-                price={ingredientsData.bun.price}
-                thumbnail={ingredientsData.bun.image}
+                item={bunItem}
+                text={bunItem ? bunItem.name + ' (верх)' : 'Добавьте булку'}
+                thumbnail={bunItem ? bunItem.image : emptyImage}
+                price={bunItem ? bunItem.price : 0}
+                isLocked
             />
         </div>
-        <div className={styles['list-wrap']}>
-            <ul className={`${styles.list} custom-scroll`}>
-                {ingredientsData.inside.map((item, i) =>
-                    <li key={`${item._id}${i}`} className={styles.item}>
-                        <button className={styles.dragger}>
-                            <DragIcon type="primary"/>
-                        </button>
-                        <ConstructorElement
-                            text={item.name}
-                            price={item.price}
-                            thumbnail={item.image}
-                        />
-                    </li>
+        <div
+            ref={dropInsideRef}
+            className={`${styles['list-wrap']} ${canDropInside ? styles.canDropInside : ''} ${isOverInside ? styles.isOverInside : ''}`}
+        >
+            <ul className={`${styles.list} custom-scroll`}
+            >
+                {insideItems.map((item, index) =>
+                    <BurgerConstructorInsideItem
+                        key={item.uniqueId}
+                        index={index}
+                        ingredient={item}
+                    />
                 )}
             </ul>
         </div>
         <div className={styles.bottom}>
             <ConstructorElement
                 type="bottom"
-                isLocked={true}
-                text={`${ingredientsData.bun.name} (низ)`}
-                price={ingredientsData.bun.price}
-                thumbnail={ingredientsData.bun.image}
+                item={bunItem}
+                text={bunItem ? bunItem.name + ' (низ)' : 'Добавьте булку'}
+                thumbnail={bunItem ? bunItem.image : emptyImage}
+                price={bunItem ? bunItem.price : 0}
+                isLocked
             />
         </div>
         <div className={styles.total}>
-            <div className={`${styles.price} text_type_digits-medium`}>
+            {priceTotal > 0 && <div className={`${styles.price} text_type_digits-medium`}>
                 {priceTotal}
                 <CurrencyIcon type="primary" />
-            </div>
+            </div>}
             <Button
                 htmlType="button"
                 type="primary"
                 size="large"
                 onClick={handleSendSubmitOrder}
+                disabled={selectedItems.length === 0}
             >
                 Оформить заказ
             </Button>
         </div>
-        {isShowOrderDetails && <Modal onClose={handleCloseModal}>
+        {isShowModalOrder && !orderRequest && <Modal onClose={handleCloseModal}>
             <>
-                {!hasError && <OrderDetails/>}
-                {hasError && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
+                {!orderFailed && <OrderDetails/>}
+                {orderFailed && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
             </>
         </Modal>}
     </section>

@@ -13,11 +13,9 @@ const ingredientVariantShape = PropTypes.shape({
     image_mobile: PropTypes.string,
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number,
+    uniqueId: PropTypes.string,
 })
-
-const ingredientArray = PropTypes.arrayOf(ingredientVariantShape)
 
 export {
     ingredientVariantShape,
-    ingredientArray
 }

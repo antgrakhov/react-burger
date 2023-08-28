@@ -1,42 +1,34 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import IngredientDetails from '../ingredient-details/ingredient-details'
-import Modal from '../modal/modal'
+import {useDrag} from 'react-dnd'
+import PropTypes from 'prop-types'
 import {ingredientVariantShape} from '../../utils/prop-types'
-import {BurgerGeneralContext} from '../../services/burger-general-context'
 
 import styles from './burger-ingredients-item.module.css'
 
-export default function BurgerIngredientsItem({item}) {
-    const currentIngredientId = item._id
+export default function BurgerIngredientsItem({item, onIngredientClick}) {
+    const {selectedCounts} = useSelector(store => store.ingredientsConstructor)
+    const currentIngredientCount = selectedCounts[item._id]
+        ? selectedCounts[item._id].count
+        : 0
 
-    const {selectedIngredients} = React.useContext(BurgerGeneralContext)
-    const [isShowDetails, setIsShowDetails] = React.useState(false)
-
-    function handleShowDetails() {
-        setIsShowDetails(true)
-    }
-
-    function handleHideDetails() {
-        setIsShowDetails(false)
-    }
-
-    const currentIngredientCount = React.useMemo(
-        () => {
-            return selectedIngredients.filter(ingredient =>
-                ingredient._id === currentIngredientId
-            )
-        },
-        [currentIngredientId, selectedIngredients]
-    )
+    // eslint-disable-next-line no-empty-pattern
+    const [{}, dragSource] = useDrag({
+        type: item.type,
+        item: {...item}
+    })
 
     return <li
+        ref={dragSource}
         className={styles.container}
-        onClick={handleShowDetails}
+        onClick={onIngredientClick}
+        draggable
     >
-        {currentIngredientCount.length > 0 &&
-            <Counter
-                count={currentIngredientCount.length}
+        {
+            currentIngredientCount > 0
+            && <Counter
+                count={currentIngredientCount}
                 size="default"
                 extraClass="m-1"
             />
@@ -55,14 +47,10 @@ export default function BurgerIngredientsItem({item}) {
         <h3 className={`${styles.name} text text_type_main-default`}>
             {item.name}
         </h3>
-        {isShowDetails &&
-            <Modal label="Детали ингредиента" onClose={handleHideDetails}>
-                <IngredientDetails item={item}/>
-            </Modal>
-        }
     </li>
 }
 
 BurgerIngredientsItem.propTypes = {
-    item: ingredientVariantShape.isRequired
+    item: ingredientVariantShape.isRequired,
+    onIngredientClick: PropTypes.func.isRequired,
 }

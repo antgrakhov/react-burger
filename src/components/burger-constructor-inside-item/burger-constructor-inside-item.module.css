@@ -1,0 +1,15 @@
+.item {
+    position: relative;
+    padding-left: 32px;
+    scroll-snap-align: start;
+    z-index: 1;
+}
+
+.dragger {
+    position: absolute;
+    left: 0;
+    top: 2em;
+    border: none;
+    background: none;
+    cursor: move;
+}

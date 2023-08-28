@@ -1,30 +1,42 @@
-const NORMA_API = 'https://norma.nomoreparties.space/api'
+const BASE_URL = 'https://norma.nomoreparties.space/api'
 
-const getIngredients = async () => {
-    const result = await fetch(`${NORMA_API}/ingredients`)
-    return checkResponse(result)
+const loadIngredients = () => {
+    return request('/ingredients')
 }
 
-const sendSubmitOrder = async (data) => {
-    const result = await fetch(
-        `${NORMA_API}/orders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-        }
-    )
-    return checkResponse(result)
+const submitOrder = (data) => {
+    return request('/orders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+    })
 }
 
 const checkResponse = (result) => {
-    return result.ok
-        ? result.json()
-        : result.json().then((err) => Promise.reject(err))
+    if (result.ok) {
+        return result.json()
+    }
+
+    return Promise.reject(`Ошибка ${result.status}`)
+}
+
+const checkSuccess = (result) => {
+    if (result && result.success) {
+        return result
+    }
+
+    return Promise.reject(`Ответ не success: ${result}`)
+}
+
+const request = async (endpoint, options) => {
+    return await fetch(`${BASE_URL}${endpoint}`, options)
+        .then(checkResponse)
+        .then(checkSuccess)
 }
 
 export {
-    getIngredients,
-    sendSubmitOrder
+    loadIngredients,
+    submitOrder
 }
