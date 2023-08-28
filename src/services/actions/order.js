@@ -1,10 +1,10 @@
 import {submitOrder} from '../../utils/burger-api'
 
-const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST'
-const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS'
-const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED'
-const SHOW_ORDER_MODAL = 'SHOW_ORDER_MODAL'
-const HIDE_ORDER_MODAL = 'HIDE_ORDER_MODAL'
+const SEND_ORDER_REQUEST = 'ORDER/SEND_REQUEST'
+const SEND_ORDER_SUCCESS = 'ORDER/SEND_SUCCESS'
+const SEND_ORDER_FAILED = 'ORDER/SEND_FAILED'
+const SHOW_ORDER_MODAL = 'ORDER/SHOW_MODAL'
+const HIDE_ORDER_MODAL = 'ORDER/HIDE_MODAL'
 
 const sendSubmitOrder = (items) => {
     return async function (dispatch) {
@@ -14,20 +14,12 @@ const sendSubmitOrder = (items) => {
 
         submitOrder(items)
             .then(result => {
-                let action = {
-                    type: SEND_ORDER_FAILED
-                }
-
-                if ( result.success === true ) {
-                    action = {
-                        type: SEND_ORDER_SUCCESS,
-                        payload: {
-                            orderNumber: result.order.number
-                        }
-                    }
-                }
-
-                dispatch(action)
+               dispatch({
+                   type: SEND_ORDER_SUCCESS,
+                   payload: {
+                       orderNumber: result.order.number
+                   }
+               })
             })
             .catch(() => {
                 dispatch({

@@ -1,10 +1,9 @@
-import {ingredientVariantShape} from '../../utils/prop-types'
-
+import {useSelector} from 'react-redux'
 import styles from './ingredient-details.module.css'
 
 const detailList = {
     calories: {
-        label: 'Калории,ккал'
+        label: 'Калории, ккал'
     },
     proteins: {
         label: 'Белки, г'
@@ -17,29 +16,29 @@ const detailList = {
     },
 }
 
-export default function IngredientDetails({item}) {
+export default function IngredientDetails() {
+    const {items} = useSelector(store => store.ingredients)
+    const {ingredientId} = useSelector(store => store.ingredientDetails)
+    const ingredient = items.find(item => item._id === ingredientId)
+
     return <>
         <img
             className={styles.thumb}
-            src={item.image_large}
+            src={ingredient.image_large}
             width={480}
             height={240}
-            alt={item.name}
+            alt={ingredient.name}
         />
         <h5 className={`${styles.title} text_type_main-medium`}>
-            {item.name}
+            {ingredient.name}
         </h5>
         <ul className={styles.list}>
             {Object.keys(detailList).map(param =>
                 <li key={param} className={styles.param}>
                     <span>{detailList[param].label}</span>
-                    <b className="text_type_digits-default">{item[param]}</b>
+                    <b className="text_type_digits-default">{ingredient[param]}</b>
                 </li>
             )}
         </ul>
     </>
-}
-
-IngredientDetails.propTypes = {
-    item: ingredientVariantShape.isRequired
 }

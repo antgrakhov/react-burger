@@ -1,16 +1,13 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrag} from 'react-dnd'
-import IngredientDetails from '../ingredient-details/ingredient-details'
-import Modal from '../modal/modal'
+import PropTypes from 'prop-types'
 import {ingredientVariantShape} from '../../utils/prop-types'
 
 import styles from './burger-ingredients-item.module.css'
-import {useSelector} from "react-redux";
 
-export default function BurgerIngredientsItem({item}) {
-    const [isShowDetails, setIsShowDetails] = React.useState(false)
-
+export default function BurgerIngredientsItem({item, onIngredientClick}) {
     const {selectedCounts} = useSelector(store => store.ingredientsConstructor)
     const currentIngredientCount = selectedCounts[item._id]
         ? selectedCounts[item._id].count
@@ -22,18 +19,10 @@ export default function BurgerIngredientsItem({item}) {
         item: {...item}
     })
 
-    function handleShowDetails() {
-        setIsShowDetails(true)
-    }
-
-    function handleHideDetails() {
-        setIsShowDetails(false)
-    }
-
     return <li
         ref={dragSource}
         className={styles.container}
-        onClick={handleShowDetails}
+        onClick={onIngredientClick}
         draggable
     >
         {
@@ -58,14 +47,10 @@ export default function BurgerIngredientsItem({item}) {
         <h3 className={`${styles.name} text text_type_main-default`}>
             {item.name}
         </h3>
-        {isShowDetails &&
-            <Modal label="Детали ингредиента" onClose={handleHideDetails}>
-                <IngredientDetails item={item}/>
-            </Modal>
-        }
     </li>
 }
 
 BurgerIngredientsItem.propTypes = {
-    item: ingredientVariantShape.isRequired
+    item: ingredientVariantShape.isRequired,
+    onIngredientClick: PropTypes.func.isRequired,
 }

@@ -1,15 +1,25 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
 import {useInView} from 'react-intersection-observer'
+import Modal from '../modal/modal'
+import IngredientDetails from '../ingredient-details/ingredient-details'
+import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
+import {
+    SHOW_INGREDIENT_DETAILS,
+    HIDE_INGREDIENT_DETAILS,
+} from '../../services/actions/ingredient-details'
 import PropTypes from 'prop-types'
 
 import styles from './burger-ingredients.module.css'
 
 export default function BurgerIngredients({className}) {
+    const dispatch = useDispatch()
+
     const {items} = useSelector(store => store.ingredients)
     const [tabActive, setTabActive] = React.useState('bun')
+
+    const {isDetailsModalShow} = useSelector(store => store.ingredientDetails)
 
     const inViewOptions = {threshold: .2}
     const [refBun, inViewBun] = useInView(inViewOptions)
@@ -67,6 +77,21 @@ export default function BurgerIngredients({className}) {
         setTabActive(tab)
     }
 
+    function handleHideIngredientDetails() {
+        dispatch({
+            type: HIDE_INGREDIENT_DETAILS,
+        })
+    }
+
+    function handleShowIngredientDetails(id) {
+        dispatch({
+            type: SHOW_INGREDIENT_DETAILS,
+            payload: {
+                id
+            }
+        })
+    }
+
     return <section className={`${styles.container} ${className}`}>
         <h1 className={styles.title}>Соберите бургер</h1>
 
@@ -99,6 +124,7 @@ export default function BurgerIngredients({className}) {
                                     <BurgerIngredientsItem
                                         key={item._id}
                                         item={item}
+                                        onIngredientClick={() => handleShowIngredientDetails(item._id)}
                                     />
                                 )}
                             </ul>
@@ -107,6 +133,15 @@ export default function BurgerIngredients({className}) {
                 )}
             </dl>
         </div>
+
+        {isDetailsModalShow &&
+            <Modal
+                label="Детали ингредиента"
+                onClose={handleHideIngredientDetails}
+            >
+                <IngredientDetails/>
+            </Modal>
+        }
     </section>
 }
 

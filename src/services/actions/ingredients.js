@@ -1,8 +1,8 @@
 import {loadIngredients} from '../../utils/burger-api'
 
-const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
-const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'
-const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED'
+const GET_INGREDIENTS_REQUEST = 'INGREDIENTS/REQUEST_GET'
+const GET_INGREDIENTS_SUCCESS = 'INGREDIENTS/SUCCESS_GET'
+const GET_INGREDIENTS_FAILED = 'INGREDIENTS/FAILED_GET'
 
 const getIngredients = () => {
     return async function (dispatch) {
@@ -12,18 +12,10 @@ const getIngredients = () => {
 
         loadIngredients()
             .then(result => {
-                let action = {
-                    type: GET_INGREDIENTS_FAILED
-                }
-
-                if ( result.success === true ) {
-                    action = {
-                        type: GET_INGREDIENTS_SUCCESS,
-                        payload: result.data
-                    }
-                }
-
-                dispatch(action)
+                dispatch({
+                    type: GET_INGREDIENTS_SUCCESS,
+                    payload: result.data
+                })
             })
             .catch(() => {
                 dispatch({
