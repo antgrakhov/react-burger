@@ -3,8 +3,8 @@ import {useDispatch} from 'react-redux'
 import {useDrag, useDrop} from 'react-dnd'
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {
-    MOVE_CONSTRUCTOR_INSIDE_ITEM,
-    REMOVE_CONSTRUCTOR_INSIDE_ITEM
+    moveConstructorInsideItem,
+    removeConstructorInsideItem
 } from '../../services/actions/constructor'
 import PropTypes from 'prop-types'
 import {ingredientVariantShape} from '../../utils/prop-types'
@@ -63,13 +63,10 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
                 return
             }
 
-            dispatch({
-                type: MOVE_CONSTRUCTOR_INSIDE_ITEM,
-                payload: {
-                    indexFrom: dragIndex +1, // sorting without `bun` zero-index item
-                    indexTo: hoverIndex +1 // sorting without `bun` zero-index item
-                }
-            })
+            dispatch(moveConstructorInsideItem(
+                dragIndex +1,
+                hoverIndex +1
+            ))
 
             item.index = hoverIndex
         },
@@ -78,13 +75,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
     dragRef(dropRef(ref))
 
     function handleRemoveInsideItem(id, uniqueId) {
-        dispatch({
-            type: REMOVE_CONSTRUCTOR_INSIDE_ITEM,
-            payload: {
-                id,
-                uniqueId,
-            }
-        })
+        dispatch(removeConstructorInsideItem(id, uniqueId))
     }
 
     return <li

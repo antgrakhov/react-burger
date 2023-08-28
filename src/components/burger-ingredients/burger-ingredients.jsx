@@ -6,8 +6,8 @@ import Modal from '../modal/modal'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
 import {
-    SHOW_INGREDIENT_DETAILS,
     HIDE_INGREDIENT_DETAILS,
+    showIngredientDetails,
 } from '../../services/actions/ingredient-details'
 import PropTypes from 'prop-types'
 
@@ -84,12 +84,7 @@ export default function BurgerIngredients({className}) {
     }
 
     function handleShowIngredientDetails(id) {
-        dispatch({
-            type: SHOW_INGREDIENT_DETAILS,
-            payload: {
-                id
-            }
-        })
+        dispatch(showIngredientDetails(id))
     }
 
     return <section className={`${styles.container} ${className}`}>

@@ -1,5 +1,4 @@
 import React, {useMemo} from 'react'
-import {v4 as uuid} from 'uuid'
 import {useSelector, useDispatch} from 'react-redux'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
@@ -9,8 +8,8 @@ import Modal from '../modal/modal'
 import emptyImage from '../../images/empty.png'
 import PropTypes from 'prop-types'
 import {
-    ADD_CONSTRUCTOR_BUN_ITEM,
-    ADD_CONSTRUCTOR_INSIDE_ITEM,
+    addToConstructorBunItem,
+    addToConstructorInsideItem,
     CLEAR_CONSTRUCTOR,
 } from '../../services/actions/constructor'
 import {
@@ -43,14 +42,7 @@ export default function BurgerConstructor({className}) {
     const [{canDropBun, isOverBun}, dropBunRef] = useDrop(() => ({
         accept: 'bun',
         drop(item) {
-            dispatch({
-                type: ADD_CONSTRUCTOR_BUN_ITEM,
-                payload: {
-                    item,
-                    topUniqueId: uuid(),
-                    bottomUniqueId: uuid(),
-                },
-            })
+            dispatch(addToConstructorBunItem(item))
         },
         collect(monitor) {
             return {
@@ -63,15 +55,7 @@ export default function BurgerConstructor({className}) {
     const [{canDropInside, isOverInside}, dropInsideRef] = useDrop(() => ({
         accept: ['main', 'sauce'],
         drop(item) {
-            dispatch({
-                type: ADD_CONSTRUCTOR_INSIDE_ITEM,
-                payload: {
-                    item: {
-                        ...item,
-                        uniqueId: uuid()
-                    }
-                },
-            })
+            dispatch(addToConstructorInsideItem(item))
         },
         collect(monitor) {
             return {
