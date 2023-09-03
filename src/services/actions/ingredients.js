@@ -1,4 +1,4 @@
-import {loadIngredients} from '../../utils/burger-api'
+import {loadIngredients} from '../../utils/api'
 
 const GET_INGREDIENTS_REQUEST = 'INGREDIENTS/REQUEST_GET'
 const GET_INGREDIENTS_SUCCESS = 'INGREDIENTS/SUCCESS_GET'

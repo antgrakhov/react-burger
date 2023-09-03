@@ -1,0 +1,10 @@
+.section {
+    flex: 1 0 0;
+    padding: 40px 0 50px;
+}
+
+.error {
+    width: 100%;
+    align-self: center;
+    text-align: center;
+}

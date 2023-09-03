@@ -12,21 +12,3 @@
     padding: 0 20px;
     column-gap: calc(10 * var(--offset-base-size));
 }
-
-.section {
-    flex: 1 0 0;
-    padding: 40px 0 50px;
-}
-
-.loading {
-    background-repeat: no-repeat;
-    background-image: url('../../images/loading.svg');
-    background-size: 100px auto;
-    background-position: 50% 50%;
-}
-
-.error {
-    width: 100%;
-    align-self: center;
-    text-align: center;
-}
