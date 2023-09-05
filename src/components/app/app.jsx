@@ -3,6 +3,7 @@ import {BrowserRouter} from 'react-router-dom'
 import AppRoutes from '../../services/routes'
 import {useDispatch} from 'react-redux'
 import AppHeader from '../app-header/app-header'
+import {getIngredients} from '../../services/actions/ingredients'
 import {checkUserAuth} from '../../services/actions/user'
 
 import styles from './app.module.css'
@@ -13,6 +14,7 @@ export default function App() {
 
     useEffect(() => {
         dispatch(checkUserAuth())
+        dispatch(getIngredients())
     }, [dispatch])
 
     return <BrowserRouter>

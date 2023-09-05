@@ -1,8 +1,7 @@
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {DndProvider} from 'react-dnd'
 import {HTML5Backend} from 'react-dnd-html5-backend'
-import {getIngredients} from '../../services/actions/ingredients'
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor'
 import Loader from '../../components/loader/loader'
@@ -14,14 +13,6 @@ export default function BurgerConstructorPage() {
         ingredientsRequest,
         ingredientsFailed,
     } = useSelector(store => store.ingredients)
-    const dispatch = useDispatch()
-
-    /**
-     * Loading data from API
-     */
-    React.useEffect(() => {
-        dispatch(getIngredients())
-    }, [dispatch])
 
     return <>
             {ingredientsRequest && <Loader/>}

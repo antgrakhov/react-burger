@@ -1,0 +1,29 @@
+.nav {
+    width: 320px;
+    padding-right: 60px;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    padding: 1.063em 0;
+}
+
+.link {
+    color: var(--text-inactive-color);
+    transition: color .2s ease-in-out;
+}
+
+.link:global(.active) {
+    color: var(--text-primary-color);
+}
+
+.linkLogout {
+    cursor: pointer;
+    border: none;
+    background: none;
+}

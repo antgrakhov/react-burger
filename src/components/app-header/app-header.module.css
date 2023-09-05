@@ -58,5 +58,5 @@
 }
 
 .link:global(.active) svg {
-    fill: #FFFFFF;
+    fill: var(--text-primary-color);
 }
