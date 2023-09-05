@@ -26,9 +26,5 @@ export default function ProfileSidebar() {
                 >Выход</button>
             </li>
         </ul>
-
-        <p className="mt-20 text text_type_main-default text_color_inactive">
-            В этом разделе вы можете изменить свои персональные данные
-        </p>
     </nav>
 }

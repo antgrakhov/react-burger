@@ -46,6 +46,17 @@ const getUser = () => {
     })
 }
 
+const updateUser = (form) => {
+    return requestWithRefresh('/auth/user', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
+        },
+        body: JSON.stringify(form)
+    })
+}
+
 const requestWithRefresh = async (endpoint, options) => {
     try {
         return await request(endpoint, options)
@@ -112,6 +123,7 @@ export {
     loadIngredients,
     submitOrder,
     registerUser,
+    updateUser,
     loginUser,
     getUser,
 }

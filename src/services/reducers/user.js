@@ -2,11 +2,15 @@ import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     REGISTER_FAILED,
-    USER_SET,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     AUTH_CHECKED,
+    USER_PATCH_REQUEST,
+    USER_PATCH_SUCCESS,
+    USER_PATCH_FAILED,
+    USER_SET,
+    USER_UPDATE,
 } from '../actions/user'
 
 const initialState = {
@@ -19,13 +23,11 @@ const initialState = {
     getUserRequest: false,
     getUserFailed: false,
     patchUserRequest: false,
-    patchUserSuccess: false,
     patchUserFailed: false,
     isAuthChecked: false,
     user: {
         name: '',
         email: '',
-        password: '',
         isLogged: false
     },
 }
@@ -84,6 +86,45 @@ export const userReducer = (state = initialState, action) => {
                     ...action.payload,
                     isLogged: true,
                 },
+            }
+        }
+        case USER_PATCH_REQUEST: {
+            return {
+                ...state,
+                user: {
+                    ...state.user
+                },
+                patchUserRequest: true,
+                patchUserFailed: false,
+            }
+        }
+        case USER_PATCH_SUCCESS: {
+            return {
+                ...state,
+                user: {
+                    ...state.user
+                },
+                patchUserRequest: false,
+                patchUserFailed: false,
+            }
+        }
+        case USER_PATCH_FAILED: {
+            return {
+                ...state,
+                user: {
+                    ...state.user
+                },
+                patchUserRequest: false,
+                patchUserFailed: true,
+            }
+        }
+        case USER_UPDATE: {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    ...action.payload,
+                }
             }
         }
         case AUTH_CHECKED: {
