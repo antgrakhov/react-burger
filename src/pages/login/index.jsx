@@ -36,37 +36,35 @@ export default function LoginPage() {
         dispatch(loginUserAction(form))
     }
 
-    return <div className={styles.container}>
+    return <form className={styles.container} onSubmit={handleFormSubmit}>
         <h1 className="text_type_main-medium mb-6">Вход</h1>
 
         {loginFailed &&
             <p className="mb-6">К сожалению, войти не удалось</p>
         }
 
-        <form onSubmit={handleFormSubmit}>
-            <EmailInput
-                onChange={handleChangeForm}
-                value={email}
-                name={'email'}
-                isIcon={false}
-            />
-            <PasswordInput
-                onChange={handleChangeForm}
-                value={password}
-                name={'password'}
-                extraClass="mt-6"
-            />
-            <div className="mt-6">
-                <Button
-                    htmlType="submit"
-                    type="primary"
-                    size="medium"
-                    disabled={loginRequest || !isFormFilled}
-                >
-                    Войти
-                </Button>
-            </div>
-        </form>
+        <EmailInput
+            onChange={handleChangeForm}
+            value={email}
+            name={'email'}
+            isIcon={false}
+        />
+        <PasswordInput
+            onChange={handleChangeForm}
+            value={password}
+            name={'password'}
+            extraClass="mt-6"
+        />
+        <div className="mt-6">
+            <Button
+                htmlType="submit"
+                type="primary"
+                size="medium"
+                disabled={loginRequest || !isFormFilled}
+            >
+                Войти
+            </Button>
+        </div>
 
         <div className="mt-20">
             <p className={styles.subnav}>
@@ -78,5 +76,5 @@ export default function LoginPage() {
                 <NavLink className={styles.link} to="/forgot-password"> Восстановить пароль</NavLink>
             </p>
         </div>
-    </div>
+    </form>
 }

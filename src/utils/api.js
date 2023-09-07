@@ -69,6 +69,31 @@ const logoutUser = () => {
     })
 }
 
+const forgotPassword = (email) => {
+    return request('/password-reset', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+            email
+        })
+    })
+}
+
+const resetPassword = (password, token) => {
+    return request('/password-reset/reset', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+            password,
+            token
+        })
+    })
+}
+
 const requestWithRefresh = async (endpoint, options) => {
     try {
         return await request(endpoint, options)
@@ -134,8 +159,10 @@ const request = async (endpoint, options) => {
 
 export {
     loadIngredients,
-    submitOrder,
+    resetPassword,
+    forgotPassword,
     registerUser,
+    submitOrder,
     updateUser,
     logoutUser,
     loginUser,

@@ -44,59 +44,56 @@ export default function RegisterPage() {
         dispatch(registerUserAction(form))
     }
 
-    return <div className={styles.container}>
+    return <form className={styles.container} onSubmit={handleFormSubmit}>
         <h1 className="text_type_main-medium mb-6">Регистрация</h1>
 
         {registerFailed &&
             <p className="mb-6">К сожалению, зарегистрироваться не удалось</p>
         }
 
-        <form onSubmit={handleFormSubmit}>
-            <Input
-                type={'text'}
-                placeholder={'Имя'}
-                onChange={handleChangeForm}
-                icon={false}
-                value={name}
-                name={'name'}
-                error={false}
-                ref={nameRef}
-                onIconClick={onNameIconClick}
-                errorText={'Ошибка'}
-                size={'default'}
-                extraClass="mb-6"
-            />
-            <EmailInput
-                onChange={handleChangeForm}
-                value={email}
-                name={'email'}
-                placeholder="E-mail"
-                isIcon={false}
-                extraClass="mb-6"
-            />
-            <PasswordInput
-                onChange={handleChangeForm}
-                value={password}
-                name={'password'}
-                extraClass="mb-6"
-                onError={()=>console.log('xxx')}
-            />
-            <div className="mt-6">
-                <Button
-                    htmlType="submit"
-                    type="primary"
-                    size="medium"
-                    disabled={registerRequest || !isFormFilled}
-                >
-                    Зарегистрироваться
-                </Button>
-            </div>
-            <div className="mt-20">
-                <p className={styles.subnav}>
-                    Уже зарегистрированы?
-                    <NavLink className={styles.link} to="/login"> Войти</NavLink>
-                </p>
-            </div>
-        </form>
-    </div>
+        <Input
+            type={'text'}
+            placeholder={'Имя'}
+            onChange={handleChangeForm}
+            icon={false}
+            value={name}
+            name={'name'}
+            error={false}
+            ref={nameRef}
+            onIconClick={onNameIconClick}
+            errorText={'Ошибка'}
+            size={'default'}
+            extraClass="mb-6"
+        />
+        <EmailInput
+            onChange={handleChangeForm}
+            value={email}
+            name={'email'}
+            placeholder="E-mail"
+            isIcon={false}
+            extraClass="mb-6"
+        />
+        <PasswordInput
+            onChange={handleChangeForm}
+            value={password}
+            name={'password'}
+            extraClass="mb-6"
+        />
+        <div className="mt-6">
+            <Button
+                htmlType="submit"
+                type="primary"
+                size="medium"
+                disabled={registerRequest || !isFormFilled}
+            >
+                Зарегистрироваться
+            </Button>
+        </div>
+        <div className="mt-20">
+            <p className={styles.subnav}>
+                Уже зарегистрированы?
+                <NavLink className={styles.link} to="/login"> Войти</NavLink>
+            </p>
+        </div>
+    </form>
 }
