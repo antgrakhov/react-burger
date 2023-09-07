@@ -12,7 +12,7 @@ const ProtectedRoute = ({onlyUnAuth = false, component}) => {
     }
 
     if (onlyUnAuth && user.isLogged) {
-        const {from} = location.state || {from: {pathname: '/'}}
+        const {from} = {from: {pathname: '/'}}
         return <Navigate to={from}/>
     }
 

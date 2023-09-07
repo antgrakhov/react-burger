@@ -1,9 +1,18 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
+import {logoutUserAction} from '../../services/actions/user'
 
 import styles from './profile-sidebar.module.css'
 
 export default function ProfileSidebar() {
+    const {logoutRequest} = useSelector(store => store.user)
+    const dispatch = useDispatch()
+
+    function handleLogout() {
+        dispatch(logoutUserAction())
+    }
+
     return <nav className={styles.nav}>
         <ul className={styles.list}>
             <li className={styles.item}>
@@ -22,7 +31,8 @@ export default function ProfileSidebar() {
             <li className={styles.item}>
                 <button
                     className={`${styles.link} ${styles.linkLogout} text text_type_main-medium`}
-                    onClick={()=>console.log('logout')}
+                    disabled={logoutRequest}
+                    onClick={handleLogout}
                 >Выход</button>
             </li>
         </ul>

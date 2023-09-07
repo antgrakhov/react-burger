@@ -57,6 +57,18 @@ const updateUser = (form) => {
     })
 }
 
+const logoutUser = () => {
+    return request('/auth/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+            'token': localStorage.getItem('refreshToken')
+        })
+    })
+}
+
 const requestWithRefresh = async (endpoint, options) => {
     try {
         return await request(endpoint, options)
@@ -79,6 +91,7 @@ const requestWithRefresh = async (endpoint, options) => {
 
             return await request(endpoint, options)
         } else {
+            // eslint-disable-next-line no-throw-literal
             throw 'refresh token err'
         }
     }
@@ -124,6 +137,7 @@ export {
     submitOrder,
     registerUser,
     updateUser,
+    logoutUser,
     loginUser,
     getUser,
 }

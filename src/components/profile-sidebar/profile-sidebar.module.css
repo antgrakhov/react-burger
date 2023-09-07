@@ -23,7 +23,14 @@
 }
 
 .linkLogout {
-    cursor: pointer;
     border: none;
     background: none;
+}
+
+.linkLogout:not([disabled]) {
+    cursor: pointer;
+}
+
+.linkLogout[disabled] {
+    opacity: .4;
 }

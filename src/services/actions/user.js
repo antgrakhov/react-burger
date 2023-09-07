@@ -1,11 +1,13 @@
 import {
     getCookie,
     saveTokens,
+    deleteCookie,
 } from '../../utils/cookies'
 import {
     getUser,
     loginUser,
     updateUser,
+    logoutUser,
     registerUser,
 } from '../../utils/api'
 
@@ -24,6 +26,10 @@ const GET_USER_FAILED = 'USER/GET_FAILED'
 const USER_PATCH_REQUEST = 'USER/PATCH_REQUEST'
 const USER_PATCH_SUCCESS = 'USER/PATCH_SUCCESS'
 const USER_PATCH_FAILED = 'USER/PATCH_FAILED'
+
+const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+const LOGOUT_FAILED = 'LOGOUT_FAILED'
 
 
 const USER_SET = 'USER/SET'
@@ -169,6 +175,32 @@ const updateUserAction = (form) => {
     }
 }
 
+const logoutUserAction = () => {
+    return async function(dispatch) {
+        try {
+            dispatch({
+                type: LOGOUT_REQUEST
+            })
+
+            await logoutUser()
+
+            dispatch({
+                type: LOGOUT_SUCCESS
+            })
+
+            deleteCookie('accessToken')
+            localStorage.removeItem('refreshToken')
+        }
+        catch {
+            dispatch({
+                type: LOGOUT_FAILED
+            })
+            // eslint-disable-next-line no-throw-literal
+            throw 'logout fetch error'
+        }
+    }
+}
+
 export {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
@@ -182,11 +214,15 @@ export {
     USER_PATCH_REQUEST,
     USER_PATCH_SUCCESS,
     USER_PATCH_FAILED,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILED,
     USER_UPDATE,
     USER_SET,
     AUTH_CHECKED,
     registerUserAction,
     updateUserAction,
+    logoutUserAction,
     loginUserAction,
     checkUserAuth,
     getUserAction,

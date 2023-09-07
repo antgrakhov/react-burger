@@ -11,6 +11,7 @@ export default function ProfileUser() {
         user,
         patchUserRequest,
         patchUserFailed,
+        logoutFailed,
     } = useSelector(store => store.user)
     const dispatch = useDispatch()
 
@@ -72,9 +73,10 @@ export default function ProfileUser() {
         <p className={`${styles.descr} text text_type_main-default text_color_inactive`}>
             В этом разделе вы можете изменить свои персональные данные
         </p>
-        {patchUserFailed && <p className="mb-6">
-            При обновлении данных произошла ошибка
-        </p>}
+        <p className="mb-6">
+            {patchUserFailed && <>При обновлении данных произошла ошибка</>}
+            {logoutFailed && <>При выходе произошла ошибка</>}
+        </p>
         <Input
             value={name}
             name={'name'}

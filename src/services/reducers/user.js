@@ -5,6 +5,9 @@ import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILED,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILED,
     AUTH_CHECKED,
     USER_PATCH_REQUEST,
     USER_PATCH_SUCCESS,
@@ -76,6 +79,36 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 loginRequest: false,
                 loginFailed: true,
+            }
+        }
+        case LOGOUT_REQUEST: {
+            return {
+                ...state,
+                user: {
+                    ...state.user
+                },
+                logoutRequest: true,
+                logoutFailed: false
+            }
+        }
+        case LOGOUT_SUCCESS: {
+            return {
+                ...state,
+                user: {
+                    ...initialState.user,
+                },
+                logoutRequest: false,
+                logoutFailed: false,
+            }
+        }
+        case LOGOUT_FAILED: {
+            return {
+                ...state,
+                user: {
+                    ...state.user
+                },
+                logoutRequest: false,
+                logoutFailed: true
             }
         }
         case USER_SET: {
