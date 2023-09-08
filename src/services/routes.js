@@ -17,8 +17,8 @@ const ROUTE_REGISTER = '/register'
 const ROUTE_FORGOT_PASSWORD = '/forgot-password'
 const ROUTE_RESET_PASSWORD = '/reset-password'
 const ROUTE_PROFILE = '/profile'
+const ROUTE_PROFILE_ORDERS = 'orders'
 const ROUTE_INGREDIENTS = '/ingredients'
-const ROUTE_ORDERS_LIST = '/orders-list'
 
 export {
     ROUTE_INDEX,
@@ -27,8 +27,8 @@ export {
     ROUTE_FORGOT_PASSWORD,
     ROUTE_RESET_PASSWORD,
     ROUTE_PROFILE,
+    ROUTE_PROFILE_ORDERS,
     ROUTE_INGREDIENTS,
-    ROUTE_ORDERS_LIST,
 }
 
 export default function AppRoutes() {
@@ -44,6 +44,7 @@ export default function AppRoutes() {
             <Route path={ROUTE_RESET_PASSWORD} element={<OnlyUnAuth component={<ResetPasswordPage/>}/>}/>
             <Route path={ROUTE_PROFILE} element={<OnlyAuth component={<ProfilePage/>}/>} >
                 <Route index element={<ProfileUser/>}/>
+                <Route path={ROUTE_PROFILE_ORDERS} element={<p>Orders List</p>}/>
             </Route>
             <Route path={`${ROUTE_INGREDIENTS}/:id`} element={<IngredientDetailsPage/>}/>
             <Route path="*" element={<Page404/>}/>
