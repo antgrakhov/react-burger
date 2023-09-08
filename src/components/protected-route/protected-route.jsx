@@ -1,6 +1,7 @@
 import {useSelector} from 'react-redux'
 import {Navigate, useLocation} from 'react-router-dom'
 import Loader from '../loader/loader'
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({onlyUnAuth = false, component}) => {
     const isAuthChecked = useSelector(store => store.user.isAuthChecked)
@@ -21,6 +22,11 @@ const ProtectedRoute = ({onlyUnAuth = false, component}) => {
     }
 
     return component
+}
+
+ProtectedRoute.propTypes = {
+    onlyUnAuth: PropTypes.bool,
+    component: PropTypes.element.isRequired,
 }
 
 export const OnlyAuth = ProtectedRoute

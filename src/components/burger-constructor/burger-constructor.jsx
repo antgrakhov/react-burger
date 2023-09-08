@@ -2,6 +2,7 @@ import React, {useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
+import {useLocation, useNavigate} from 'react-router-dom'
 import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burger-constructor-inside-item'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
@@ -28,7 +29,10 @@ export default function BurgerConstructor({className}) {
         orderFailed,
         isShowModalOrder
     } = useSelector(store => store.order)
+    const {user} = useSelector(store => store.user)
+
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const bunItem = useMemo(() => {
         return selectedItems.find(el => el.type === 'bun')
@@ -66,13 +70,17 @@ export default function BurgerConstructor({className}) {
     }))
 
     function handleSendSubmitOrder() {
-        dispatch({
-            type: SHOW_ORDER_MODAL
-        })
+        if ( !user.isLogged ) {
+            navigate('/login')
+        } else {
+            dispatch({
+                type: SHOW_ORDER_MODAL
+            })
 
-        dispatch(sendSubmitOrder({
-            ingredients: selectedItems.map(ingredient => ingredient._id)
-        }))
+            dispatch(sendSubmitOrder({
+                ingredients: selectedItems.map(ingredient => ingredient._id)
+            }))
+        }
     }
 
     function handleCloseModal() {

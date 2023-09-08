@@ -115,9 +115,6 @@ const requestWithRefresh = async (endpoint, options) => {
             options.headers['Authorization'] = accessToken
 
             return await request(endpoint, options)
-        } else {
-            // eslint-disable-next-line no-throw-literal
-            throw 'refresh token err'
         }
     }
 }

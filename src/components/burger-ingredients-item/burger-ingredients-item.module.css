@@ -8,6 +8,10 @@
     cursor: pointer;
 }
 
+.link {
+    color: inherit;
+}
+
 .thumb {
     max-width: 100%;
     height: auto;

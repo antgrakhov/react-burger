@@ -169,8 +169,6 @@ const updateUserAction = (form) => {
             dispatch({
                 type: USER_PATCH_FAILED
             })
-
-            throw 'patch user err'
         }
     }
 }
@@ -195,8 +193,6 @@ const logoutUserAction = () => {
             dispatch({
                 type: LOGOUT_FAILED
             })
-            // eslint-disable-next-line no-throw-literal
-            throw 'logout fetch error'
         }
     }
 }

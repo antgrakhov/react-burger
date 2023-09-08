@@ -33,7 +33,7 @@ function deleteCookie(name) {
 }
 
 function saveTokens(accessToken, refreshToken) {
-    setCookie('accessToken', accessToken)
+    setCookie('accessToken', accessToken, {path: '/'})
 
     localStorage.setItem('refreshToken', refreshToken)
 }

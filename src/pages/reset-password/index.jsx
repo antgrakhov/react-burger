@@ -4,6 +4,7 @@ import {NavLink, useLocation, useNavigate} from 'react-router-dom'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useForm} from '../../utils/use-form'
 import {resetPasswordAction} from '../../services/actions/reset-password'
+import {ROUTE_LOGIN} from '../../services/routes'
 
 import styles from '../login/login.module.css'
 
@@ -66,6 +67,7 @@ export default function ResetPasswordPage() {
             onChange={handleChangeForm}
             value={password}
             name={'password'}
+            placeholder={'Введите новый пароль'}
             extraClass="mt-6"
         />
         <Input
@@ -82,14 +84,14 @@ export default function ResetPasswordPage() {
                 size="medium"
                 disabled={resetPasswordRequest || !isFormFilled}
             >
-                Войти
+                Сохранить
             </Button>
         </div>
 
         <div className="mt-20">
             <p className={styles.subnav}>
                 Вспомнили пароль?
-                <NavLink className={styles.link} to="/login"> Войти</NavLink>
+                <NavLink className={styles.link} to={ROUTE_LOGIN}> Войти</NavLink>
             </p>
         </div>
     </form>

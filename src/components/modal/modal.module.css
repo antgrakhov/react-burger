@@ -24,8 +24,6 @@
     display: flex;
     align-items: center;
     column-gap: 36px;
-    margin: 16px 0;
-    text-align: left;
 }
 
 .close {

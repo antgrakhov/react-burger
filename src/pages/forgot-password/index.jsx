@@ -4,6 +4,7 @@ import {NavLink, useNavigate} from 'react-router-dom'
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {forgotPasswordAction} from '../../services/actions/reset-password'
 import {useForm} from '../../utils/use-form'
+import {ROUTE_LOGIN} from '../../services/routes'
 
 import styles from '../login/login.module.css'
 
@@ -68,7 +69,7 @@ export default function ForgotPasswordPage() {
         <div className="mt-20">
             <p className={styles.subnav}>
                 Вспомнили пароль?
-                <NavLink className={styles.link} to="/login"> Войти</NavLink>
+                <NavLink className={styles.link} to={ROUTE_LOGIN}> Войти</NavLink>
             </p>
         </div>
     </form>

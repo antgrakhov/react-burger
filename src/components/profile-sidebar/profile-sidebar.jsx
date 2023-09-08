@@ -2,6 +2,10 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {logoutUserAction} from '../../services/actions/user'
+import {
+    ROUTE_ORDERS_LIST,
+    ROUTE_PROFILE
+} from '../../services/routes'
 
 import styles from './profile-sidebar.module.css'
 
@@ -18,14 +22,14 @@ export default function ProfileSidebar() {
             <li className={styles.item}>
                 <NavLink
                     className={`${styles.link} text text_type_main-medium`}
-                    to="/profile"
+                    to={ROUTE_PROFILE}
                     end
                 >Профиль</NavLink>
             </li>
             <li className={styles.item}>
                 <NavLink
                     className={`${styles.link} text text_type_main-medium`}
-                    to="orders"
+                    to={ROUTE_ORDERS_LIST}
                 >История заказов</NavLink>
             </li>
             <li className={styles.item}>

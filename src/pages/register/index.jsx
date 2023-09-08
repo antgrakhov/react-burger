@@ -4,14 +4,9 @@ import {registerUserAction} from '../../services/actions/user'
 import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
+import {ROUTE_LOGIN} from '../../services/routes'
 
 import styles from '../login/login.module.css'
-
-const initFormData = {
-    name: '',
-    email: '',
-    password: '',
-}
 
 export default function RegisterPage() {
     const dispatch = useDispatch()
@@ -24,7 +19,11 @@ export default function RegisterPage() {
         form,
         isFormFilled,
         handleChangeForm,
-    } = useForm(initFormData)
+    } = useForm({
+        name: '',
+        email: '',
+        password: '',
+    })
 
     const {
         name,
@@ -92,7 +91,7 @@ export default function RegisterPage() {
         <div className="mt-20">
             <p className={styles.subnav}>
                 Уже зарегистрированы?
-                <NavLink className={styles.link} to="/login"> Войти</NavLink>
+                <NavLink className={styles.link} to={ROUTE_LOGIN}> Войти</NavLink>
             </p>
         </div>
     </form>

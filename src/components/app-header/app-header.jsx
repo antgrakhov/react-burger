@@ -1,25 +1,29 @@
 import {NavLink} from 'react-router-dom'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {
+    ROUTE_INDEX,
+    ROUTE_ORDERS_LIST,
+    ROUTE_PROFILE
+} from '../../services/routes'
 
 import styles from './app-header.module.css'
-import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css'
 
 const listItems = [
     {
         active: true,
         label: 'Конструктор',
-        to: '/',
+        to: ROUTE_INDEX,
         icon: <BurgerIcon type="secondary"/>,
     },
     {
         active: false,
-        to: '/lenta',
+        to: ROUTE_ORDERS_LIST,
         label: 'Лента заказов',
         icon: <ListIcon type="secondary"/>,
     },
     {
         active: false,
-        to: '/profile',
+        to: ROUTE_PROFILE,
         label: 'Личный кабинет',
         icon: <ProfileIcon type="secondary"/>,
     },

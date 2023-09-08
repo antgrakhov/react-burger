@@ -4,13 +4,12 @@ import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
 import {loginUserAction} from '../../services/actions/user'
+import {
+    ROUTE_FORGOT_PASSWORD,
+    ROUTE_REGISTER
+} from '../../services/routes'
 
 import styles from './login.module.css'
-
-const initFormData = {
-    email: '',
-    password: '',
-}
 
 export default function LoginPage() {
     const dispatch = useDispatch()
@@ -23,7 +22,10 @@ export default function LoginPage() {
         form,
         isFormFilled,
         handleChangeForm,
-    } = useForm(initFormData)
+    } = useForm({
+        email: '',
+        password: '',
+    })
 
     const {
         email,
@@ -69,11 +71,11 @@ export default function LoginPage() {
         <div className="mt-20">
             <p className={styles.subnav}>
                 Вы — новый пользователь?
-                <NavLink className={styles.link} to="/register"> Зарегистрироваться</NavLink>
+                <NavLink className={styles.link} to={ROUTE_REGISTER}> Зарегистрироваться</NavLink>
             </p>
             <p className={styles.subnav}>
                 Забыли пароль?
-                <NavLink className={styles.link} to="/forgot-password"> Восстановить пароль</NavLink>
+                <NavLink className={styles.link} to={ROUTE_FORGOT_PASSWORD}> Восстановить пароль</NavLink>
             </p>
         </div>
     </form>
