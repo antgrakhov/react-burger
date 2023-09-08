@@ -32,7 +32,7 @@ export default function Modal({children, label, onClose}) {
         <div className={styles.container}>
             <ModalOverlay onClose={handleClose}/>
             <div className={styles.content}>
-                <h4 className={`${styles.label} text_type_main-large`}>
+                <h4 className={`${styles.label} mt-4 mb-4 text_type_main-large`}>
                     {label}
                     <button className={styles.close} onClick={handleClose}>
                         <CloseIcon type="primary"/>

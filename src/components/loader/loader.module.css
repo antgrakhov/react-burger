@@ -1,0 +1,7 @@
+.b {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-image: url('../../images/loading.svg');
+    background-size: 100px auto;
+    background-position: 50% 50%;
+}

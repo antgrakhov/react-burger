@@ -1,0 +1,16 @@
+.form {
+    margin: 0;
+}
+
+.panel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.descr {
+    position: absolute;
+    left: 0;
+    top: 280px;
+    width: 320px;
+    opacity: .4;
+}

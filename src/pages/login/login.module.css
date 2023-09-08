@@ -1,0 +1,15 @@
+.container {
+    width: 480px;
+    margin: auto;
+    text-align: center;
+}
+
+.subnav {
+    margin: 0;
+    padding-bottom: 16px;
+    color: var(--text-inactive-color);
+}
+
+.link {
+    color: var(--colors-interface-accent);
+}

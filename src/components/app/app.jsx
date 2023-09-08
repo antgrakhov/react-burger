@@ -1,41 +1,26 @@
-import React from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {DndProvider} from 'react-dnd'
-import {HTML5Backend} from 'react-dnd-html5-backend'
+import React, {useEffect} from 'react'
+import {BrowserRouter} from 'react-router-dom'
+import AppRoutes from '../../services/routes'
+import {useDispatch} from 'react-redux'
 import AppHeader from '../app-header/app-header'
-import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-import BurgerConstructor from '../burger-constructor/burger-constructor'
-import {getIngredients} from '../../services/actions/ingredients'
+import {checkUserAuth} from '../../services/actions/user'
 
 import styles from './app.module.css'
 import '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function App() {
-    const {ingredientsRequest, ingredientsFailed} = useSelector(store => store.ingredients)
     const dispatch = useDispatch()
 
-    /**
-     * Loading data from API
-     */
-    React.useEffect(() => {
-        dispatch(getIngredients())
-    }, [dispatch]);
+    useEffect(() => {
+        dispatch(checkUserAuth())
+    }, [dispatch])
 
-    return <>
+    return <BrowserRouter>
         <AppHeader/>
-        <main className={`${styles.main}${ingredientsRequest ? ' ' + styles.loading : ''}`}>
+        <main className={styles.main}>
             <div className={styles.inner}>
-                {/*Success loading data*/}
-                {!ingredientsRequest && !ingredientsFailed &&
-                    <DndProvider backend={HTML5Backend}>
-                        <BurgerIngredients className={styles.section}/>
-                        <BurgerConstructor className={styles.section}/>
-                    </DndProvider>
-                }
-
-                {/*Error loading data*/}
-                {!ingredientsRequest && ingredientsFailed && <p className={`${styles.error} text text_type_main-medium`}>К сожалению, при загрузке данных произошла ошибка.<br/> Попробуйте перезагрузить страницу</p>}
+                <AppRoutes/>
             </div>
         </main>
-    </>
+    </BrowserRouter>
 }

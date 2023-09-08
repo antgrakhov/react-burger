@@ -1,4 +1,4 @@
-import {submitOrder} from '../../utils/burger-api'
+import {submitOrder} from '../../utils/api'
 
 const SEND_ORDER_REQUEST = 'ORDER/SEND_REQUEST'
 const SEND_ORDER_SUCCESS = 'ORDER/SEND_SUCCESS'

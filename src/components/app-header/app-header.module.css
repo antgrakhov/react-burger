@@ -46,8 +46,17 @@
     align-items: center;
     column-gap: var(--gap);
     color: var(--text-inactive-color);
+    transition: color .2s ease-in-out;
 }
 
-.active {
+.link svg {
+    transition: fill .2s ease-in-out;
+}
+
+.link:global(.active) {
     color: inherit;
+}
+
+.link:global(.active) svg {
+    fill: var(--text-primary-color);
 }
