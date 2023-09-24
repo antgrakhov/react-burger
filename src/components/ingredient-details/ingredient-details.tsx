@@ -3,33 +3,31 @@ import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import Page404 from '../../pages/404'
 import Loader from '../loader/loader'
-import PropTypes from 'prop-types'
+import {ingredientsSelector} from '../../services/selectors'
 
 import styles from './ingredient-details.module.css'
+import {TIngredient} from "../../types";
 
-const detailList = {
-    calories: {
-        label: 'Калории, ккал'
-    },
-    proteins: {
-        label: 'Белки, г'
-    },
-    fat: {
-        label: 'Жиры, г'
-    },
-    carbohydrates: {
-        label: 'Углеводы, г'
-    },
+enum detailList {
+    calories = 'Калории, ккал',
+    proteins = 'Белки, г',
+    fat = 'Жиры, г',
+    carbohydrates = 'Углеводы, г',
 }
 
-export default function IngredientDetails({embed}) {
+type TIngredientDetails = {
+    embed?: boolean
+}
+
+
+export default function IngredientDetails({embed}: TIngredientDetails) {
     const {
         items,
         ingredientsRequest,
-    } = useSelector(store => store.ingredients)
+    } = useSelector(ingredientsSelector)
 
     const {id} = useParams()
-    const ingredient = items.find(item => item._id === id)
+    const ingredient = items.find((item: TIngredient) => item._id === id)
 
     return <>
         {ingredientsRequest && <Loader/>}
@@ -57,17 +55,15 @@ export default function IngredientDetails({embed}) {
                 {ingredient.name}
             </h5>
             <ul className={styles.list}>
-                {Object.keys(detailList).map(param =>
-                    <li key={param} className={styles.param}>
-                        <span>{detailList[param].label}</span>
+                {Object.keys(detailList).map(param => {
+                    const label = Object.values(detailList)[Object.keys(detailList).indexOf(param)]
+
+                    return <li key={param} className={styles.param}>
+                        <span>{label}</span>
                         <b className="text_type_digits-default">{ingredient[param]}</b>
                     </li>
-                )}
+                })}
             </ul>
         </div>}
     </>
-}
-
-IngredientDetails.propTypes = {
-    embed: PropTypes.bool,
 }

@@ -1,13 +1,65 @@
 import {getCookie, saveTokens} from './cookies'
+import {TIngredient, TUserUpdateForm} from '../types'
 
 const BASE_URL = 'https://norma.nomoreparties.space/api'
 
-const loadIngredients = () => {
-    return request('/ingredients')
+type TServerResponse<T> = {
+    success: boolean
+} & T
+
+type TIngredientsResponse = TServerResponse<{
+    data: TIngredient[]
+}>
+
+type TOrderResponse = TServerResponse<{
+    name: string
+    order: {
+        number: number
+    }
+}>
+
+type TMessageResponse = TServerResponse<{
+    message: string
+}>
+
+type TGetUserResponse = TServerResponse<{
+    user: {
+        email: string
+        name: string
+    }
+}>
+
+type TGetUserWithCredsResponse = TServerResponse<{
+    user: {
+        email: string
+        name: string
+    }
+    accessToken: string
+    refreshToken: string
+}>
+
+type TGetRefreshToken = TServerResponse<{
+    refreshToken: string
+    accessToken: string
+}>
+
+type TRegisterUser = {
+    name: string
+    email: string
+    password: string
 }
 
-const submitOrder = (data) => {
-    return request('/orders', {
+type TLoginUser = {
+    email: string
+    password: string
+}
+
+const loadIngredients = (): Promise<TIngredientsResponse> => {
+    return request<TIngredientsResponse>('/ingredients')
+}
+
+const submitOrder = (data: string[]): Promise<TOrderResponse> => {
+    return request<TOrderResponse>('/orders', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -16,8 +68,8 @@ const submitOrder = (data) => {
     })
 }
 
-const registerUser = (form) => {
-    return request('/auth/register', {
+const registerUser = (form: TRegisterUser): Promise<TGetUserWithCredsResponse> => {
+    return request<TGetUserWithCredsResponse>('/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -26,8 +78,8 @@ const registerUser = (form) => {
     })
 }
 
-const loginUser = (form) => {
-    return request('/auth/login', {
+const loginUser = (form: TLoginUser): Promise<TGetUserWithCredsResponse> => {
+    return request<TGetUserWithCredsResponse>('/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -37,7 +89,7 @@ const loginUser = (form) => {
 }
 
 const getUser = () => {
-    return requestWithRefresh('/auth/user', {
+    return requestWithRefresh<TGetUserResponse>('/auth/user', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -46,8 +98,8 @@ const getUser = () => {
     })
 }
 
-const updateUser = (form) => {
-    return requestWithRefresh('/auth/user', {
+const updateUser = (form: TUserUpdateForm): Promise<TGetUserResponse> => {
+    return request<TGetUserResponse>('/auth/user', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -57,8 +109,8 @@ const updateUser = (form) => {
     })
 }
 
-const logoutUser = () => {
-    return request('/auth/logout', {
+const logoutUser = (): Promise<TMessageResponse> => {
+    return request<TMessageResponse>('/auth/logout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -69,8 +121,8 @@ const logoutUser = () => {
     })
 }
 
-const forgotPassword = (email) => {
-    return request('/password-reset', {
+const forgotPassword = (email: string): Promise<TMessageResponse> => {
+    return request<TMessageResponse>('/password-reset', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -81,8 +133,8 @@ const forgotPassword = (email) => {
     })
 }
 
-const resetPassword = (password, token) => {
-    return request('/password-reset/reset', {
+const resetPassword = (password: string, token: string): Promise<TMessageResponse> => {
+    return request<TMessageResponse>('/password-reset/reset', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -94,9 +146,9 @@ const resetPassword = (password, token) => {
     })
 }
 
-const requestWithRefresh = async (endpoint, options) => {
+const requestWithRefresh = async <T>(endpoint: RequestInfo, options: RequestInit) => {
     try {
-        return await request(endpoint, options)
+        return await request<T>(endpoint, options)
     } catch (error) {
         if ( error === 403 ) {
             let authToken
@@ -112,14 +164,16 @@ const requestWithRefresh = async (endpoint, options) => {
                 saveTokens(authToken, refreshToken)
             }
 
-            options.headers['Authorization'] = accessToken
+            if ( options.headers ) {
+                (options.headers as {[key: string]: string }).authorization = accessToken
+            }
 
-            return await request(endpoint, options)
+            return await request<T>(endpoint, options)
         }
     }
 }
 
-const getRefreshToken = async () => {
+const getRefreshToken = async (): Promise<TGetRefreshToken> => {
     return await request('/auth/token', {
         method: 'POST',
         headers: {
@@ -131,7 +185,7 @@ const getRefreshToken = async () => {
     })
 }
 
-const checkResponse = (result) => {
+const checkResponse = <T>(result: Response): Promise<T> => {
     if (result.ok) {
         return result.json()
     }
@@ -139,7 +193,7 @@ const checkResponse = (result) => {
     return Promise.reject(result.status)
 }
 
-const checkSuccess = (result) => {
+const checkSuccess = <T>(result: any): T => {
     if (result && result.success) {
         return result
     }
@@ -148,10 +202,11 @@ const checkSuccess = (result) => {
     throw 'Ответ не success'
 }
 
-const request = async (endpoint, options) => {
-    return await fetch(`${BASE_URL}${endpoint}`, options)
-        .then(checkResponse)
-        .then(checkSuccess)
+const request = async <T>(endpoint: RequestInfo, options?: RequestInit): Promise<T> => {
+    const data = await fetch(`${BASE_URL}${endpoint}`, options)
+    const response = await checkResponse<T>(data)
+
+    return checkSuccess<T>(response)
 }
 
 export {

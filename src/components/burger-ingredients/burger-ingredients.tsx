@@ -3,12 +3,17 @@ import {useSelector} from 'react-redux'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useInView} from 'react-intersection-observer'
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
-import PropTypes from 'prop-types'
+import {ingredientsSelector} from '../../services/selectors'
+import {TIngredient} from '../../types'
 
 import styles from './burger-ingredients.module.css'
 
-export default function BurgerIngredients({className}) {
-    const {items} = useSelector(store => store.ingredients)
+type TBurgerIngredients = {
+    className: string
+}
+
+export default function BurgerIngredients({className}: TBurgerIngredients) {
+    const {items} = useSelector(ingredientsSelector)
     const [tabActive, setTabActive] = React.useState('bun')
 
     const inViewOptions = {threshold: .2}
@@ -17,7 +22,7 @@ export default function BurgerIngredients({className}) {
     const [refMain, inViewMain] = useInView(inViewOptions)
 
     React.useEffect( () => {
-        let type
+        let type = ''
 
         if (inViewBun) {
             type = 'bun'
@@ -30,12 +35,12 @@ export default function BurgerIngredients({className}) {
         setTabActive(type)
     },[inViewBun, inViewSauce, inViewMain])
 
-    const ingredientsData = {
+    const ingredientsData: any = {
         bun: {
             ref: refBun,
             label: 'Булки',
             data: React.useMemo(
-                ()=>items.filter(item => item.type === 'bun'),
+                ()=>items.filter((item: TIngredient) => item.type === 'bun'),
                 [items]
             )
         },
@@ -43,7 +48,7 @@ export default function BurgerIngredients({className}) {
             ref: refSauce,
             label: 'Соусы',
             data: React.useMemo(
-                ()=>items.filter(item => item.type === 'sauce'),
+                ()=>items.filter((item: TIngredient) => item.type === 'sauce'),
                 [items]
             )
         },
@@ -51,13 +56,13 @@ export default function BurgerIngredients({className}) {
             ref: refMain,
             label: 'Начинки',
             data: React.useMemo(
-                ()=>items.filter(item => item.type === 'main'),
+                ()=>items.filter((item: TIngredient) => item.type === 'main'),
                 [items]
             )
         }
     }
 
-    function handleTabClick(tab) {
+    function handleTabClick(tab: string) {
         const activeEl = document.getElementById(tab)
 
         if ( activeEl ) {
@@ -71,7 +76,7 @@ export default function BurgerIngredients({className}) {
         <h1 className={styles.title}>Соберите бургер</h1>
 
         <nav className={styles.tabs}>
-            {Object.keys(ingredientsData).map(ingredient =>
+            {Object.keys(ingredientsData).map((ingredient: string) =>
                 <Tab
                     key={ingredient}
                     value={ingredient}
@@ -95,7 +100,7 @@ export default function BurgerIngredients({className}) {
                             className={styles['list-wrap']}
                         >
                             <ul className={styles.list}>
-                                {ingredientsData[category].data.map(item =>
+                                {ingredientsData[category].data.map((item: TIngredient) =>
                                     <BurgerIngredientsItem
                                         key={item._id}
                                         item={item}
@@ -108,8 +113,4 @@ export default function BurgerIngredients({className}) {
             </dl>
         </div>
     </section>
-}
-
-BurgerIngredients.propTypes = {
-    className: PropTypes.string,
 }

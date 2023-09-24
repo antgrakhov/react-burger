@@ -39,6 +39,7 @@ const resetPasswordAction = (password, token) => {
             dispatch({
                 type: RESET_PASSWORD_REQUEST
             })
+
             await resetPassword(
                 password,
                 token

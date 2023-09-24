@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import {useEffect, Dispatch} from 'react'
 import {BrowserRouter} from 'react-router-dom'
 import AppRoutes from '../../services/routes'
 import {useDispatch} from 'react-redux'
@@ -9,7 +9,7 @@ import styles from './app.module.css'
 import '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function App() {
-    const dispatch = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch()
 
     useEffect(() => {
         dispatch(checkUserAuth())

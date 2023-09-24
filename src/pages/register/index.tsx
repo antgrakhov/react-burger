@@ -1,19 +1,20 @@
-import React, {useRef} from 'react'
+import React, {Dispatch, FormEvent, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {registerUserAction} from '../../services/actions/user'
 import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
 import {ROUTE_LOGIN} from '../../services/routes'
+import {userSelector} from '../../services/selectors'
 
 import styles from '../login/login.module.css'
 
 export default function RegisterPage() {
-    const dispatch = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch()
     const {
         registerRequest,
         registerFailed,
-    } = useSelector(store => store.user)
+    } = useSelector(userSelector)
 
     const {
         form,
@@ -34,10 +35,11 @@ export default function RegisterPage() {
     const nameRef = useRef(null)
 
     const onNameIconClick = () => {
+        // @ts-ignore
         setTimeout(() => nameRef.current.focus(), 0)
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = (e: FormEvent) => {
         e.preventDefault()
 
         dispatch(registerUserAction(form))
@@ -54,7 +56,6 @@ export default function RegisterPage() {
             type={'text'}
             placeholder={'Имя'}
             onChange={handleChangeForm}
-            icon={false}
             value={name}
             name={'name'}
             error={false}

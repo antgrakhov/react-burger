@@ -1,19 +1,20 @@
-import React from 'react'
+import React, {Dispatch, FormEvent} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {NavLink, useNavigate} from 'react-router-dom'
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {forgotPasswordAction} from '../../services/actions/reset-password'
 import {useForm} from '../../utils/use-form'
 import {ROUTE_LOGIN} from '../../services/routes'
+import {resetPasswordSelector} from '../../services/selectors'
 
 import styles from '../login/login.module.css'
 
 export default function ForgotPasswordPage() {
-    const dispatch = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch()
     const {
         forgotPasswordRequest,
         forgotPasswordFailed,
-    } = useSelector(store => store.resetPassword)
+    } = useSelector(resetPasswordSelector)
 
     const navigate = useNavigate()
 
@@ -27,10 +28,10 @@ export default function ForgotPasswordPage() {
 
     const {email} = form
 
-    const handleFormSubmit = (event) => {
-        event.preventDefault()
+    const handleFormSubmit = (event: FormEvent) => {
+        event.preventDefault();
 
-        dispatch(forgotPasswordAction(email))
+        (dispatch(forgotPasswordAction(email)) as any)
             .then(() => {
                 navigate('/reset-password', {
                     state: {
@@ -38,7 +39,7 @@ export default function ForgotPasswordPage() {
                     }
                 })
             })
-            .catch((err) => console.log(err))
+            .catch((err: string) => console.log(err))
     }
 
     return <form className={styles.container} onSubmit={handleFormSubmit}>

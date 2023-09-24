@@ -37,7 +37,7 @@ export default function AppHeader() {
 
         <nav className={styles.nav}>
             <ul className={styles.list}>
-                {listItems.map((item, index) =>
+                {listItems.map((item, index: number) =>
                     <li
                         key={index}
                         className={`${styles.item}`}

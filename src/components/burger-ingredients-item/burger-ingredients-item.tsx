@@ -3,12 +3,17 @@ import {useSelector} from 'react-redux'
 import {Link, useLocation} from 'react-router-dom'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrag} from 'react-dnd'
-import {ingredientVariantShape} from '../../utils/prop-types'
+import {ingredientsConstructorSelector} from '../../services/selectors'
+import {TIngredient} from '../../types'
 
 import styles from './burger-ingredients-item.module.css'
 
-export default function BurgerIngredientsItem({item}) {
-    const {selectedCounts} = useSelector(store => store.ingredientsConstructor)
+type TBurgerIngredientsItem = {
+    item: TIngredient
+}
+
+export default function BurgerIngredientsItem({item}: TBurgerIngredientsItem) {
+    const {selectedCounts} = useSelector(ingredientsConstructorSelector)
     const currentIngredientCount = selectedCounts[item._id]
         ? selectedCounts[item._id].count
         : 0
@@ -16,8 +21,7 @@ export default function BurgerIngredientsItem({item}) {
     const location = useLocation()
     const linkTo = `/ingredients/${item._id}`
 
-    // eslint-disable-next-line no-empty-pattern
-    const [{}, dragSource] = useDrag({
+    const [ , dragSource] = useDrag({
         type: item.type,
         item: {...item}
     })
@@ -56,8 +60,4 @@ export default function BurgerIngredientsItem({item}) {
             </h3>
         </Link>
     </li>
-}
-
-BurgerIngredientsItem.propTypes = {
-    item: ingredientVariantShape.isRequired,
 }
