@@ -7,7 +7,6 @@ import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burge
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
 import emptyImage from '../../images/empty.png'
-import PropTypes from 'prop-types'
 import {
     addToConstructorBunItem,
     addToConstructorInsideItem,
@@ -173,8 +172,4 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
             </>
         </Modal>}
     </section>
-}
-
-BurgerConstructor.propTypes = {
-    className: PropTypes.string,
 }
