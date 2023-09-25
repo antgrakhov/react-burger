@@ -1,22 +1,23 @@
-import React from 'react'
+import React, {Dispatch, FormEvent, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {NavLink, useLocation, useNavigate} from 'react-router-dom'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useForm} from '../../utils/use-form'
 import {resetPasswordAction} from '../../services/actions/reset-password'
 import {ROUTE_LOGIN} from '../../services/routes'
+import {resetPasswordSelector} from '../../services/selectors'
 
 import styles from '../login/login.module.css'
 
 export default function ResetPasswordPage() {
-    const dispatch = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
 
     const {
         resetPasswordRequest,
         resetPasswordFailed,
-    } = useSelector(store => store.resetPassword)
+    } = useSelector(resetPasswordSelector)
 
     const [resultSuccess, setResultSuccess] = React.useState(false)
 
@@ -34,24 +35,25 @@ export default function ResetPasswordPage() {
         token,
     } = form
 
-    const handleFormSubmit = (event) => {
-        event.preventDefault()
+    const handleFormSubmit = (event: FormEvent) => {
+        event.preventDefault();
 
-        dispatch(resetPasswordAction(password, token))
+        (dispatch(resetPasswordAction(password, token)) as any)
             .then(() => {
                 setResultSuccess(true)
             })
-            .catch((err) => {
+            .catch((err: string) => {
+                console.log(err)
                 setResultSuccess(false)
             })
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!location.state || !location.state.resetPassword) {
             navigate('/forgot-password')
         }
 
-    }, [])
+    }, [location.state, navigate])
 
     return <form className={styles.container} onSubmit={handleFormSubmit}>
         <h1 className="text_type_main-medium mb-6">

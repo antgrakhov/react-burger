@@ -1,26 +1,36 @@
-import React from 'react'
+import React, {Dispatch} from 'react'
 import {useDispatch} from 'react-redux'
-import {useDrag, useDrop} from 'react-dnd'
+import {Identifier} from 'typescript'
+import {useDrag, useDrop, XYCoord} from 'react-dnd'
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {
     moveConstructorInsideItem,
     removeConstructorInsideItem
 } from '../../services/actions/constructor'
-import PropTypes from 'prop-types'
-import {ingredientVariantShape} from '../../utils/prop-types'
+import {TIngredientUnique} from '../../types'
 
 import styles from './burger-constructor-inside-item.module.css'
 
-export default function BurgerConstructorInsideItem({index, ingredient}) {
+type TBurgerConstructorInsideItem = {
+    index: number
+    ingredient: TIngredientUnique
+}
+
+type TDragItem = {
+    id: string
+    index: number
+}
+
+export default function BurgerConstructorInsideItem({index, ingredient}: TBurgerConstructorInsideItem) {
     const acceptType = 'ingredient'
-    const ref = React.useRef(null)
-    const dispatch = useDispatch()
+    const ref = React.useRef<HTMLLIElement>(null)
+    const dispatch: Dispatch<any> = useDispatch()
 
     const [{isDragging}, dragRef] = useDrag({
         type: acceptType,
-        item: () => {
+        item: (): TDragItem => {
             return {
-                id: ingredient.id,
+                id: ingredient.uniqueId,
                 index
             }
         },
@@ -29,14 +39,14 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
         }),
     })
 
-    const [{handlerId}, dropRef] = useDrop({
+    const [{handlerId}, dropRef] = useDrop<TDragItem, void, {handlerId: Identifier | null}>({
         accept: acceptType,
-        collect(monitor) {
+        collect(monitor: any) {
             return {
                 handlerId: monitor.getHandlerId(),
             }
         },
-        hover(item, monitor) {
+        hover(item: TDragItem, monitor) {
             if (!ref.current) {
                 return
             }
@@ -53,7 +63,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
             const clientOffset = monitor.getClientOffset()
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top
+            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
 
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
@@ -74,7 +84,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
 
     dragRef(dropRef(ref))
 
-    function handleRemoveInsideItem(id, uniqueId) {
+    function handleRemoveInsideItem(id: string, uniqueId: string) {
         dispatch(removeConstructorInsideItem(id, uniqueId))
     }
 
@@ -88,7 +98,6 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
             <DragIcon type="primary"/>
         </button>
         <ConstructorElement
-            item={ingredient}
             text={ingredient.name}
             thumbnail={ingredient.image}
             price={ingredient.price}
@@ -98,9 +107,4 @@ export default function BurgerConstructorInsideItem({index, ingredient}) {
             )}
         />
     </li>
-}
-
-BurgerConstructorInsideItem.propTypes = {
-    index: PropTypes.number.isRequired,
-    ingredient: ingredientVariantShape.isRequired,
 }

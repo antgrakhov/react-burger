@@ -1,13 +1,12 @@
-import React, {useMemo} from 'react'
+import React, {Dispatch, useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
-import {useLocation, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burger-constructor-inside-item'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
 import emptyImage from '../../images/empty.png'
-import PropTypes from 'prop-types'
 import {
     addToConstructorBunItem,
     addToConstructorInsideItem,
@@ -18,30 +17,51 @@ import {
     SHOW_ORDER_MODAL,
     sendSubmitOrder,
 } from '../../services/actions/order'
-import {getBurgerPriceTotal} from '../../utils/get-burger-price-total'
+import {ROUTE_LOGIN} from '../../services/routes'
+import {
+    ingredientsConstructorSelector,
+    orderSelector,
+    userSelector,
+} from '../../services/selectors'
+import {TIngredientUnique} from '../../types'
 
 import styles from './burger-constructor.module.css'
 
-export default function BurgerConstructor({className}) {
-    const {selectedItems} = useSelector(store => store.ingredientsConstructor)
+type TBurgerConstructor = {
+    className: string
+}
+
+export default function BurgerConstructor({className}: TBurgerConstructor) {
+    const {selectedItems} = useSelector(ingredientsConstructorSelector)
     const {
         orderRequest,
         orderFailed,
         isShowModalOrder
-    } = useSelector(store => store.order)
-    const {user} = useSelector(store => store.user)
+    } = useSelector(orderSelector)
+    const {user} = useSelector(userSelector)
 
-    const dispatch = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch()
     const navigate = useNavigate()
 
     const bunItem = useMemo(() => {
-        return selectedItems.find(el => el.type === 'bun')
+        return selectedItems.find((el: TIngredientUnique) => el.type === 'bun')
     }, [selectedItems])
     const insideItems = useMemo(() => {
-        return selectedItems.filter(el => el.type !== 'bun')
+        return selectedItems.filter((el: TIngredientUnique) => el.type !== 'bun')
     }, [selectedItems])
 
-    const priceTotal = getBurgerPriceTotal(selectedItems)
+    const priceTotal = useMemo(() => {
+        let totalPrice = 0
+        const bunItem = selectedItems.find((el: TIngredientUnique) => el.type === 'bun')
+
+        if ( bunItem ) {
+            totalPrice = selectedItems.reduce((total: number, ingredient: TIngredientUnique) => {
+                return total + ingredient.price
+            }, 0)
+        }
+
+        return totalPrice
+    }, [selectedItems])
 
     const [{canDropBun, isOverBun}, dropBunRef] = useDrop(() => ({
         accept: 'bun',
@@ -71,14 +91,14 @@ export default function BurgerConstructor({className}) {
 
     function handleSendSubmitOrder() {
         if ( !user.isLogged ) {
-            navigate('/login')
+            navigate(ROUTE_LOGIN)
         } else {
             dispatch({
                 type: SHOW_ORDER_MODAL
             })
 
             dispatch(sendSubmitOrder({
-                ingredients: selectedItems.map(ingredient => ingredient._id)
+                ingredients: selectedItems.map((ingredient: TIngredientUnique) => ingredient._id)
             }))
         }
     }
@@ -100,7 +120,6 @@ export default function BurgerConstructor({className}) {
         <div className={styles.top}>
             <ConstructorElement
                 type="top"
-                item={bunItem}
                 text={bunItem ? bunItem.name + ' (верх)' : 'Добавьте булку'}
                 thumbnail={bunItem ? bunItem.image : emptyImage}
                 price={bunItem ? bunItem.price : 0}
@@ -113,7 +132,7 @@ export default function BurgerConstructor({className}) {
         >
             <ul className={`${styles.list} custom-scroll`}
             >
-                {insideItems.map((item, index) =>
+                {insideItems.map((item: TIngredientUnique, index: number) =>
                     <BurgerConstructorInsideItem
                         key={item.uniqueId}
                         index={index}
@@ -125,7 +144,6 @@ export default function BurgerConstructor({className}) {
         <div className={styles.bottom}>
             <ConstructorElement
                 type="bottom"
-                item={bunItem}
                 text={bunItem ? bunItem.name + ' (низ)' : 'Добавьте булку'}
                 thumbnail={bunItem ? bunItem.image : emptyImage}
                 price={bunItem ? bunItem.price : 0}
@@ -154,8 +172,4 @@ export default function BurgerConstructor({className}) {
             </>
         </Modal>}
     </section>
-}
-
-BurgerConstructor.propTypes = {
-    className: PropTypes.string,
 }

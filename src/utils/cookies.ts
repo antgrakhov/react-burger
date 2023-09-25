@@ -1,11 +1,17 @@
-function getCookie(name) {
+function getCookie(name: string) {
     const matches = document.cookie.match(
         new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
     );
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function setCookie(name, value, props) {
+type TCookieProps = {
+    expires?: number | string | Date
+    path?: string
+    [propKey: string]: any
+}
+
+function setCookie(name: string, value: string, props: TCookieProps) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -13,7 +19,7 @@ function setCookie(name, value, props) {
         d.setTime(d.getTime() + exp * 1000);
         exp = props.expires = d;
     }
-    if (exp && exp.toUTCString) {
+    if (exp instanceof Date) {
         props.expires = exp.toUTCString();
     }
     value = encodeURIComponent(value);
@@ -28,11 +34,11 @@ function setCookie(name, value, props) {
     document.cookie = updatedCookie;
 }
 
-function deleteCookie(name) {
-    setCookie(name, null, {path: '/', expires: -1});
+function deleteCookie(name: string) {
+    setCookie(name, '', {path: '/', expires: -1});
 }
 
-function saveTokens(accessToken, refreshToken) {
+function saveTokens(accessToken: string, refreshToken: string) {
     setCookie('accessToken', accessToken, {path: '/'})
 
     localStorage.setItem('refreshToken', refreshToken)

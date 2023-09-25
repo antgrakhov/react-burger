@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Dispatch, FormEvent} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -8,15 +8,16 @@ import {
     ROUTE_FORGOT_PASSWORD,
     ROUTE_REGISTER
 } from '../../services/routes'
+import {userSelector} from '../../services/selectors'
 
 import styles from './login.module.css'
 
 export default function LoginPage() {
-    const dispatch = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch()
     const {
         loginRequest,
         loginFailed,
-    } = useSelector(store => store.user)
+    } = useSelector(userSelector)
 
     const {
         form,
@@ -32,7 +33,7 @@ export default function LoginPage() {
         password,
     } = form
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = (e: FormEvent) => {
         e.preventDefault()
 
         dispatch(loginUserAction(form))

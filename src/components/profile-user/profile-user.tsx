@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useEffect, Dispatch, FormEvent} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
 import {updateUserAction} from '../../services/actions/user'
+import {userSelector} from '../../services/selectors'
 
 import styles from './profile-user.module.css'
 
@@ -12,14 +13,8 @@ export default function ProfileUser() {
         patchUserRequest,
         patchUserFailed,
         logoutFailed,
-    } = useSelector(store => store.user)
-    const dispatch = useDispatch()
-
-    const [credentials, setCredentials] = React.useState({
-        name: user.name,
-        email: user.email,
-        password: '',
-    })
+    } = useSelector(userSelector)
+    const dispatch: Dispatch<any> = useDispatch()
 
     const {
         form,
@@ -27,7 +22,11 @@ export default function ProfileUser() {
         isFormChanged,
         setIsFormChanged,
         handleChangeForm,
-    } = useForm({...credentials})
+    } = useForm({
+        name: user.name,
+        email: user.email,
+        password: '',
+    })
 
     const {
         name,
@@ -35,38 +34,30 @@ export default function ProfileUser() {
         password,
     } = form
 
-
-    const handleEditName = (event)=>{
-        event.currentTarget.previousSibling.focus()
-    }
-
     const handleResetForm = () => {
-        const newForm = {
+        setForm({
             name: user.name,
             email: user.email,
             password: '',
-        }
-
-        setForm(newForm)
-        setCredentials(newForm)
+        })
         setIsFormChanged(false)
     }
 
-    const handleSubmitForm = (event) => {
+    const handleSubmitForm = (event: FormEvent) => {
         event.preventDefault()
 
         dispatch(updateUserAction(form))
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const newForm = {
-            ...form,
+            name: form.name,
+            email: form.email,
             password: ''
         }
 
         setIsFormChanged(false)
         setForm(newForm)
-        setCredentials(newForm)
     }, [user])
 
     return <form className={styles.form} onSubmit={handleSubmitForm}>
@@ -83,7 +74,6 @@ export default function ProfileUser() {
             placeholder={'Имя'}
             icon={'EditIcon'}
             onChange={handleChangeForm}
-            onIconClick={handleEditName}
         />
         <EmailInput
             value={email}
