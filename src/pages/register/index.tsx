@@ -4,7 +4,7 @@ import {registerUserAction} from '../../services/actions/user'
 import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
-import {ROUTE_LOGIN} from '../../services/routes'
+import {ROUTE_LOGIN} from '../../utils/constants'
 import {userSelector} from '../../services/selectors'
 
 import styles from '../login/login.module.css'

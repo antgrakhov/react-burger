@@ -1,10 +1,10 @@
 import {NavLink} from 'react-router-dom'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {
+    ROUTE_FEED,
     ROUTE_INDEX,
     ROUTE_PROFILE,
-    ROUTE_PROFILE_ORDERS,
-} from '../../services/routes'
+} from '../../utils/constants'
 
 import styles from './app-header.module.css'
 
@@ -17,7 +17,7 @@ const listItems = [
     },
     {
         active: false,
-        to: `${ROUTE_PROFILE}/${ROUTE_PROFILE_ORDERS}`,
+        to: ROUTE_FEED,
         label: 'Лента заказов',
         icon: <ListIcon type="secondary"/>,
     },
@@ -43,7 +43,7 @@ export default function AppHeader() {
                         className={`${styles.item}`}
                     >
                         <NavLink
-                            className={`${styles.link}${item.active ? ' ' + styles.active : ''} pl-5 pt-4 pr-5 pb-4`}
+                            className={`${styles.link} pl-5 pt-4 pr-5 pb-4`}
                             to={item.to}
                         >
                             {item.icon}

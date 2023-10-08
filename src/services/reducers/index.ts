@@ -1,14 +1,16 @@
 import {combineReducers} from 'redux'
-import {ingredientsReducer} from './ingredients'
 import {constructorReducer} from './constructor'
+import {ingredientsReducer} from './ingredients'
+import {resetPasswordReducer} from './reset-password'
+import {feedOrdersReducer} from './feed-orders'
 import {orderReducer} from './order'
 import {userReducer} from './user'
-import {resetPasswordReducer} from './reset-password'
 
 export const rootReducer = combineReducers({
-    ingredients: ingredientsReducer,
     ingredientsConstructor: constructorReducer,
+    ingredients: ingredientsReducer,
+    resetPassword: resetPasswordReducer,
+    feedOrders: feedOrdersReducer,
     order: orderReducer,
     user: userReducer,
-    resetPassword: resetPasswordReducer,
 })

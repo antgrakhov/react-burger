@@ -5,7 +5,7 @@ import {logoutUserAction} from '../../services/actions/user'
 import {
     ROUTE_PROFILE,
     ROUTE_PROFILE_ORDERS,
-} from '../../services/routes'
+} from '../../utils/constants'
 import {userSelector} from '../../services/selectors'
 
 import styles from './profile-sidebar.module.css'

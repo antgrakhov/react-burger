@@ -7,7 +7,7 @@ import {loginUserAction} from '../../services/actions/user'
 import {
     ROUTE_FORGOT_PASSWORD,
     ROUTE_REGISTER
-} from '../../services/routes'
+} from '../../utils/constants'
 import {userSelector} from '../../services/selectors'
 
 import styles from './login.module.css'

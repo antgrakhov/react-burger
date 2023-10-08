@@ -1,12 +1,13 @@
 import {v4 as uuid} from 'uuid'
+import {TIngredient} from '../../types'
 
-const ADD_CONSTRUCTOR_BUN_ITEM = 'CONSTRUCTOR/ADD_BUN_ITEM'
-const ADD_CONSTRUCTOR_INSIDE_ITEM = 'CONSTRUCTOR/ADD_INSIDE_ITEM'
-const REMOVE_CONSTRUCTOR_INSIDE_ITEM = 'CONSTRUCTOR/REMOVE_INSIDE_ITEM'
-const MOVE_CONSTRUCTOR_INSIDE_ITEM = 'CONSTRUCTOR/MOVE_INSIDE_ITEM'
-const CLEAR_CONSTRUCTOR = 'CONSTRUCTOR/CLEAR'
+const ADD_CONSTRUCTOR_BUN_ITEM: 'CONSTRUCTOR/ADD_BUN_ITEM' = 'CONSTRUCTOR/ADD_BUN_ITEM'
+const ADD_CONSTRUCTOR_INSIDE_ITEM: 'CONSTRUCTOR/ADD_INSIDE_ITEM' = 'CONSTRUCTOR/ADD_INSIDE_ITEM'
+const REMOVE_CONSTRUCTOR_INSIDE_ITEM: 'CONSTRUCTOR/REMOVE_INSIDE_ITEM' = 'CONSTRUCTOR/REMOVE_INSIDE_ITEM'
+const MOVE_CONSTRUCTOR_INSIDE_ITEM: 'CONSTRUCTOR/MOVE_INSIDE_ITEM' = 'CONSTRUCTOR/MOVE_INSIDE_ITEM'
+const CLEAR_CONSTRUCTOR: 'CONSTRUCTOR/CLEAR' = 'CONSTRUCTOR/CLEAR'
 
-function addToConstructorBunItem(item) {
+function addToConstructorBunItem(item: TIngredient) {
     return {
         type: ADD_CONSTRUCTOR_BUN_ITEM,
         payload: {
@@ -17,7 +18,7 @@ function addToConstructorBunItem(item) {
     }
 }
 
-function addToConstructorInsideItem(item) {
+function addToConstructorInsideItem(item: TIngredient) {
     return {
         type: ADD_CONSTRUCTOR_INSIDE_ITEM,
         payload: {
@@ -29,7 +30,7 @@ function addToConstructorInsideItem(item) {
     }
 }
 
-function moveConstructorInsideItem(indexFrom, indexTo) {
+function moveConstructorInsideItem(indexFrom: number, indexTo: number) {
     return {
         type: MOVE_CONSTRUCTOR_INSIDE_ITEM,
         payload: {
@@ -39,7 +40,7 @@ function moveConstructorInsideItem(indexFrom, indexTo) {
     }
 }
 
-function removeConstructorInsideItem(id, uniqueId) {
+function removeConstructorInsideItem(id: string, uniqueId: string) {
     return {
         type: REMOVE_CONSTRUCTOR_INSIDE_ITEM,
         payload: {

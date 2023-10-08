@@ -9,6 +9,8 @@ import {ingredientsSelector} from '../../services/selectors'
 
 import styles from './app.module.css'
 import '@ya.praktikum/react-developer-burger-ui-components'
+import {FEED_ORDERS_CONNECTION_START, FEED_ORDERS_CONNECTION_STOP} from "../../services/actions/feed-orders";
+import {WS_API_URL} from "../../utils/constants";
 
 export default function App() {
     const dispatch: Dispatch<any> = useDispatch()
@@ -23,6 +25,19 @@ export default function App() {
             dispatch(getIngredients())
         }
     }, [items, dispatch])
+
+    useEffect(() => {
+        dispatch({
+            type: FEED_ORDERS_CONNECTION_START,
+            payload: `${WS_API_URL}/orders/all`
+        })
+
+        return () => {
+            dispatch({
+                type: FEED_ORDERS_CONNECTION_STOP
+            })
+        }
+    }, [dispatch])
 
     return <BrowserRouter>
         <AppHeader/>

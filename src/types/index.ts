@@ -1,3 +1,9 @@
+enum OrderStatusTypes {
+    Created = 'created',
+    Pending = 'pending',
+    Done = 'done',
+}
+
 type TIngredient = {
     _id: string
     name: string
@@ -21,8 +27,29 @@ type TUserUpdateForm = {
     password?: string
 }
 
-export type {
-    TIngredient,
-    TUserUpdateForm,
-    TIngredientUnique,
+type TOrderData = {
+    ingredients: string[]
+    _id: string
+    name: string
+    status: OrderStatusTypes
+    number: number
+    createdAt: string
+    updatedAt: string
+    owner?: string
+    _v?: number
+}
+
+type TFeedOrders = {
+    orders: TOrderData[]
+    total: number
+    totalToday: number
+}
+
+export {
+    OrderStatusTypes,
+    type TIngredient,
+    type TUserUpdateForm,
+    type TIngredientUnique,
+    type TFeedOrders,
+    type TOrderData,
 }

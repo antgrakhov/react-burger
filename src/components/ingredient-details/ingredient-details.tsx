@@ -19,7 +19,6 @@ type TIngredientDetails = {
     embed?: boolean
 }
 
-
 export default function IngredientDetails({embed}: TIngredientDetails) {
     const {
         items,

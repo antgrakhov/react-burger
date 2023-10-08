@@ -17,7 +17,7 @@ import {
     SHOW_ORDER_MODAL,
     sendSubmitOrder,
 } from '../../services/actions/order'
-import {ROUTE_LOGIN} from '../../services/routes'
+import {ROUTE_LOGIN} from '../../utils/constants'
 import {
     ingredientsConstructorSelector,
     orderSelector,
@@ -26,6 +26,7 @@ import {
 import {TIngredientUnique} from '../../types'
 
 import styles from './burger-constructor.module.css'
+import getTotalPrice from "../../utils/totalPrice";
 
 type TBurgerConstructor = {
     className: string
@@ -55,9 +56,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
         const bunItem = selectedItems.find((el: TIngredientUnique) => el.type === 'bun')
 
         if ( bunItem ) {
-            totalPrice = selectedItems.reduce((total: number, ingredient: TIngredientUnique) => {
-                return total + ingredient.price
-            }, 0)
+            totalPrice = getTotalPrice(selectedItems)
         }
 
         return totalPrice
@@ -65,7 +64,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
 
     const [{canDropBun, isOverBun}, dropBunRef] = useDrop(() => ({
         accept: 'bun',
-        drop(item) {
+        drop(item: TIngredientUnique) {
             dispatch(addToConstructorBunItem(item))
         },
         collect(monitor) {
@@ -78,7 +77,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
 
     const [{canDropInside, isOverInside}, dropInsideRef] = useDrop(() => ({
         accept: ['main', 'sauce'],
-        drop(item) {
+        drop(item: TIngredientUnique) {
             dispatch(addToConstructorInsideItem(item))
         },
         collect(monitor) {
