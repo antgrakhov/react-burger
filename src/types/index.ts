@@ -39,6 +39,11 @@ type TOrderData = {
     _v?: number
 }
 
+type TOrderIngredient = {
+    ingredient: TIngredient
+    quantity: number
+}
+
 type TFeedOrders = {
     orders: TOrderData[]
     total: number
@@ -52,4 +57,5 @@ export {
     type TIngredientUnique,
     type TFeedOrders,
     type TOrderData,
+    type TOrderIngredient,
 }

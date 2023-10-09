@@ -1,13 +1,12 @@
 import {useSelector} from 'react-redux'
 import {NavLink, useLocation} from 'react-router-dom'
-import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import OrderItemIngredients from '../order-item-ingredients/order-item-ingredients'
+import OrderItemTotalPrice from '../order-item-total-price/order-item-total-price'
+import OrderItemDate from '../order-item-date/order-item-date'
 import {ingredientsSelector} from '../../services/selectors'
 import {TIngredient, TOrderData} from '../../types'
 
 import styles from './order-item.module.css'
-import {useMemo} from "react";
-import getTotalPrice from "../../utils/totalPrice";
 
 type TOrderItem = {
     order: TOrderData
@@ -29,10 +28,6 @@ export default function OrderItem({order, path}: TOrderItem) {
         ingredients.includes(item._id)
     )
 
-    const totalPrice = useMemo(() => {
-        return getTotalPrice(ingredientsData)
-    }, [ingredientsData])
-
     return <li className={styles.item}>
         <NavLink
             className={styles.link}
@@ -42,8 +37,8 @@ export default function OrderItem({order, path}: TOrderItem) {
             <div className={`text text_type_digits-default`}>
                 #{number}
             </div>
-            <div className={`${styles.date} text_color_inactive`}>
-                {createdAt}
+            <div className={styles.date}>
+                <OrderItemDate dateRaw={createdAt}/>
             </div>
             <h3 className={`${styles.title} text text_type_main-medium`}>
                 {name}
@@ -52,10 +47,11 @@ export default function OrderItem({order, path}: TOrderItem) {
                 maxViewedElements={6}
                 ingredients={ingredientsData}
             />
-            <div className={`${styles.price} text_type_digits-default`}>
-                {totalPrice}
-                <CurrencyIcon type="primary"/>
-            </div>
+            <OrderItemTotalPrice
+                ingredientsAll={items}
+                ingredientOrderIds={order.ingredients}
+                classNames={styles.price}
+            />
         </NavLink>
     </li>
 }
