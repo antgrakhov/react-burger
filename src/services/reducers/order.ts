@@ -3,17 +3,25 @@ import {
     SEND_ORDER_SUCCESS,
     SEND_ORDER_FAILED,
     SHOW_ORDER_MODAL,
-    HIDE_ORDER_MODAL
+    HIDE_ORDER_MODAL,
+    TSendOrderActions
 } from '../actions/order'
 
-const initialState = {
+type TOrderState = {
+    orderNumber: number
+    orderRequest: boolean
+    orderFailed: boolean
+    isShowModalOrder: boolean
+}
+
+const initialState: TOrderState = {
     orderNumber: 0,
     orderRequest: false,
     orderFailed: false,
     isShowModalOrder: false,
 }
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state: TOrderState = initialState, action: TSendOrderActions): TOrderState => {
     switch (action.type) {
         case SEND_ORDER_REQUEST: {
             return {
@@ -25,7 +33,7 @@ export const orderReducer = (state = initialState, action) => {
         case SEND_ORDER_SUCCESS: {
             return {
                 ...state,
-                orderNumber: action.payload.orderNumber,
+                orderNumber: action.payload,
                 orderRequest: false,
                 orderFailed: false,
             }

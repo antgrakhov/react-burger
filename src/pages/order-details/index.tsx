@@ -43,12 +43,16 @@ export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
                 if ( hasIngredientIndex > -1 ) {
                     data[hasIngredientIndex].quantity += 1
                 } else {
-                    data.push({
-                        ingredient: items.find(
-                            (item: TIngredient) => item._id === ingredientId
-                        ),
-                        quantity: 1
-                    })
+                    const newIngredient = items.find(
+                        (item: TIngredient) => item._id === ingredientId
+                    )
+
+                    if (newIngredient) {
+                        data.push({
+                            ingredient: newIngredient,
+                            quantity: 1
+                        })
+                    }
                 }
             })
         }

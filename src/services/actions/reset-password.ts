@@ -2,6 +2,7 @@ import {
     resetPassword,
     forgotPassword
 } from '../../utils/api'
+import {TAppDispatch} from '../../types/store'
 
 const RESET_PASSWORD_REQUEST = 'PASSWORD/RESET_REQUEST'
 const RESET_PASSWORD_SUCCESS = 'PASSWORD/RESET_SUCCESS'
@@ -10,7 +11,38 @@ const FORGOT_PASSWORD_REQUEST = 'PASSWORD/FORGOT_REQUEST'
 const FORGOT_PASSWORD_SUCCESS = 'PASSWORD/FORGOT_SUCCESS'
 const FORGOT_PASSWORD_FAILED = 'PASSWORD/FORGOT_FAILED'
 
-const forgotPasswordAction = (email) => {
+type TResetPasswordRequest = {
+    type: typeof RESET_PASSWORD_REQUEST
+}
+
+type TResetPasswordSuccess = {
+    type: typeof RESET_PASSWORD_SUCCESS
+}
+
+type TResetPasswordFailed = {
+    type: typeof RESET_PASSWORD_FAILED
+}
+
+type TForgotPasswordRequest = {
+    type: typeof FORGOT_PASSWORD_REQUEST
+}
+
+type TForgotPasswordSuccess = {
+    type: typeof FORGOT_PASSWORD_SUCCESS
+}
+
+type TForgotPasswordFailed = {
+    type: typeof FORGOT_PASSWORD_FAILED
+}
+
+type TResetForgotPasswordActions = TResetPasswordRequest
+    | TResetPasswordSuccess
+    | TResetPasswordFailed
+    | TForgotPasswordRequest
+    | TForgotPasswordSuccess
+    | TForgotPasswordFailed
+
+const forgotPasswordAction = (email: string): (dispatch: TAppDispatch) => Promise<void> => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -33,8 +65,8 @@ const forgotPasswordAction = (email) => {
     }
 }
 
-const resetPasswordAction = (password, token) => {
-    return async (dispatch) => {
+const resetPasswordAction = (password: string, token: string): (dispatch: TAppDispatch) => Promise<void> => {
+    return async (dispatch: TAppDispatch) => {
         try {
             dispatch({
                 type: RESET_PASSWORD_REQUEST
@@ -70,4 +102,11 @@ export {
     FORGOT_PASSWORD_FAILED,
     forgotPasswordAction,
     resetPasswordAction,
+    type TResetPasswordRequest,
+    type TResetPasswordSuccess,
+    type TResetPasswordFailed,
+    type TForgotPasswordRequest,
+    type TForgotPasswordSuccess,
+    type TForgotPasswordFailed,
+    type TResetForgotPasswordActions,
 }

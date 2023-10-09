@@ -1,12 +1,12 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
+import {useAppSelector} from '../../utils/store'
 import Page404 from '../../pages/404'
 import Loader from '../loader/loader'
 import {ingredientsSelector} from '../../services/selectors'
+import {TIngredient} from '../../types'
 
 import styles from './ingredient-details.module.css'
-import {TIngredient} from "../../types";
 
 enum detailList {
     calories = 'Калории, ккал',
@@ -23,7 +23,7 @@ export default function IngredientDetails({embed}: TIngredientDetails) {
     const {
         items,
         ingredientsRequest,
-    } = useSelector(ingredientsSelector)
+    } = useAppSelector(ingredientsSelector)
 
     const {id} = useParams()
     const ingredient = items.find((item: TIngredient) => item._id === id)
@@ -54,12 +54,15 @@ export default function IngredientDetails({embed}: TIngredientDetails) {
                 {ingredient.name}
             </h5>
             <ul className={styles.list}>
-                {Object.keys(detailList).map(param => {
+                {Object.keys(detailList).map((param) => {
                     const label = Object.values(detailList)[Object.keys(detailList).indexOf(param)]
+                    const value = Object.values(ingredient)[Object.keys(ingredient).indexOf(param)]
 
                     return <li key={param} className={styles.param}>
                         <span>{label}</span>
-                        <b className="text_type_digits-default">{ingredient[param]}</b>
+                        <b className="text_type_digits-default">
+                            {value}
+                        </b>
                     </li>
                 })}
             </ul>

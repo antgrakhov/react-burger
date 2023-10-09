@@ -1,5 +1,5 @@
-import React, {useEffect, Dispatch, FormEvent} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import React, {useEffect, FormEvent} from 'react'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
 import {updateUserAction} from '../../services/actions/user'
@@ -13,8 +13,8 @@ export default function ProfileUser() {
         patchUserRequest,
         patchUserFailed,
         logoutFailed,
-    } = useSelector(userSelector)
-    const dispatch: Dispatch<any> = useDispatch()
+    } = useAppSelector(userSelector)
+    const dispatch = useAppDispatch()
 
     const {
         form,

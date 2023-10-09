@@ -1,5 +1,5 @@
-import React, {Dispatch, FormEvent} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import React, {FormEvent} from 'react'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
@@ -13,11 +13,11 @@ import {userSelector} from '../../services/selectors'
 import styles from './login.module.css'
 
 export default function LoginPage() {
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useAppDispatch()
     const {
         loginRequest,
         loginFailed,
-    } = useSelector(userSelector)
+    } = useAppSelector(userSelector)
 
     const {
         form,

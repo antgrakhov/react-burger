@@ -1,12 +1,12 @@
-import React, {Dispatch} from 'react'
-import {useDispatch} from 'react-redux'
-import {Identifier} from 'typescript'
-import {useDrag, useDrop, XYCoord} from 'react-dnd'
+import React from 'react'
+import {Identifier} from 'dnd-core'
+import {DropTargetMonitor, useDrag, useDrop, XYCoord} from 'react-dnd'
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {
     moveConstructorInsideItem,
     removeConstructorInsideItem
 } from '../../services/actions/constructor'
+import {useAppDispatch} from '../../utils/store'
 import {TIngredientUnique} from '../../types'
 
 import styles from './burger-constructor-inside-item.module.css'
@@ -24,7 +24,7 @@ type TDragItem = {
 export default function BurgerConstructorInsideItem({index, ingredient}: TBurgerConstructorInsideItem) {
     const acceptType = 'ingredient'
     const ref = React.useRef<HTMLLIElement>(null)
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [{isDragging}, dragRef] = useDrag({
         type: acceptType,
@@ -41,7 +41,7 @@ export default function BurgerConstructorInsideItem({index, ingredient}: TBurger
 
     const [{handlerId}, dropRef] = useDrop<TDragItem, void, {handlerId: Identifier | null}>({
         accept: acceptType,
-        collect(monitor: any) {
+        collect(monitor: DropTargetMonitor<TDragItem, void>) {
             return {
                 handlerId: monitor.getHandlerId(),
             }

@@ -53,12 +53,12 @@ type TFeedOrdersConnectionMessageAction = {
 }
 
 type TFeedOrdersActions = TFeedOrdersConnectionStartAction
-| TFeedOrdersConnectionStopAction
-| TFeedOrdersConnectionConnectionAction
-| TFeedOrdersConnectionSuccessAction
-| TFeedOrdersConnectionClosedAction
-| TFeedOrdersConnectionErrorAction
-| TFeedOrdersConnectionMessageAction
+    | TFeedOrdersConnectionStopAction
+    | TFeedOrdersConnectionConnectionAction
+    | TFeedOrdersConnectionSuccessAction
+    | TFeedOrdersConnectionClosedAction
+    | TFeedOrdersConnectionErrorAction
+    | TFeedOrdersConnectionMessageAction
 
 export {
     FEED_ORDERS_CONNECTION_GET_MESSAGE,

@@ -1,20 +1,20 @@
-import React, {Dispatch, FormEvent} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import React, {FormEvent} from 'react'
 import {NavLink, useNavigate} from 'react-router-dom'
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {forgotPasswordAction} from '../../services/actions/reset-password'
 import {useForm} from '../../utils/use-form'
 import {ROUTE_LOGIN} from '../../utils/constants'
 import {resetPasswordSelector} from '../../services/selectors'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 
 import styles from '../login/login.module.css'
 
 export default function ForgotPasswordPage() {
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useAppDispatch()
     const {
         forgotPasswordRequest,
         forgotPasswordFailed,
-    } = useSelector(resetPasswordSelector)
+    } = useAppSelector(resetPasswordSelector)
 
     const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
     const handleFormSubmit = (event: FormEvent) => {
         event.preventDefault();
 
-        (dispatch(forgotPasswordAction(email)) as any)
+        dispatch(forgotPasswordAction(email))
             .then(() => {
                 navigate('/reset-password', {
                     state: {

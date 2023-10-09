@@ -1,11 +1,11 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {orderSelector} from '../../services/selectors'
 
 import styles from './order-details.module.css'
 
 export default function OrderDetails() {
-    const {orderNumber} = useSelector(orderSelector)
+    const {orderNumber} = useAppSelector(orderSelector)
 
     return <div className={styles.container}>
         <h5 className="digits-with-shadow text_type_digits-large">

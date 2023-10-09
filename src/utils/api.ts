@@ -12,6 +12,8 @@ import {
     PATH_API_PASSWORD_FORGOT,
     PATH_API_PASSWORD_RESET
 } from './constants'
+import {TSendSubmitOrder} from '../services/actions/order'
+import {TUseForm} from './use-form'
 
 type TServerResponse<T> = {
     success: boolean
@@ -68,7 +70,7 @@ const loadIngredients = (): Promise<TIngredientsResponse> => {
     return request<TIngredientsResponse>(PATH_API_INGREDIENTS)
 }
 
-const submitOrder = (data: string[]): Promise<TOrderResponse> => {
+const submitOrder = (data: TSendSubmitOrder): Promise<TOrderResponse> => {
     return request<TOrderResponse>(PATH_API_ORDERS, {
         method: 'POST',
         headers: {
@@ -79,7 +81,7 @@ const submitOrder = (data: string[]): Promise<TOrderResponse> => {
     })
 }
 
-const registerUser = (form: TRegisterUser): Promise<TGetUserWithCredsResponse> => {
+const registerUser = (form: TUseForm): Promise<TGetUserWithCredsResponse> => {
     return request<TGetUserWithCredsResponse>(PATH_API_AUTH_REGISTER, {
         method: 'POST',
         headers: {
@@ -89,7 +91,7 @@ const registerUser = (form: TRegisterUser): Promise<TGetUserWithCredsResponse> =
     })
 }
 
-const loginUser = (form: TLoginUser): Promise<TGetUserWithCredsResponse> => {
+const loginUser = (form: TUseForm): Promise<TGetUserWithCredsResponse> => {
     return request<TGetUserWithCredsResponse>(PATH_API_AUTH_LOGIN, {
         method: 'POST',
         headers: {

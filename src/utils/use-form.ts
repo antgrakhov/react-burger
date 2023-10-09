@@ -4,7 +4,7 @@ type TUseForm = {
     [key: string]: string
 }
 
-export const useForm = (initialForm: TUseForm) => {
+const useForm = (initialForm: TUseForm) => {
     const [form, setForm] = useState<TUseForm>(initialForm)
     const [isFormFilled, setIsFormFilled] = useState(false)
     const [isFormChanged, setIsFormChanged] = useState(false)
@@ -34,4 +34,9 @@ export const useForm = (initialForm: TUseForm) => {
             })
         },
     }
+}
+
+export {
+    useForm,
+    type TUseForm
 }

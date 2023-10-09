@@ -10,6 +10,8 @@ import {
     logoutUser,
     registerUser,
 } from '../../utils/api'
+import {TAppDispatch} from '../../types/store'
+import {TUseForm} from '../../utils/use-form'
 
 const REGISTER_REQUEST = 'REGISTER/REQUEST'
 const REGISTER_SUCCESS = 'REGISTER/SUCCESS'
@@ -31,13 +33,103 @@ const LOGOUT_REQUEST = 'USER/LOGOUT_REQUEST'
 const LOGOUT_SUCCESS = 'USER/LOGOUT_SUCCESS'
 const LOGOUT_FAILED = 'USER/LOGOUT_FAILED'
 
-
 const USER_SET = 'USER/SET'
 const USER_UPDATE = 'USER/UPDATE'
 
 const AUTH_CHECKED = 'AUTH/CHECKED'
 
-const registerUserAction = (form) => {
+type TRegisterRequest = {
+    type: typeof REGISTER_REQUEST
+}
+
+type TRegisterSuccess = {
+    type: typeof REGISTER_SUCCESS
+}
+
+type TRegisterFailed = {
+    type: typeof REGISTER_FAILED
+}
+
+type TLoginRequest = {
+    type: typeof LOGIN_REQUEST
+}
+
+type TLoginSuccess = {
+    type: typeof LOGIN_SUCCESS
+}
+
+type TLoginFailed = {
+    type: typeof LOGIN_FAILED
+}
+
+type TGetUserRequest = {
+    type: typeof GET_USER_REQUEST
+}
+
+type TGetUserSuccess = {
+    type: typeof GET_USER_SUCCESS
+}
+
+type TGetUserFailed = {
+    type: typeof GET_USER_FAILED
+}
+
+type TUserPatchRequest = {
+    type: typeof USER_PATCH_REQUEST
+}
+
+type TUserPatchSuccess = {
+    type: typeof USER_PATCH_SUCCESS
+}
+
+type TUserPatchFailed = {
+    type: typeof USER_PATCH_FAILED
+}
+
+type TLogoutRequest = {
+    type: typeof LOGOUT_REQUEST
+}
+
+type TLogoutSuccess = {
+    type: typeof LOGOUT_SUCCESS
+}
+
+type TLogoutFailed = {
+    type: typeof LOGOUT_FAILED
+}
+
+type TUserSet = {
+    type: typeof USER_SET
+}
+
+type TUserUpdate = {
+    type: typeof USER_UPDATE
+}
+
+type TAuthChecked = {
+    type: typeof AUTH_CHECKED
+}
+
+type TUserActions = TRegisterRequest
+    | TRegisterSuccess
+    | TRegisterFailed
+    | TLoginRequest
+    | TLoginSuccess
+    | TLoginFailed
+    | TGetUserRequest
+    | TGetUserSuccess
+    | TGetUserFailed
+    | TUserPatchRequest
+    | TUserPatchSuccess
+    | TUserPatchFailed
+    | TLogoutRequest
+    | TLogoutSuccess
+    | TLogoutFailed
+    | TUserSet
+    | TUserUpdate
+    | TAuthChecked
+
+const registerUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<void> => {
     return async function (dispatch) {
         let authToken
 
@@ -70,7 +162,7 @@ const registerUserAction = (form) => {
     }
 }
 
-const loginUserAction = (form) => {
+const loginUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<void> => {
     return async function(dispatch) {
         let authToken
 
@@ -103,7 +195,7 @@ const loginUserAction = (form) => {
     }
 }
 
-const checkUserAuth = () => {
+const checkUserAuth = (): (dispatch: TAppDispatch) => Promise<void> => {
     return async function(dispatch) {
         if ( getCookie('accessToken') ) {
             dispatch(getUserAction()).finally(() => {
@@ -121,7 +213,7 @@ const checkUserAuth = () => {
     }
 }
 
-const getUserAction = () => {
+const getUserAction = (): (dispatch: TAppDispatch) => Promise<void> => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -134,10 +226,12 @@ const getUserAction = () => {
                 type: GET_USER_SUCCESS
             })
 
-            dispatch({
-                type: USER_SET,
-                payload: fetchData.user,
-            })
+            if (fetchData) {
+                dispatch({
+                    type: USER_SET,
+                    payload: fetchData.user,
+                })
+            }
         }
         catch(err) {
             dispatch({
@@ -147,7 +241,7 @@ const getUserAction = () => {
     }
 }
 
-const updateUserAction = (form) => {
+const updateUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<void> => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -173,7 +267,7 @@ const updateUserAction = (form) => {
     }
 }
 
-const logoutUserAction = () => {
+const logoutUserAction = (): (dispatch: TAppDispatch) => Promise<void> => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -222,4 +316,23 @@ export {
     loginUserAction,
     checkUserAuth,
     getUserAction,
+    type TRegisterRequest,
+    type TRegisterSuccess,
+    type TRegisterFailed,
+    type TLoginRequest,
+    type TLoginSuccess,
+    type TLoginFailed,
+    type TGetUserRequest,
+    type TGetUserSuccess,
+    type TGetUserFailed,
+    type TUserPatchRequest,
+    type TUserPatchSuccess,
+    type TUserPatchFailed,
+    type TLogoutRequest,
+    type TLogoutSuccess,
+    type TLogoutFailed,
+    type TUserSet,
+    type TUserUpdate,
+    type TAuthChecked,
+    type TUserActions,
 }

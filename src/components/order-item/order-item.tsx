@@ -1,4 +1,4 @@
-import {useSelector} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {NavLink, useLocation} from 'react-router-dom'
 import OrderItemIngredients from '../order-item-ingredients/order-item-ingredients'
 import OrderItemTotalPrice from '../order-item-total-price/order-item-total-price'
@@ -23,7 +23,7 @@ export default function OrderItem({order, path}: TOrderItem) {
         createdAt
     } = order
 
-    const {items} = useSelector(ingredientsSelector)
+    const {items} = useAppSelector(ingredientsSelector)
     const ingredientsData = items.filter((item: TIngredient) =>
         ingredients.includes(item._id)
     )

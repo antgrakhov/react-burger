@@ -1,5 +1,5 @@
 import {FC, PropsWithChildren} from 'react'
-import {useSelector} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {Navigate, useLocation} from 'react-router-dom'
 import Loader from '../loader/loader'
 import {userSelector} from '../../services/selectors'
@@ -12,7 +12,7 @@ const ProtectedRoute: FC<PropsWithChildren<TProtectedRoute>> = ({onlyUnAuth = fa
     const {
         isAuthChecked,
         user
-    } = useSelector(userSelector)
+    } = useAppSelector(userSelector)
     const location = useLocation()
 
     if (!isAuthChecked) {

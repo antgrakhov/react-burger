@@ -1,6 +1,6 @@
 import {RootState} from '../types/store'
 
-const ingredientsConstructorSelector = (store: any) => store.ingredientsConstructor
+const ingredientsConstructorSelector = (store: RootState) => store.ingredientsConstructor
 const historyOrdersSelector = (store: RootState) => store.historyOrders
 const resetPasswordSelector = (store: RootState) => store.resetPassword
 const ingredientsSelector = (store: RootState) => store.ingredients

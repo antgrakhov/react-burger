@@ -1,5 +1,5 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {Link, useLocation} from 'react-router-dom'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrag} from 'react-dnd'
@@ -13,7 +13,7 @@ type TBurgerIngredientsItem = {
 }
 
 export default function BurgerIngredientsItem({item}: TBurgerIngredientsItem) {
-    const {selectedCounts} = useSelector(ingredientsConstructorSelector)
+    const {selectedCounts} = useAppSelector(ingredientsConstructorSelector)
     const currentIngredientCount = selectedCounts[item._id]
         ? selectedCounts[item._id].count
         : 0

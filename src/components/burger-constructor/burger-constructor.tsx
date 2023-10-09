@@ -1,6 +1,5 @@
-import React, {Dispatch, useMemo} from 'react'
-import {useDispatch} from 'react-redux'
-import {useAppSelector} from '../../utils/store'
+import React, {useMemo} from 'react'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
 import {useNavigate} from 'react-router-dom'
@@ -17,7 +16,7 @@ import {
 import {
     HIDE_ORDER_MODAL,
     SHOW_ORDER_MODAL,
-    sendSubmitOrder,
+    sendSubmitOrder, TSendSubmitOrder,
 } from '../../services/actions/order'
 import {ROUTE_LOGIN} from '../../utils/constants'
 import {
@@ -42,7 +41,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
     } = useAppSelector(orderSelector)
     const {user} = useAppSelector(userSelector)
 
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const bunItem = useMemo(() => {
