@@ -11,7 +11,7 @@ type TProtectedRoute = {
 const ProtectedRoute: FC<PropsWithChildren<TProtectedRoute>> = ({onlyUnAuth = false, children}) => {
     const {
         isAuthChecked,
-        user
+        isLogged,
     } = useAppSelector(userSelector)
     const location = useLocation()
 
@@ -19,12 +19,12 @@ const ProtectedRoute: FC<PropsWithChildren<TProtectedRoute>> = ({onlyUnAuth = fa
         return <Loader/>
     }
 
-    if (onlyUnAuth && user.isLogged) {
+    if (onlyUnAuth && isLogged) {
         const {from} = location.state || {from: {pathname: '/'}}
         return <Navigate to={from}/>
     }
 
-    if (!onlyUnAuth && !user.isLogged) {
+    if (!onlyUnAuth && !isLogged) {
         return <Navigate to="/login" state={{from: location}}/>
     }
 

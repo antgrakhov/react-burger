@@ -14,9 +14,27 @@ import {
     USER_PATCH_FAILED,
     USER_SET,
     USER_UPDATE,
+    TUserActions,
 } from '../actions/user'
+import {TUserData} from '../../types'
 
-const initialState = {
+type TUserState = {
+    registerRequest: boolean
+    registerFailed: boolean
+    loginRequest: boolean
+    loginFailed: boolean
+    logoutRequest: boolean
+    logoutFailed: boolean
+    getUserRequest: boolean
+    getUserFailed: boolean
+    patchUserRequest: boolean
+    patchUserFailed: boolean
+    isAuthChecked: boolean
+    isLogged: boolean
+    user: TUserData
+}
+
+const initialState: TUserState = {
     registerRequest: false,
     registerFailed: false,
     loginRequest: false,
@@ -28,14 +46,14 @@ const initialState = {
     patchUserRequest: false,
     patchUserFailed: false,
     isAuthChecked: false,
+    isLogged: false,
     user: {
         name: '',
         email: '',
-        isLogged: false
     },
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state: TUserState = initialState, action: TUserActions): TUserState => {
     switch (action.type) {
         case REGISTER_REQUEST: {
             return {
@@ -117,8 +135,8 @@ export const userReducer = (state = initialState, action) => {
                 user: {
                     ...state.user,
                     ...action.payload,
-                    isLogged: true,
                 },
+                isLogged: true,
             }
         }
         case USER_PATCH_REQUEST: {

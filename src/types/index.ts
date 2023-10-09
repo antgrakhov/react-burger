@@ -26,6 +26,11 @@ type TIngredientBun = TIngredient & {
     bottomUniqueId: string
 }
 
+type TUserData = {
+    name: string
+    email: string
+}
+
 type TUserUpdateForm = {
     name?: string
     email?: string
@@ -61,6 +66,7 @@ export {
     OrderStatusTypes,
     type TIngredient,
     type TIngredientBun,
+    type TUserData,
     type TUserUpdateForm,
     type TIngredientUnique,
     type TFeedOrders,

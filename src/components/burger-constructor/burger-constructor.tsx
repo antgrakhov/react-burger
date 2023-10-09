@@ -16,7 +16,7 @@ import {
 import {
     HIDE_ORDER_MODAL,
     SHOW_ORDER_MODAL,
-    sendSubmitOrder, TSendSubmitOrder,
+    sendSubmitOrder,
 } from '../../services/actions/order'
 import {ROUTE_LOGIN} from '../../utils/constants'
 import {
@@ -39,7 +39,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
         orderFailed,
         isShowModalOrder
     } = useAppSelector(orderSelector)
-    const {user} = useAppSelector(userSelector)
+    const {isLogged} = useAppSelector(userSelector)
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -89,7 +89,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
     }))
 
     function handleSendSubmitOrder() {
-        if ( !user.isLogged ) {
+        if ( !isLogged ) {
             navigate(ROUTE_LOGIN)
         } else {
             dispatch({

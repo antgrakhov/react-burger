@@ -12,6 +12,7 @@ import {
 } from '../../utils/api'
 import {TAppDispatch} from '../../types/store'
 import {TUseForm} from '../../utils/use-form'
+import {TUserData} from '../../types'
 
 const REGISTER_REQUEST = 'REGISTER/REQUEST'
 const REGISTER_SUCCESS = 'REGISTER/SUCCESS'
@@ -100,14 +101,17 @@ type TLogoutFailed = {
 
 type TUserSet = {
     type: typeof USER_SET
+    payload: TUserData
 }
 
 type TUserUpdate = {
     type: typeof USER_UPDATE
+    payload: TUserData
 }
 
 type TAuthChecked = {
     type: typeof AUTH_CHECKED
+    payload: boolean
 }
 
 type TUserActions = TRegisterRequest
