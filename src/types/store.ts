@@ -8,6 +8,7 @@ import {THistoryOrdersActions} from '../services/actions/history-orders'
 import {TSendOrderActions} from '../services/actions/order'
 import {TResetForgotPasswordActions} from '../services/actions/reset-password'
 import {TUserActions} from '../services/actions/user'
+import {TGetOrderViewActions} from '../services/actions/order-view'
 
 type RootState = ReturnType<typeof rootReducer>
 
@@ -18,6 +19,7 @@ type TAppActions = TConstructorActions
     | TSendOrderActions
     | TResetForgotPasswordActions
     | TUserActions
+    | TGetOrderViewActions
 
 type TAppThunk<TReturn = void> = ActionCreator<ThunkAction<Promise<TReturn>, RootState, never, TAppActions>>
 

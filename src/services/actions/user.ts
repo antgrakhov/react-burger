@@ -10,7 +10,7 @@ import {
     logoutUser,
     registerUser,
 } from '../../utils/api'
-import {TAppDispatch} from '../../types/store'
+import {TAppThunk} from '../../types/store'
 import {TUseForm} from '../../utils/use-form'
 import {TUserData} from '../../types'
 
@@ -133,7 +133,7 @@ type TUserActions = TRegisterRequest
     | TUserUpdate
     | TAuthChecked
 
-const registerUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<void> => {
+const registerUserAction: TAppThunk = (form: TUseForm) => {
     return async function (dispatch) {
         let authToken
 
@@ -166,7 +166,7 @@ const registerUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise
     }
 }
 
-const loginUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<void> => {
+const loginUserAction: TAppThunk = (form: TUseForm) => {
     return async function(dispatch) {
         let authToken
 
@@ -199,7 +199,7 @@ const loginUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<vo
     }
 }
 
-const checkUserAuth = (): (dispatch: TAppDispatch) => Promise<void> => {
+const checkUserAuth: TAppThunk = () => {
     return async function(dispatch) {
         if ( getCookie('accessToken') ) {
             dispatch(getUserAction()).finally(() => {
@@ -217,7 +217,7 @@ const checkUserAuth = (): (dispatch: TAppDispatch) => Promise<void> => {
     }
 }
 
-const getUserAction = (): (dispatch: TAppDispatch) => Promise<void> => {
+const getUserAction: TAppThunk = () => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -245,7 +245,7 @@ const getUserAction = (): (dispatch: TAppDispatch) => Promise<void> => {
     }
 }
 
-const updateUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<void> => {
+const updateUserAction: TAppThunk = (form: TUseForm) => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -271,7 +271,7 @@ const updateUserAction = (form: TUseForm): (dispatch: TAppDispatch) => Promise<v
     }
 }
 
-const logoutUserAction = (): (dispatch: TAppDispatch) => Promise<void> => {
+const logoutUserAction: TAppThunk = () => {
     return async function(dispatch) {
         try {
             dispatch({

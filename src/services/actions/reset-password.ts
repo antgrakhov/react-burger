@@ -2,7 +2,7 @@ import {
     resetPassword,
     forgotPassword
 } from '../../utils/api'
-import {TAppDispatch} from '../../types/store'
+import {TAppThunk} from '../../types/store'
 
 const RESET_PASSWORD_REQUEST = 'PASSWORD/RESET_REQUEST'
 const RESET_PASSWORD_SUCCESS = 'PASSWORD/RESET_SUCCESS'
@@ -42,7 +42,7 @@ type TResetForgotPasswordActions = TResetPasswordRequest
     | TForgotPasswordSuccess
     | TForgotPasswordFailed
 
-const forgotPasswordAction = (email: string): (dispatch: TAppDispatch) => Promise<void> => {
+const forgotPasswordAction: TAppThunk = (email: string) => {
     return async function(dispatch) {
         try {
             dispatch({
@@ -65,8 +65,8 @@ const forgotPasswordAction = (email: string): (dispatch: TAppDispatch) => Promis
     }
 }
 
-const resetPasswordAction = (password: string, token: string): (dispatch: TAppDispatch) => Promise<void> => {
-    return async (dispatch: TAppDispatch) => {
+const resetPasswordAction: TAppThunk = (password: string, token: string) => {
+    return async (dispatch) => {
         try {
             dispatch({
                 type: RESET_PASSWORD_REQUEST

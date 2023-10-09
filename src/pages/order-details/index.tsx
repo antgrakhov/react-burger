@@ -1,12 +1,13 @@
-import {useMemo} from 'react'
+import {useEffect, useMemo} from 'react'
 import {useParams} from 'react-router-dom'
-import {useAppSelector} from '../../utils/store'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import OrderDetailsIngredients from '../../components/order-details-ingredients/order-details-ingredients'
 import OrderItemTotalPrice from '../../components/order-item-total-price/order-item-total-price'
 import OrderItemDate from '../../components/order-item-date/order-item-date'
+import {getOrder} from '../../services/actions/order-view'
 import Loader from '../../components/loader/loader'
 import Page404 from '../404'
-import {feedOrdersSelector, ingredientsSelector} from '../../services/selectors'
+import {orderViewSelector, ingredientsSelector} from '../../services/selectors'
 import {
     TIngredient,
     TOrderIngredient
@@ -25,22 +26,25 @@ enum OrderStatusLabels {
 }
 
 export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
+    const dispatch = useAppDispatch()
     const {id} = useParams()
     const {items} = useAppSelector(ingredientsSelector)
     const {
         orders,
-        wsConnected
-    } = useAppSelector(feedOrdersSelector)
-    const order = orders.find(order => order.number === Number(id))
-    const orderStatus = order
-        ? order.status
-        : 'pending'
+        orderViewRequest,
+        orderViewFailed
+    } = useAppSelector(orderViewSelector)
+
     const isEmbedStyle = embed ? ' ' + styles.embed : ''
+
+    const order = orders.length > 0
+        ? orders[0]
+        : null
 
     const ingredientsData = useMemo(() => {
         let data: TOrderIngredient[] = []
 
-        if ( order && order.ingredients.length > 0 ) {
+        if (order) {
             order.ingredients.forEach(ingredientId => {
                 const hasIngredientIndex = data.findIndex((item: TOrderIngredient) => item.ingredient._id === ingredientId)
 
@@ -64,9 +68,13 @@ export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
         return data
     }, [order, items])
 
+    useEffect(() => {
+        dispatch(getOrder(id))
+    }, [id, dispatch])
+
     return <>
-        {wsConnected && order &&
-            <div className={`${styles.container}${isEmbedStyle}`}>
+        {!orderViewRequest && !orderViewFailed && order &&
+            <div key={order._id} className={`${styles.container}${isEmbedStyle}`}>
                 <div className={`${styles.num} text text_type_digits-default`}>
                     #{id}
                 </div>
@@ -74,7 +82,7 @@ export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
                     {order.name}
                 </h1>
                 <div className={`${styles.status} _done`}>
-                    {OrderStatusLabels[orderStatus]}
+                    {OrderStatusLabels[order.status]}
                 </div>
                 <h2 className={`${styles.subtitle} text text_type_main-medium`}>
                     Состав:
@@ -102,9 +110,7 @@ export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
                 </div>
             </div>
         }
-        {!wsConnected && !order && <Loader/>}
-        {wsConnected && orders.length > 0 && !order &&
-            <Page404/>
-        }
+        {orderViewRequest && <Loader/>}
+        {orderViewFailed && <Page404/>}
     </>
 }

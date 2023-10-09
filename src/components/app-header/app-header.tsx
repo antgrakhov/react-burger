@@ -32,7 +32,9 @@ const listItems = [
 export default function AppHeader() {
     return <header className={styles.container}>
         <div className={styles.logo}>
-            <Logo/>
+            <NavLink to={ROUTE_INDEX}>
+                <Logo/>
+            </NavLink>
         </div>
 
         <nav className={styles.nav}>

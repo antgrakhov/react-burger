@@ -1,5 +1,5 @@
 import {submitOrder} from '../../utils/api'
-import {TAppDispatch} from '../../types/store'
+import {TAppThunk} from '../../types/store'
 
 const SEND_ORDER_REQUEST = 'ORDER/SEND_REQUEST'
 const SEND_ORDER_SUCCESS = 'ORDER/SEND_SUCCESS'
@@ -38,8 +38,8 @@ type TSendSubmitOrder = {
     ingredients: string[]
 }
 
-const sendSubmitOrder = (items: TSendSubmitOrder): (dispatch: TAppDispatch) => Promise<void> => {
-    return async function (dispatch: TAppDispatch) {
+const sendSubmitOrder: TAppThunk = (items: TSendSubmitOrder) => {
+    return async function (dispatch) {
         dispatch({
             type: SEND_ORDER_REQUEST
         })

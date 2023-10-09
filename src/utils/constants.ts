@@ -1,6 +1,8 @@
 const DOMAIN = 'norma.nomoreparties.space'
 const HTTP_API_URL = `https://${DOMAIN}/api`
 const WS_API_URL = `wss://${DOMAIN}`
+const PATH_WS_API_ORDERS_ALL = `${WS_API_URL}/orders/all`
+const PATH_WS_API_PROFILE_ORDERS = `${WS_API_URL}/orders`
 
 const PATH_API_INGREDIENTS = '/ingredients'
 const PATH_API_ORDERS = '/orders'
@@ -25,6 +27,8 @@ const ROUTE_FEED = '/feed'
 export {
     HTTP_API_URL,
     WS_API_URL,
+    PATH_WS_API_ORDERS_ALL,
+    PATH_WS_API_PROFILE_ORDERS,
     PATH_API_INGREDIENTS,
     PATH_API_ORDERS,
     PATH_API_AUTH_REGISTER,

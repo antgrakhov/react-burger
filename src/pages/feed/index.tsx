@@ -1,28 +1,38 @@
-import {useCallback} from 'react'
-import {useAppSelector} from '../../utils/store'
+import {useCallback, useEffect} from 'react'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {feedOrdersSelector} from '../../services/selectors'
 import OrderItem from '../../components/order-item/order-item'
 import ErrorMessage from '../../components/error-message/error-message'
 import Loader from '../../components/loader/loader'
-import {ROUTE_FEED} from '../../utils/constants'
-import {OrderStatusTypes, TOrderData} from '../../types'
+import {formattedNumber} from '../../utils/formatted-number'
+import {
+    PATH_WS_API_ORDERS_ALL,
+    ROUTE_FEED,
+} from '../../utils/constants'
+import {
+    OrderStatusTypes,
+    TOrderData
+} from '../../types'
+import {
+    FEED_ORDERS_CONNECTION_START,
+    FEED_ORDERS_CONNECTION_STOP
+} from '../../services/actions/feed-orders'
 
 import styles from './feed.module.css'
 
 export default function FeedPage() {
     const maxShowOrdersNum = 5
-
+    const dispatch = useAppDispatch()
     const {
         orders,
         total,
         totalToday,
+        wsConnected,
         error,
     } = useAppSelector(feedOrdersSelector)
 
-    const formattedNum = (num: string | number) => Number(num).toLocaleString('ru')
-
     const boardListByType = useCallback((statusType: OrderStatusTypes) => {
-        const ordersByStatus = orders.filter((order: TOrderData) => order.status === statusType)
+        const ordersByStatus = orders.filter(order => order.status === statusType)
         const ordersSliced = ordersByStatus.slice(0, maxShowOrdersNum)
         let ordersNumbers = ordersSliced.map(order => order.number.toString())
 
@@ -43,6 +53,19 @@ export default function FeedPage() {
             items: boardListByType(OrderStatusTypes.Pending),
         }
     ]
+
+    useEffect(() => {
+        dispatch({
+            type: FEED_ORDERS_CONNECTION_START,
+            payload: PATH_WS_API_ORDERS_ALL
+        })
+
+        return () => {
+            dispatch({
+                type: FEED_ORDERS_CONNECTION_STOP
+            })
+        }
+    }, [dispatch])
 
     return <>
         {!error && orders.length > 0 &&
@@ -91,18 +114,21 @@ export default function FeedPage() {
                     <h2 className={`${styles.infoTitle} text text_type_main-medium`}>Выполнено за все время:</h2>
 
                     <p className="digits-with-shadow text_type_digits-large">
-                        {formattedNum(total)}
+                        {formattedNumber(total)}
                     </p>
 
                     <h2 className={`${styles.infoTitle} text text_type_main-medium`}>Выполнено за сегодня:</h2>
 
                     <p className="digits-with-shadow text_type_digits-large">
-                        {formattedNum(totalToday)}
+                        {formattedNumber(totalToday)}
                     </p>
                 </section>
             </>
         }
         {!error && orders.length === 0 && <Loader/>}
+        {!error && wsConnected && orders.length === 0 &&
+            <p>Заказы отсутствуют</p>
+        }
         {error &&
             <ErrorMessage
                 title={`Возникла непредвиденная ошибка`}

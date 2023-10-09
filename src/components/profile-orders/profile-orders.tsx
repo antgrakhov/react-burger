@@ -10,9 +10,9 @@ import {
 } from '../../services/actions/history-orders'
 import {historyOrdersSelector} from '../../services/selectors'
 import {
-    ROUTE_PROFILE,
+    PATH_WS_API_PROFILE_ORDERS,
     ROUTE_PROFILE_ORDERS,
-    WS_API_URL,
+    ROUTE_PROFILE,
 } from '../../utils/constants'
 import {TOrderData} from '../../types'
 
@@ -30,7 +30,7 @@ export default function ProfileOrders() {
     useEffect(() => {
         dispatch({
             type: HISTORY_ORDERS_CONNECTION_START,
-            payload: `${WS_API_URL}/orders?token=${getCookie('accessToken')}`
+            payload: `${PATH_WS_API_PROFILE_ORDERS}?token=${getCookie('accessToken')}`
         })
 
         return () => {
@@ -47,9 +47,9 @@ export default function ProfileOrders() {
             <div className={styles.container}>
                 <div className={styles.wrap}>
                     <ul className={`${styles.list} custom-scroll`}>
-                        {orders.map((order: TOrderData, index: number) =>
+                        {orders.map(order =>
                             <OrderItem
-                                key={index}
+                                key={order._id}
                                 order={order}
                                 path={path}
                             />

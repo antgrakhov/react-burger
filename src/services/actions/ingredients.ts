@@ -1,5 +1,5 @@
 import {loadIngredients} from '../../utils/api'
-import {TAppDispatch} from '../../types/store'
+import {TAppThunk} from '../../types/store'
 import {TIngredient} from '../../types'
 
 const GET_INGREDIENTS_REQUEST: 'INGREDIENTS/REQUEST_GET' = 'INGREDIENTS/REQUEST_GET'
@@ -23,8 +23,8 @@ type TIngredientsActions = TIngredientsRequest
     | TIngredientsSuccess
     | TIngredientsFailed
 
-const getIngredients = (): (dispatch: TAppDispatch) => Promise<void> => {
-    return async function (dispatch: TAppDispatch) {
+const getIngredients: TAppThunk = () => {
+    return async function (dispatch) {
         dispatch({
             type: GET_INGREDIENTS_REQUEST
         })

@@ -1,5 +1,4 @@
 import {getCookie, saveTokens} from './cookies'
-import {TIngredient, TUserUpdateForm} from '../types'
 import {
     HTTP_API_URL,
     PATH_API_AUTH_LOGIN,
@@ -12,6 +11,11 @@ import {
     PATH_API_PASSWORD_FORGOT,
     PATH_API_PASSWORD_RESET
 } from './constants'
+import {
+    TIngredient,
+    TOrderData,
+    TUserUpdateForm
+} from '../types'
 import {TSendSubmitOrder} from '../services/actions/order'
 import {TUseForm} from './use-form'
 
@@ -50,21 +54,14 @@ type TGetUserWithCredsResponse = TServerResponse<{
     refreshToken: string
 }>
 
+type TOrderViewResponse = TServerResponse<{
+    orders: TOrderData[]
+}>
+
 type TGetRefreshToken = TServerResponse<{
     refreshToken: string
     accessToken: string
 }>
-
-type TRegisterUser = {
-    name: string
-    email: string
-    password: string
-}
-
-type TLoginUser = {
-    email: string
-    password: string
-}
 
 const loadIngredients = (): Promise<TIngredientsResponse> => {
     return request<TIngredientsResponse>(PATH_API_INGREDIENTS)
@@ -159,6 +156,15 @@ const resetPassword = (password: string, token: string): Promise<TMessageRespons
     })
 }
 
+const loadOrder = (id: string): Promise<TOrderViewResponse> => {
+    return request(`${PATH_API_ORDERS}/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    })
+}
+
 const requestWithRefresh = async <T>(endpoint: RequestInfo, options: RequestInit) => {
     try {
         return await request<T>(endpoint, options)
@@ -238,5 +244,6 @@ export {
     updateUser,
     logoutUser,
     loginUser,
+    loadOrder,
     getUser,
 }

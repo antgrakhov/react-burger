@@ -6,11 +6,6 @@ import AppHeader from '../app-header/app-header'
 import {checkUserAuth} from '../../services/actions/user'
 import {getIngredients} from '../../services/actions/ingredients'
 import {ingredientsSelector} from '../../services/selectors'
-import {
-    FEED_ORDERS_CONNECTION_START,
-    FEED_ORDERS_CONNECTION_STOP
-} from '../../services/actions/feed-orders'
-import {WS_API_URL} from '../../utils/constants'
 
 import styles from './app.module.css'
 import '@ya.praktikum/react-developer-burger-ui-components'
@@ -29,25 +24,12 @@ export default function App() {
         }
     }, [items, dispatch])
 
-    useEffect(() => {
-        dispatch({
-            type: FEED_ORDERS_CONNECTION_START,
-            payload: `${WS_API_URL}/orders/all`
-        })
-
-        return () => {
-            dispatch({
-                type: FEED_ORDERS_CONNECTION_STOP
-            })
-        }
-    }, [dispatch])
-
-    return <BrowserRouter>
+    return (<BrowserRouter>
         <AppHeader/>
         <main className={styles.main}>
             <div className={styles.inner}>
                 <AppRoutes/>
             </div>
         </main>
-    </BrowserRouter>
+    </BrowserRouter>)
 }

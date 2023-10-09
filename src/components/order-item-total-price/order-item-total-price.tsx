@@ -1,7 +1,7 @@
 import {useMemo} from 'react'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {TIngredient} from '../../types'
-import getTotalPrice from '../../utils/totalPrice'
+import getTotalPrice from '../../utils/total-price'
 
 type TOrderItemTotalPrice = {
     ingredientsAll: TIngredient[]

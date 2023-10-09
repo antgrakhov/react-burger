@@ -6,8 +6,9 @@ import {useNavigate} from 'react-router-dom'
 import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burger-constructor-inside-item'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
+import Loader from '../loader/loader'
 import emptyImage from '../../images/empty.png'
-import getTotalPrice from '../../utils/totalPrice'
+import getTotalPrice from '../../utils/total-price'
 import {
     addToConstructorBunItem,
     addToConstructorInsideItem,
@@ -131,7 +132,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
         >
             <ul className={`${styles.list} custom-scroll`}
             >
-                {insideItems.map((item: TIngredientUnique, index: number) =>
+                {insideItems.map((item, index) =>
                     <BurgerConstructorInsideItem
                         key={item.uniqueId}
                         index={index}
@@ -159,14 +160,15 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
                 type="primary"
                 size="large"
                 onClick={handleSendSubmitOrder}
-                disabled={selectedItems.length === 0}
+                disabled={orderRequest || selectedItems.length === 0}
             >
                 Оформить заказ
             </Button>
         </div>
-        {isShowModalOrder && !orderRequest && <Modal onClose={handleCloseModal}>
+        {isShowModalOrder && <Modal onClose={handleCloseModal}>
             <>
-                {!orderFailed && <OrderDetails/>}
+                {orderRequest && <Loader/>}
+                {!orderRequest && !orderFailed && <OrderDetails/>}
                 {orderFailed && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
             </>
         </Modal>}
