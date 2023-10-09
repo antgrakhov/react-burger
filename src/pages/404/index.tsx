@@ -1,8 +1,8 @@
-import styles from './404.module.css'
+import ErrorMessage from '../../components/error-message/error-message'
 
 export default function Page404() {
-    return <div className={styles.outer}>
-        <h1>Ошибка 404. Ничего не найдено</h1>
-        <p>К сожалению, по этому адресу ничего нет.</p>
-    </div>
+    return <ErrorMessage
+        title={`Ошибка 404. Ничего не найдено`}
+        message={`К сожалению, по этому адресу ничего нет.`}
+    />
 }

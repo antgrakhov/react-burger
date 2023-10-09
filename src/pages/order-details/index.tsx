@@ -5,6 +5,7 @@ import OrderDetailsIngredients from '../../components/order-details-ingredients/
 import OrderItemTotalPrice from '../../components/order-item-total-price/order-item-total-price'
 import OrderItemDate from '../../components/order-item-date/order-item-date'
 import Loader from '../../components/loader/loader'
+import Page404 from '../404'
 import {feedOrdersSelector, ingredientsSelector} from '../../services/selectors'
 import {
     TIngredient,
@@ -26,7 +27,10 @@ enum OrderStatusLabels {
 export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
     const {id} = useParams()
     const {items} = useAppSelector(ingredientsSelector)
-    const {orders} = useAppSelector(feedOrdersSelector)
+    const {
+        orders,
+        wsConnected
+    } = useAppSelector(feedOrdersSelector)
     const order = orders.find(order => order.number === Number(id))
     const orderStatus = order
         ? order.status
@@ -61,8 +65,8 @@ export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
     }, [order, items])
 
     return <>
-        {order && <div className={`${styles.container}${isEmbedStyle}`}>
-            {order && <>
+        {wsConnected && order &&
+            <div className={`${styles.container}${isEmbedStyle}`}>
                 <div className={`${styles.num} text text_type_digits-default`}>
                     #{id}
                 </div>
@@ -96,8 +100,11 @@ export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
                         classNames={styles.price}
                     />
                 </div>
-            </>}
-        </div>}
-        {!order && <Loader/>}
+            </div>
+        }
+        {!wsConnected && !order && <Loader/>}
+        {wsConnected && orders.length > 0 && !order &&
+            <Page404/>
+        }
     </>
 }
