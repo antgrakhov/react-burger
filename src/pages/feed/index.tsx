@@ -2,12 +2,12 @@ import {useCallback} from 'react'
 import {useAppSelector} from '../../utils/store'
 import {feedOrdersSelector} from '../../services/selectors'
 import OrderItem from '../../components/order-item/order-item'
+import ErrorMessage from '../../components/error-message/error-message'
+import Loader from '../../components/loader/loader'
 import {ROUTE_FEED} from '../../utils/constants'
 import {OrderStatusTypes, TOrderData} from '../../types'
 
 import styles from './feed.module.css'
-import ErrorMessage from "../../components/error-message/error-message";
-import Loader from "../../components/loader/loader";
 
 export default function FeedPage() {
     const maxShowOrdersNum = 5

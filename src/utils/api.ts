@@ -72,7 +72,8 @@ const submitOrder = (data: string[]): Promise<TOrderResponse> => {
     return request<TOrderResponse>(PATH_API_ORDERS, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify(data)
     })

@@ -50,6 +50,8 @@ type TFeedOrders = {
     totalToday: number
 }
 
+type THistoryOrders = TFeedOrders
+
 export {
     OrderStatusTypes,
     type TIngredient,
@@ -58,4 +60,5 @@ export {
     type TFeedOrders,
     type TOrderData,
     type TOrderIngredient,
+    type THistoryOrders,
 }

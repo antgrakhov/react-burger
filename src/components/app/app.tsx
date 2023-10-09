@@ -1,20 +1,23 @@
-import React, {useEffect, Dispatch} from 'react'
+import React, {useEffect} from 'react'
 import {BrowserRouter} from 'react-router-dom'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import AppRoutes from '../../services/routes'
-import {useDispatch, useSelector} from 'react-redux'
 import AppHeader from '../app-header/app-header'
 import {checkUserAuth} from '../../services/actions/user'
 import {getIngredients} from '../../services/actions/ingredients'
 import {ingredientsSelector} from '../../services/selectors'
+import {
+    FEED_ORDERS_CONNECTION_START,
+    FEED_ORDERS_CONNECTION_STOP
+} from '../../services/actions/feed-orders'
+import {WS_API_URL} from '../../utils/constants'
 
 import styles from './app.module.css'
 import '@ya.praktikum/react-developer-burger-ui-components'
-import {FEED_ORDERS_CONNECTION_START, FEED_ORDERS_CONNECTION_STOP} from "../../services/actions/feed-orders";
-import {WS_API_URL} from "../../utils/constants";
 
 export default function App() {
-    const dispatch: Dispatch<any> = useDispatch()
-    const {items} = useSelector(ingredientsSelector)
+    const dispatch = useAppDispatch()
+    const {items} = useAppSelector(ingredientsSelector)
 
     useEffect(() => {
         dispatch(checkUserAuth())

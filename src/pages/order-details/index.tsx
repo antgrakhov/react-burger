@@ -1,9 +1,10 @@
 import {useMemo} from 'react'
-import {useLocation, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {useAppSelector} from '../../utils/store'
 import OrderDetailsIngredients from '../../components/order-details-ingredients/order-details-ingredients'
 import OrderItemTotalPrice from '../../components/order-item-total-price/order-item-total-price'
 import OrderItemDate from '../../components/order-item-date/order-item-date'
+import Loader from '../../components/loader/loader'
 import {feedOrdersSelector, ingredientsSelector} from '../../services/selectors'
 import {
     TIngredient,
@@ -11,7 +12,6 @@ import {
 } from '../../types'
 
 import styles from './order-details.module.css'
-import Loader from "../../components/loader/loader";
 
 type TOrderDetailsPage = {
     embed?: boolean
@@ -25,16 +25,13 @@ enum OrderStatusLabels {
 
 export default function OrderDetailsPage({embed}: TOrderDetailsPage) {
     const {id} = useParams()
-    // const location = useLocation()
     const {items} = useAppSelector(ingredientsSelector)
     const {orders} = useAppSelector(feedOrdersSelector)
     const order = orders.find(order => order.number === Number(id))
     const orderStatus = order
         ? order.status
         : 'pending'
-
     const isEmbedStyle = embed ? ' ' + styles.embed : ''
-    // const isFeed = location.pathname.includes(ROUTE_FEED)
 
     const ingredientsData = useMemo(() => {
         let data: TOrderIngredient[] = []

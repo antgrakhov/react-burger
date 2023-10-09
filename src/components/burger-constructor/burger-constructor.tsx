@@ -1,5 +1,6 @@
 import React, {Dispatch, useMemo} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
 import {useNavigate} from 'react-router-dom'
@@ -7,6 +8,7 @@ import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burge
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
 import emptyImage from '../../images/empty.png'
+import getTotalPrice from '../../utils/totalPrice'
 import {
     addToConstructorBunItem,
     addToConstructorInsideItem,
@@ -26,20 +28,19 @@ import {
 import {TIngredientUnique} from '../../types'
 
 import styles from './burger-constructor.module.css'
-import getTotalPrice from "../../utils/totalPrice";
 
 type TBurgerConstructor = {
     className: string
 }
 
 export default function BurgerConstructor({className}: TBurgerConstructor) {
-    const {selectedItems} = useSelector(ingredientsConstructorSelector)
+    const {selectedItems} = useAppSelector(ingredientsConstructorSelector)
     const {
         orderRequest,
         orderFailed,
         isShowModalOrder
-    } = useSelector(orderSelector)
-    const {user} = useSelector(userSelector)
+    } = useAppSelector(orderSelector)
+    const {user} = useAppSelector(userSelector)
 
     const dispatch: Dispatch<any> = useDispatch()
     const navigate = useNavigate()

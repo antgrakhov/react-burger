@@ -29,8 +29,10 @@
 .link {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
     padding: 24px;
     color: inherit;
+    box-sizing: border-box;
 }
 
 .date {
