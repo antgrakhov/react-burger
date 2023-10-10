@@ -1,5 +1,6 @@
 .b {
     width: 100%;
+    min-height: 80px;
     background-repeat: no-repeat;
     background-image: url('../../images/loading.svg');
     background-size: 100px auto;

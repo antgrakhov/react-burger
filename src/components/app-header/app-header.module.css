@@ -37,6 +37,7 @@
     width: 290px;
     height: 56px;
     margin: auto;
+    z-index: 1;
 }
 
 .link {

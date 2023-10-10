@@ -1,0 +1,61 @@
+.wrap {
+    composes: wrap from '../../components/order-item/order-item.module.css';
+}
+
+.list {
+    composes: list from '../../components/order-item/order-item.module.css';
+}
+
+.lenta,
+.info {
+    padding: 40px 0 50px;
+}
+
+.lenta {
+    display: flex;
+    flex-direction: column;
+    width: calc(55% - 60px);
+    margin-right: auto;
+}
+
+.title {
+    margin: 0 0 20px;
+}
+
+.info {
+    width: 45%;
+    padding-top: 92px;
+}
+
+.infoTitle {
+    margin: 2.5em 0 .5em;
+}
+
+.boardList {
+    --gap: 36px;
+
+    display: flex;
+    gap: var(--gap);
+}
+
+.board {
+    width: calc(50% - .5 * var(--gap));
+}
+
+.boardTitle {
+    margin-bottom: 1em;
+}
+
+.boardNumList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.boardNum {
+    margin: .2em 0;
+}
+
+.boardNumSuccess {
+    color: var(--colors-interface-success);
+}

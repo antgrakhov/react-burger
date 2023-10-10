@@ -1,5 +1,5 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useInView} from 'react-intersection-observer'
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item'
@@ -12,8 +12,18 @@ type TBurgerIngredients = {
     className: string
 }
 
+type TIngredientsDataItem = {
+    ref: (node?: (Element | null | undefined)) => void
+    label: string
+    data: TIngredient[]
+}
+
+type TIngredientsData = {
+    [key: string]: TIngredientsDataItem
+}
+
 export default function BurgerIngredients({className}: TBurgerIngredients) {
-    const {items} = useSelector(ingredientsSelector)
+    const {items} = useAppSelector(ingredientsSelector)
     const [tabActive, setTabActive] = React.useState('bun')
 
     const inViewOptions = {threshold: .2}
@@ -35,7 +45,7 @@ export default function BurgerIngredients({className}: TBurgerIngredients) {
         setTabActive(type)
     },[inViewBun, inViewSauce, inViewMain])
 
-    const ingredientsData: any = {
+    const ingredientsData: TIngredientsData = {
         bun: {
             ref: refBun,
             label: 'Булки',

@@ -1,4 +1,4 @@
-import {useSelector} from 'react-redux'
+import {useAppSelector} from '../../utils/store'
 import {DndProvider} from 'react-dnd'
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients'
@@ -12,7 +12,7 @@ export default function BurgerConstructorPage() {
     const {
         ingredientsRequest,
         ingredientsFailed,
-    } = useSelector(ingredientsSelector)
+    } = useAppSelector(ingredientsSelector)
 
     return <>
             {ingredientsRequest && <Loader/>}

@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-grow: 1;
+    margin-top: -6%;
+}
+
+.wrap {
+    composes: wrap from '../order-item/order-item.module.css';
+}
+
+.list {
+    composes: list from '../order-item/order-item.module.css';
+}

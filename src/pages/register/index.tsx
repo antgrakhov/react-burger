@@ -1,20 +1,20 @@
-import React, {Dispatch, FormEvent, useRef} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import React, {FormEvent, useRef} from 'react'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {registerUserAction} from '../../services/actions/user'
 import {NavLink} from 'react-router-dom'
 import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useForm} from '../../utils/use-form'
-import {ROUTE_LOGIN} from '../../services/routes'
+import {ROUTE_LOGIN} from '../../utils/constants'
 import {userSelector} from '../../services/selectors'
 
 import styles from '../login/login.module.css'
 
 export default function RegisterPage() {
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useAppDispatch()
     const {
         registerRequest,
         registerFailed,
-    } = useSelector(userSelector)
+    } = useAppSelector(userSelector)
 
     const {
         form,
@@ -36,7 +36,7 @@ export default function RegisterPage() {
 
     const onNameIconClick = () => {
         // @ts-ignore
-        setTimeout(() => nameRef.current.focus(), 0)
+        setTimeout(() => nameRef.current?.focus(), 0)
     }
 
     const handleFormSubmit = (e: FormEvent) => {

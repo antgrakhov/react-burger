@@ -1,17 +1,33 @@
+import {TIngredientUnique} from '../../types'
 import {
     ADD_CONSTRUCTOR_BUN_ITEM,
     ADD_CONSTRUCTOR_INSIDE_ITEM,
     REMOVE_CONSTRUCTOR_INSIDE_ITEM,
     MOVE_CONSTRUCTOR_INSIDE_ITEM,
     CLEAR_CONSTRUCTOR,
+    TConstructorActions,
 } from '../actions/constructor'
 
-const initialState = {
+type TSelectedCount = {
+    type: string
+    count: number
+}
+
+type TSelectedCounts = {
+    [key: string]: TSelectedCount
+}
+
+type TConstructorState = {
+    selectedItems: TIngredientUnique[]
+    selectedCounts: TSelectedCounts
+}
+
+const initialState: TConstructorState = {
     selectedItems: [],
     selectedCounts: {}
 }
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions): TConstructorState => {
     switch (action.type) {
         case ADD_CONSTRUCTOR_BUN_ITEM: {
             const newCounts = {...state.selectedCounts}
@@ -22,7 +38,7 @@ export const constructorReducer = (state = initialState, action) => {
             }
 
             const newItems = state.selectedItems.filter(item => item.type !== 'bun')
-            const newItem = {...action.payload.item}
+            const newItem = action.payload
 
             newCounts[newItem._id] = {
                 type: newItem.type,
@@ -51,11 +67,11 @@ export const constructorReducer = (state = initialState, action) => {
         }
         case ADD_CONSTRUCTOR_INSIDE_ITEM: {
             const newItems = [...state.selectedItems]
-            const newItem = {...action.payload.item}
+            const newItem = {...action.payload}
             const {
                 _id,
                 type
-            } = action.payload.item
+            } = action.payload
             const newCounts = {...state.selectedCounts}
 
             newItems.splice(-1, 0, newItem)
@@ -79,7 +95,7 @@ export const constructorReducer = (state = initialState, action) => {
             const {
                 id,
                 uniqueId
-            } = action.payload
+            } = action
             const newCounts = {...state.selectedCounts}
 
             if ( newCounts[id] ) {
@@ -101,7 +117,7 @@ export const constructorReducer = (state = initialState, action) => {
             const {
                 indexFrom,
                 indexTo
-            } = action.payload
+            } = action.coords
 
             newItems.splice(indexFrom, 1)
             newItems.splice(

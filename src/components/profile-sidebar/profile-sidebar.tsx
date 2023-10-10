@@ -1,18 +1,18 @@
-import React, {Dispatch} from 'react'
+import React from 'react'
 import {NavLink} from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {logoutUserAction} from '../../services/actions/user'
 import {
     ROUTE_PROFILE,
     ROUTE_PROFILE_ORDERS,
-} from '../../services/routes'
+} from '../../utils/constants'
 import {userSelector} from '../../services/selectors'
 
 import styles from './profile-sidebar.module.css'
 
 export default function ProfileSidebar() {
-    const {logoutRequest} = useSelector(userSelector)
-    const dispatch: Dispatch<any> = useDispatch()
+    const {logoutRequest} = useAppSelector(userSelector)
+    const dispatch = useAppDispatch()
 
     function handleLogout() {
         dispatch(logoutUserAction())

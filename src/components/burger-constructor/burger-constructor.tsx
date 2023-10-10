@@ -1,12 +1,14 @@
-import React, {Dispatch, useMemo} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import React, {useMemo} from 'react'
+import {useAppDispatch, useAppSelector} from '../../utils/store'
 import {ConstructorElement, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from 'react-dnd'
 import {useNavigate} from 'react-router-dom'
 import BurgerConstructorInsideItem from '../burger-constructor-inside-item/burger-constructor-inside-item'
 import OrderDetails from '../order-details/order-details'
 import Modal from '../modal/modal'
+import Loader from '../loader/loader'
 import emptyImage from '../../images/empty.png'
+import getTotalPrice from '../../utils/total-price'
 import {
     addToConstructorBunItem,
     addToConstructorInsideItem,
@@ -17,7 +19,7 @@ import {
     SHOW_ORDER_MODAL,
     sendSubmitOrder,
 } from '../../services/actions/order'
-import {ROUTE_LOGIN} from '../../services/routes'
+import {ROUTE_LOGIN} from '../../utils/constants'
 import {
     ingredientsConstructorSelector,
     orderSelector,
@@ -32,15 +34,15 @@ type TBurgerConstructor = {
 }
 
 export default function BurgerConstructor({className}: TBurgerConstructor) {
-    const {selectedItems} = useSelector(ingredientsConstructorSelector)
+    const {selectedItems} = useAppSelector(ingredientsConstructorSelector)
     const {
         orderRequest,
         orderFailed,
         isShowModalOrder
-    } = useSelector(orderSelector)
-    const {user} = useSelector(userSelector)
+    } = useAppSelector(orderSelector)
+    const {isLogged} = useAppSelector(userSelector)
 
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const bunItem = useMemo(() => {
@@ -55,9 +57,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
         const bunItem = selectedItems.find((el: TIngredientUnique) => el.type === 'bun')
 
         if ( bunItem ) {
-            totalPrice = selectedItems.reduce((total: number, ingredient: TIngredientUnique) => {
-                return total + ingredient.price
-            }, 0)
+            totalPrice = getTotalPrice(selectedItems)
         }
 
         return totalPrice
@@ -65,7 +65,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
 
     const [{canDropBun, isOverBun}, dropBunRef] = useDrop(() => ({
         accept: 'bun',
-        drop(item) {
+        drop(item: TIngredientUnique) {
             dispatch(addToConstructorBunItem(item))
         },
         collect(monitor) {
@@ -78,7 +78,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
 
     const [{canDropInside, isOverInside}, dropInsideRef] = useDrop(() => ({
         accept: ['main', 'sauce'],
-        drop(item) {
+        drop(item: TIngredientUnique) {
             dispatch(addToConstructorInsideItem(item))
         },
         collect(monitor) {
@@ -90,7 +90,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
     }))
 
     function handleSendSubmitOrder() {
-        if ( !user.isLogged ) {
+        if ( !isLogged ) {
             navigate(ROUTE_LOGIN)
         } else {
             dispatch({
@@ -132,7 +132,7 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
         >
             <ul className={`${styles.list} custom-scroll`}
             >
-                {insideItems.map((item: TIngredientUnique, index: number) =>
+                {insideItems.map((item, index) =>
                     <BurgerConstructorInsideItem
                         key={item.uniqueId}
                         index={index}
@@ -160,14 +160,15 @@ export default function BurgerConstructor({className}: TBurgerConstructor) {
                 type="primary"
                 size="large"
                 onClick={handleSendSubmitOrder}
-                disabled={selectedItems.length === 0}
+                disabled={orderRequest || selectedItems.length === 0}
             >
                 Оформить заказ
             </Button>
         </div>
-        {isShowModalOrder && !orderRequest && <Modal onClose={handleCloseModal}>
+        {isShowModalOrder && <Modal onClose={handleCloseModal}>
             <>
-                {!orderFailed && <OrderDetails/>}
+                {orderRequest && <Loader/>}
+                {!orderRequest && !orderFailed && <OrderDetails/>}
                 {orderFailed && <p>К сожалению, в момент отправки заказа возникла ошибка.<br/>Попробуйте перезагрузить страницу и отправить заказ снова.</p>}
             </>
         </Modal>}

@@ -1,7 +1,23 @@
 import {getCookie, saveTokens} from './cookies'
-import {TIngredient, TUserUpdateForm} from '../types'
-
-const BASE_URL = 'https://norma.nomoreparties.space/api'
+import {
+    HTTP_API_URL,
+    PATH_API_AUTH_LOGIN,
+    PATH_API_AUTH_LOGOUT,
+    PATH_API_AUTH_REGISTER,
+    PATH_API_AUTH_TOKEN,
+    PATH_API_AUTH_USER,
+    PATH_API_INGREDIENTS,
+    PATH_API_ORDERS,
+    PATH_API_PASSWORD_FORGOT,
+    PATH_API_PASSWORD_RESET
+} from './constants'
+import {
+    TIngredient,
+    TOrderData,
+    TUserUpdateForm
+} from '../types'
+import {TSendSubmitOrder} from '../services/actions/order'
+import {TUseForm} from './use-form'
 
 type TServerResponse<T> = {
     success: boolean
@@ -38,38 +54,32 @@ type TGetUserWithCredsResponse = TServerResponse<{
     refreshToken: string
 }>
 
+type TOrderViewResponse = TServerResponse<{
+    orders: TOrderData[]
+}>
+
 type TGetRefreshToken = TServerResponse<{
     refreshToken: string
     accessToken: string
 }>
 
-type TRegisterUser = {
-    name: string
-    email: string
-    password: string
-}
-
-type TLoginUser = {
-    email: string
-    password: string
-}
-
 const loadIngredients = (): Promise<TIngredientsResponse> => {
-    return request<TIngredientsResponse>('/ingredients')
+    return request<TIngredientsResponse>(PATH_API_INGREDIENTS)
 }
 
-const submitOrder = (data: string[]): Promise<TOrderResponse> => {
-    return request<TOrderResponse>('/orders', {
+const submitOrder = (data: TSendSubmitOrder): Promise<TOrderResponse> => {
+    return request<TOrderResponse>(PATH_API_ORDERS, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify(data)
     })
 }
 
-const registerUser = (form: TRegisterUser): Promise<TGetUserWithCredsResponse> => {
-    return request<TGetUserWithCredsResponse>('/auth/register', {
+const registerUser = (form: TUseForm): Promise<TGetUserWithCredsResponse> => {
+    return request<TGetUserWithCredsResponse>(PATH_API_AUTH_REGISTER, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -78,8 +88,8 @@ const registerUser = (form: TRegisterUser): Promise<TGetUserWithCredsResponse> =
     })
 }
 
-const loginUser = (form: TLoginUser): Promise<TGetUserWithCredsResponse> => {
-    return request<TGetUserWithCredsResponse>('/auth/login', {
+const loginUser = (form: TUseForm): Promise<TGetUserWithCredsResponse> => {
+    return request<TGetUserWithCredsResponse>(PATH_API_AUTH_LOGIN, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -89,7 +99,7 @@ const loginUser = (form: TLoginUser): Promise<TGetUserWithCredsResponse> => {
 }
 
 const getUser = () => {
-    return requestWithRefresh<TGetUserResponse>('/auth/user', {
+    return requestWithRefresh<TGetUserResponse>(PATH_API_AUTH_USER, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -99,7 +109,7 @@ const getUser = () => {
 }
 
 const updateUser = (form: TUserUpdateForm): Promise<TGetUserResponse> => {
-    return request<TGetUserResponse>('/auth/user', {
+    return request<TGetUserResponse>(PATH_API_AUTH_USER, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -110,7 +120,7 @@ const updateUser = (form: TUserUpdateForm): Promise<TGetUserResponse> => {
 }
 
 const logoutUser = (): Promise<TMessageResponse> => {
-    return request<TMessageResponse>('/auth/logout', {
+    return request<TMessageResponse>(PATH_API_AUTH_LOGOUT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -122,7 +132,7 @@ const logoutUser = (): Promise<TMessageResponse> => {
 }
 
 const forgotPassword = (email: string): Promise<TMessageResponse> => {
-    return request<TMessageResponse>('/password-reset', {
+    return request<TMessageResponse>(PATH_API_PASSWORD_FORGOT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -134,7 +144,7 @@ const forgotPassword = (email: string): Promise<TMessageResponse> => {
 }
 
 const resetPassword = (password: string, token: string): Promise<TMessageResponse> => {
-    return request<TMessageResponse>('/password-reset/reset', {
+    return request<TMessageResponse>(PATH_API_PASSWORD_RESET, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -146,23 +156,21 @@ const resetPassword = (password: string, token: string): Promise<TMessageRespons
     })
 }
 
+const loadOrder = (id: string): Promise<TOrderViewResponse> => {
+    return request(`${PATH_API_ORDERS}/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    })
+}
+
 const requestWithRefresh = async <T>(endpoint: RequestInfo, options: RequestInit) => {
     try {
         return await request<T>(endpoint, options)
     } catch (error) {
         if ( error === 403 ) {
-            let authToken
-
-            const {
-                accessToken,
-                refreshToken
-            } = await getRefreshToken()
-
-            authToken = accessToken.split('Bearer ')[1]
-
-            if (authToken) {
-                saveTokens(authToken, refreshToken)
-            }
+            const accessToken = await updateTokens()
 
             if ( options.headers ) {
                 (options.headers as {[key: string]: string }).authorization = accessToken
@@ -173,8 +181,25 @@ const requestWithRefresh = async <T>(endpoint: RequestInfo, options: RequestInit
     }
 }
 
+const updateTokens = async () => {
+    let authToken
+
+    const {
+        accessToken,
+        refreshToken
+    } = await getRefreshToken()
+
+    authToken = accessToken.split('Bearer ')[1]
+
+    if (authToken) {
+        saveTokens(authToken, refreshToken)
+    }
+
+    return accessToken
+}
+
 const getRefreshToken = async (): Promise<TGetRefreshToken> => {
-    return await request('/auth/token', {
+    return await request(PATH_API_AUTH_TOKEN, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -203,7 +228,7 @@ const checkSuccess = <T>(result: any): T => {
 }
 
 const request = async <T>(endpoint: RequestInfo, options?: RequestInit): Promise<T> => {
-    const data = await fetch(`${BASE_URL}${endpoint}`, options)
+    const data = await fetch(`${HTTP_API_URL}${endpoint}`, options)
     const response = await checkResponse<T>(data)
 
     return checkSuccess<T>(response)
@@ -214,9 +239,11 @@ export {
     resetPassword,
     forgotPassword,
     registerUser,
+    updateTokens,
     submitOrder,
     updateUser,
     logoutUser,
     loginUser,
+    loadOrder,
     getUser,
 }
