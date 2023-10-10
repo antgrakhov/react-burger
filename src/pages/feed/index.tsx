@@ -74,9 +74,9 @@ export default function FeedPage() {
                     <h1 className={styles.title}>Лента заказов</h1>
                     <div className={styles.wrap}>
                         <ul className={`${styles.list} custom-scroll`}>
-                            {orders.map((order: TOrderData, index: number) =>
+                            {orders.map(order =>
                                 <OrderItem
-                                    key={index}
+                                    key={order._id}
                                     order={order}
                                     path={ROUTE_FEED}
                                 />

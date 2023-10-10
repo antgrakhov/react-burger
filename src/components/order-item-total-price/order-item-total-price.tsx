@@ -14,9 +14,11 @@ export default function OrderItemTotalPrice({ingredientsAll, ingredientOrderIds,
         let ingredientsList: TIngredient[] = []
 
         ingredientOrderIds.forEach(ingredientId => {
-            ingredientsList.push(
-                ingredientsAll.find((ingredient: TIngredient) => ingredient._id === ingredientId) as TIngredient
-            )
+            if (ingredientId) {
+                ingredientsList.push(
+                    ingredientsAll.find((ingredient: TIngredient) => ingredient._id === ingredientId) as TIngredient
+                )
+            }
         })
 
         return getTotalPrice(ingredientsList)
