@@ -14,7 +14,6 @@ import {
     ROUTE_PROFILE_ORDERS,
     ROUTE_PROFILE,
 } from '../../utils/constants'
-import {TOrderData} from '../../types'
 
 import styles from './profile-orders.module.css'
 
