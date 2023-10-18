@@ -52,8 +52,7 @@ const initialState: TUserState = {
         email: '',
     },
 }
-
-export const userReducer = (state: TUserState = initialState, action: TUserActions): TUserState => {
+const userReducer = (state: TUserState = initialState, action: TUserActions): TUserState => {
     switch (action.type) {
         case REGISTER_REQUEST: {
             return {
@@ -66,7 +65,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
             return {
                 ...state,
                 registerRequest: false,
-                registerFailed: false,
                 isAuthChecked: true,
             }
         }
@@ -88,7 +86,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
             return {
                 ...state,
                 loginRequest: false,
-                loginFailed: false,
                 isAuthChecked: true,
             }
         }
@@ -102,9 +99,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
         case LOGOUT_REQUEST: {
             return {
                 ...state,
-                user: {
-                    ...state.user
-                },
                 logoutRequest: true,
                 logoutFailed: false
             }
@@ -122,9 +116,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
         case LOGOUT_FAILED: {
             return {
                 ...state,
-                user: {
-                    ...state.user
-                },
                 logoutRequest: false,
                 logoutFailed: true
             }
@@ -133,7 +124,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
             return {
                 ...state,
                 user: {
-                    ...state.user,
                     ...action.payload,
                 },
                 isLogged: true,
@@ -142,9 +132,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
         case USER_PATCH_REQUEST: {
             return {
                 ...state,
-                user: {
-                    ...state.user
-                },
                 patchUserRequest: true,
                 patchUserFailed: false,
             }
@@ -152,19 +139,12 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
         case USER_PATCH_SUCCESS: {
             return {
                 ...state,
-                user: {
-                    ...state.user
-                },
                 patchUserRequest: false,
-                patchUserFailed: false,
             }
         }
         case USER_PATCH_FAILED: {
             return {
                 ...state,
-                user: {
-                    ...state.user
-                },
                 patchUserRequest: false,
                 patchUserFailed: true,
             }
@@ -173,7 +153,6 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
             return {
                 ...state,
                 user: {
-                    ...state.user,
                     ...action.payload,
                 }
             }
@@ -188,4 +167,9 @@ export const userReducer = (state: TUserState = initialState, action: TUserActio
             return state
         }
     }
+}
+
+export {
+    userReducer,
+    initialState
 }

@@ -36,6 +36,8 @@ const feedOrdersReducer = (state: TFeedOrdersState = initialState, action: TFeed
             return {
                 ...state,
                 orders: [],
+                total: 0,
+                totalToday: 0,
                 error: action.payload,
                 wsConnected: false,
             }
@@ -44,6 +46,8 @@ const feedOrdersReducer = (state: TFeedOrdersState = initialState, action: TFeed
             return {
                 ...state,
                 orders: [],
+                total: 0,
+                totalToday: 0,
                 error: null,
                 wsConnected: false,
             }
@@ -64,5 +68,6 @@ const feedOrdersReducer = (state: TFeedOrdersState = initialState, action: TFeed
 
 export {
     type TFeedOrdersState,
+    initialState,
     feedOrdersReducer,
 }

@@ -21,11 +21,12 @@ const initialState: TOrderState = {
     isShowModalOrder: false,
 }
 
-export const orderReducer = (state: TOrderState = initialState, action: TSendOrderActions): TOrderState => {
+const orderReducer = (state: TOrderState = initialState, action: TSendOrderActions): TOrderState => {
     switch (action.type) {
         case SEND_ORDER_REQUEST: {
             return {
                 ...state,
+                orderNumber: 0,
                 orderRequest: true,
                 orderFailed: false,
             }
@@ -61,4 +62,9 @@ export const orderReducer = (state: TOrderState = initialState, action: TSendOrd
             return state
         }
     }
+}
+
+export {
+    initialState,
+    orderReducer
 }
