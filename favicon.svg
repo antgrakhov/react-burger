@@ -1,0 +1,85 @@
+<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg" fill="none" style="background-color:#000;">
+ <defs>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="49" width="43.3185" y="0.5" x="122.012" id="filter0_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="49" width="43.3185" y="0.5" x="122.012" id="filter1_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="17.013" width="48.792" y="20" x="119.581" id="filter2_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="17.013" width="48.792" y="20" x="119.581" id="filter3_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="12" width="49.0001" y="14.5" x="119.5" id="filter4_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="12" width="49.0001" y="14.5" x="119.5" id="filter5_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="44.1873" width="28.7952" y="2.81274" x="129.885" id="filter6_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="44.1873" width="28.7952" y="2.81274" x="129.885" id="filter7_f">
+   <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2"/>
+  </filter>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1" filter="url(#filter0_f)">
+   <path id="svg_2" stroke-linejoin="round" stroke-linecap="round" stroke="#4C4CFF" d="m40.513,37.6331c0.5,-0.6135 0.049,-1.4933 -0.743,-1.5063c-10.106,-0.1664 -18.558,0.0204 -29.012,0.6564c-0.791,0.0482 -1.203,0.9479 -0.675,1.5385c3.663,4.0984 8.991,6.6783 14.921,6.6783c6.256,0 11.841,-2.8709 15.509,-7.3669z"/>
+   <path id="svg_3" stroke-linejoin="round" stroke-linecap="round" stroke="#4C4CFF" d="m7.643,15.0579c-0.391,0.6799 0.184,1.4715 0.963,1.3781c11.567,-1.388 20.092,-1.8019 32.182,-1.0657c0.787,0.0479 1.316,-0.783 0.88,-1.439c-3.585,-5.38373 -9.71,-8.9313 -16.664,-8.9313c-7.428,0 -13.911,4.04797 -17.361,10.0579z"/>
+  </g>
+  <g id="svg_4" filter="url(#filter1_f)">
+   <path id="svg_5" stroke-linejoin="round" stroke-linecap="round" stroke="#4C4CFF" d="m40.513,37.6331c0.5,-0.6135 0.049,-1.4933 -0.743,-1.5063c-10.106,-0.1664 -18.558,0.0204 -29.012,0.6564c-0.791,0.0482 -1.203,0.9479 -0.675,1.5385c3.663,4.0984 8.991,6.6783 14.921,6.6783c6.256,0 11.841,-2.8709 15.509,-7.3669z"/>
+   <path id="svg_6" stroke-linejoin="round" stroke-linecap="round" stroke="#4C4CFF" d="m7.643,15.0579c-0.391,0.6799 0.184,1.4715 0.963,1.3781c11.567,-1.388 20.092,-1.8019 32.182,-1.0657c0.787,0.0479 1.316,-0.783 0.88,-1.439c-3.585,-5.38373 -9.71,-8.9313 -16.664,-8.9313c-7.428,0 -13.911,4.04797 -17.361,10.0579z"/>
+  </g>
+  <path id="svg_7" stroke-linejoin="round" stroke-linecap="round" stroke="#4C4CFF" d="m40.513,37.6331c0.5,-0.6135 0.049,-1.4933 -0.743,-1.5063c-10.106,-0.1664 -18.558,0.0204 -29.012,0.6564c-0.791,0.0482 -1.203,0.9479 -0.675,1.5385c3.663,4.0984 8.991,6.6783 14.921,6.6783c6.256,0 11.841,-2.8709 15.509,-7.3669z"/>
+  <path id="svg_8" stroke-linejoin="round" stroke-linecap="round" stroke="#4C4CFF" d="m7.643,15.0579c-0.391,0.6799 0.184,1.4715 0.963,1.3781c11.567,-1.388 20.092,-1.8019 32.182,-1.0657c0.787,0.0479 1.316,-0.783 0.88,-1.439c-3.585,-5.38373 -9.71,-8.9313 -16.664,-8.9313c-7.428,0 -13.911,4.04797 -17.361,10.0579z"/>
+  <path id="svg_9" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.5" stroke="white" d="m40.513,37.6331c0.5,-0.6135 0.049,-1.4933 -0.743,-1.5063c-10.106,-0.1664 -18.558,0.0204 -29.012,0.6564c-0.791,0.0482 -1.203,0.9479 -0.675,1.5385c3.663,4.0984 8.991,6.6783 14.921,6.6783c6.256,0 11.841,-2.8709 15.509,-7.3669z"/>
+  <path id="svg_10" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.5" stroke="white" d="m7.643,15.0579c-0.391,0.6799 0.184,1.4715 0.963,1.3781c11.567,-1.388 20.092,-1.8019 32.182,-1.0657c0.787,0.0479 1.316,-0.783 0.88,-1.439c-3.585,-5.38373 -9.71,-8.9313 -16.664,-8.9313c-7.428,0 -13.911,4.04797 -17.361,10.0579z"/>
+  <g id="svg_11" filter="url(#filter2_f)">
+   <path id="svg_12" stroke-linejoin="round" stroke-linecap="round" stroke="#E33CD5" d="m44.859,27.4656c0.129,-1.0523 -0.687,-1.9541 -1.744,-2.0392c-12.88,-1.0381 -22.931,-1.2013 -36.225,-0.5019c-1.059,0.0557 -1.9,0.9351 -1.801,1.9911c0.141,1.4989 0.448,2.9498 0.902,4.334c0.262,0.7977 1.041,1.2912 1.88,1.2622c12.512,-0.4335 22.189,-0.465 34.325,-0.1371c0.839,0.0226 1.615,-0.4771 1.87,-1.2772c0.373,-1.1677 0.641,-2.382 0.793,-3.6319z"/>
+  </g>
+  <g id="svg_13" filter="url(#filter3_f)">
+   <path id="svg_14" stroke-linejoin="round" stroke-linecap="round" stroke="#E33CD5" d="m44.859,27.4656c0.129,-1.0523 -0.687,-1.9541 -1.744,-2.0392c-12.88,-1.0381 -22.931,-1.2013 -36.225,-0.5019c-1.059,0.0557 -1.9,0.9351 -1.801,1.9911c0.141,1.4989 0.448,2.9498 0.902,4.334c0.262,0.7977 1.041,1.2912 1.88,1.2622c12.512,-0.4335 22.189,-0.465 34.325,-0.1371c0.839,0.0226 1.615,-0.4771 1.87,-1.2772c0.373,-1.1677 0.641,-2.382 0.793,-3.6319z"/>
+  </g>
+  <path id="svg_15" stroke-linejoin="round" stroke-linecap="round" stroke="#E33CD5" d="m44.859,27.4656c0.129,-1.0523 -0.687,-1.9541 -1.744,-2.0392c-12.88,-1.0381 -22.931,-1.2013 -36.225,-0.5019c-1.059,0.0557 -1.9,0.9351 -1.801,1.9911c0.141,1.4989 0.448,2.9498 0.902,4.334c0.262,0.7977 1.041,1.2912 1.88,1.2622c12.512,-0.4335 22.189,-0.465 34.325,-0.1371c0.839,0.0226 1.615,-0.4771 1.87,-1.2772c0.373,-1.1677 0.641,-2.382 0.793,-3.6319z"/>
+  <path id="svg_16" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.5" stroke="white" d="m44.859,27.4656c0.129,-1.0523 -0.687,-1.9541 -1.744,-2.0392c-12.88,-1.0381 -22.931,-1.2013 -36.225,-0.5019c-1.059,0.0557 -1.9,0.9351 -1.801,1.9911c0.141,1.4989 0.448,2.9498 0.902,4.334c0.262,0.7977 1.041,1.2912 1.88,1.2622c12.512,-0.4335 22.189,-0.465 34.325,-0.1371c0.839,0.0226 1.615,-0.4771 1.87,-1.2772c0.373,-1.1677 0.641,-2.382 0.793,-3.6319z"/>
+  <g id="svg_17" filter="url(#filter4_f)">
+   <path id="svg_18" stroke-linejoin="round" stroke-linecap="round" stroke="#00CCCC" d="m5,20.5c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0"/>
+  </g>
+  <g id="svg_19" filter="url(#filter5_f)">
+   <path id="svg_20" stroke-linejoin="round" stroke-linecap="round" stroke="#00CCCC" d="m5,20.5c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0"/>
+  </g>
+  <path id="svg_21" stroke-linejoin="round" stroke-linecap="round" stroke="#00CCCC" d="m5,20.5c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0"/>
+  <path id="svg_22" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.5" stroke="white" d="m5,20.5c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0c2.667,2 5.333,2 8,0c2.667,-2 5.333,-2 8,0"/>
+  <g id="svg_23" filter="url(#filter6_f)">
+   <ellipse cx="-105.37351" cy="-55.29393" id="svg_24" stroke="#4C4CFF" transform="matrix(0.885492, 0.464655, 0.464655, -0.885492, 137.234, 39.9812)" ry="0.75" rx="1"/>
+   <ellipse id="svg_25" stroke="#4C4CFF" transform="rotate(15, 33.708, 11.3542)" ry="1" rx="1.5" cy="11.3542" cx="33.708"/>
+   <ellipse cx="-114.94516" cy="30.79945" id="svg_26" stroke="#4C4CFF" transform="matrix(0.965926, -0.258819, -0.258819, -0.965926, 150.16, 39.9833)" ry="0.75" rx="1"/>
+   <ellipse id="svg_27" stroke="#4C4CFF" transform="rotate(180, 23.5, 12)" ry="1" rx="1.5" cy="12" cx="23.5"/>
+   <ellipse id="svg_28" stroke="#4C4CFF" transform="rotate(15, 27.708, 8.35414)" ry="1" rx="1.5" cy="8.35415" cx="27.708"/>
+   <ellipse cx="-119" cy="0" id="svg_29" stroke="#4C4CFF" transform="matrix(1, 0, 0, -1, 144, 41.75)" ry="0.75" rx="1"/>
+   <ellipse id="svg_30" stroke="#4C4CFF" transform="rotate(-27.6879, 16.793, 10.5826)" ry="1" rx="1.5" cy="10.5826" cx="16.793"/>
+  </g>
+  <g id="svg_31" filter="url(#filter7_f)">
+   <ellipse cx="-105.37351" cy="-55.29393" id="svg_32" stroke="#4C4CFF" transform="matrix(0.885492, 0.464655, 0.464655, -0.885492, 137.234, 39.9812)" ry="0.75" rx="1"/>
+   <ellipse id="svg_33" stroke="#4C4CFF" transform="rotate(15, 33.708, 11.3542)" ry="1" rx="1.5" cy="11.3542" cx="33.708"/>
+   <ellipse cx="-114.94516" cy="30.79945" id="svg_34" stroke="#4C4CFF" transform="matrix(0.965926, -0.258819, -0.258819, -0.965926, 150.16, 39.9833)" ry="0.75" rx="1"/>
+   <ellipse id="svg_35" stroke="#4C4CFF" transform="rotate(180, 23.5, 12)" ry="1" rx="1.5" cy="12" cx="23.5"/>
+   <ellipse id="svg_36" stroke="#4C4CFF" transform="rotate(15, 27.708, 8.35414)" ry="1" rx="1.5" cy="8.35415" cx="27.708"/>
+   <ellipse cx="-119" cy="0" id="svg_37" stroke="#4C4CFF" transform="matrix(1, 0, 0, -1, 144, 41.75)" ry="0.75" rx="1"/>
+   <ellipse id="svg_38" stroke="#4C4CFF" transform="rotate(-27.6879, 16.793, 10.5826)" ry="1" rx="1.5" cy="10.5826" cx="16.793"/>
+  </g>
+  <ellipse id="svg_40" stroke="#4C4CFF" transform="rotate(15, 33.708, 11.3542)" ry="1" rx="1.5" cy="11.3542" cx="33.708"/>
+  <ellipse id="svg_42" stroke="#4C4CFF" transform="rotate(180, 23.5, 12)" ry="1" rx="1.5" cy="12" cx="23.5"/>
+  <ellipse id="svg_43" stroke="#4C4CFF" transform="rotate(15, 27.708, 8.35414)" ry="1" rx="1.5" cy="8.35415" cx="27.708"/>
+  <ellipse id="svg_45" stroke="#4C4CFF" transform="rotate(-27.6879, 16.793, 10.5826)" ry="1" rx="1.5" cy="10.5826" cx="16.793"/>
+  <ellipse id="svg_47" stroke-width="0.5" stroke="white" transform="rotate(15, 33.708, 11.3542)" ry="1" rx="1.5" cy="11.3542" cx="33.708"/>
+  <ellipse id="svg_49" stroke-width="0.5" stroke="white" transform="rotate(180, 23.5, 12)" ry="1" rx="1.5" cy="12" cx="23.5"/>
+  <ellipse id="svg_50" stroke-width="0.5" stroke="white" transform="rotate(15, 27.708, 8.35414)" ry="1" rx="1.5" cy="8.35415" cx="27.708"/>
+  <ellipse id="svg_52" stroke-width="0.5" stroke="white" transform="rotate(-27.6879, 16.793, 10.5826)" ry="1" rx="1.5" cy="10.5826" cx="16.793"/>
+ </g>
+</svg>
