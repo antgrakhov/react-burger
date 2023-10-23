@@ -9,6 +9,14 @@ import {
 import {initialState} from './constructor'
 
 describe('burger-constructor reducer', () => {
+    const ingredientWithCount = (ingredient, count) => {
+        return {
+            [ingredient._id]: {
+                type: ingredient.type,
+                count,
+            }
+        }
+    }
     const testBun1 = {
         _id: "643d69a5c3f7b9001cfa093c",
         name: "Краторная булка N-200i",
@@ -76,36 +84,20 @@ describe('burger-constructor reducer', () => {
             payload: testBun1
         })).toEqual({
             selectedItems: [testBun1, testBun1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa093c': {
-                    type: 'bun',
-                    count: 2,
-                }
-            }
+            selectedCounts: ingredientWithCount(testBun1, 2)
         })
 
         expect(constructorReducer({
             selectedItems: [testBun1, testBun1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa093c': {
-                    type: 'bun',
-                    count: 2,
-                }
-            }
+            selectedCounts: ingredientWithCount(testBun1, 2)
         }, {
             type: ADD_CONSTRUCTOR_BUN_ITEM,
             payload: testBun2
         })).toEqual({
             selectedItems: [testBun2, testBun2],
             selectedCounts: {
-                '643d69a5c3f7b9001cfa093c': {
-                    type: 'bun',
-                    count: 0,
-                },
-                '643d69a5c3f7b9001cfa093d': {
-                    type: 'bun',
-                    count: 2,
-                }
+                ...ingredientWithCount(testBun1, 0),
+                ...ingredientWithCount(testBun2, 2)
             }
         })
     })
@@ -116,57 +108,31 @@ describe('burger-constructor reducer', () => {
             payload: testIngredient1
         })).toEqual({
             selectedItems: [testIngredient1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 1,
-                }
-            }
+            selectedCounts: ingredientWithCount(testIngredient1, 1)
         })
 
         expect(constructorReducer({
             selectedItems: [testIngredient1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 1,
-                }
-            }
+            selectedCounts: ingredientWithCount(testIngredient1, 1)
         }, {
             type: ADD_CONSTRUCTOR_INSIDE_ITEM,
             payload: testIngredient1
         })).toEqual({
             selectedItems: [testIngredient1, testIngredient1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 2,
-                }
-            }
+            selectedCounts: ingredientWithCount(testIngredient1, 2)
         })
 
         expect(constructorReducer({
             selectedItems: [testIngredient1, testIngredient1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 2,
-                }
-            }
+            selectedCounts: ingredientWithCount(testIngredient1, 2)
         }, {
             type: ADD_CONSTRUCTOR_INSIDE_ITEM,
             payload: testIngredient2
         })).toEqual({
             selectedItems: [testIngredient1, testIngredient2, testIngredient1],
             selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 2,
-                },
-                '643d69a5c3f7b9001cfa0941': {
-                    type: 'main',
-                    count: 1,
-                }
+                ...ingredientWithCount(testIngredient1, 2),
+                ...ingredientWithCount(testIngredient2, 1)
             }
         })
     })
@@ -174,23 +140,13 @@ describe('burger-constructor reducer', () => {
     it('should handle REMOVE_CONSTRUCTOR_INSIDE_ITEM', () => {
         expect(constructorReducer({
             selectedItems: [testIngredient1],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 1,
-                }
-            }
+            selectedCounts: ingredientWithCount(testIngredient1, 1)
         }, {
             type: REMOVE_CONSTRUCTOR_INSIDE_ITEM,
-            id: '643d69a5c3f7b9001cfa0942'
+            id: testIngredient1._id
         })).toEqual({
             selectedItems: [],
-            selectedCounts: {
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 0,
-                }
-            }
+            selectedCounts: ingredientWithCount(testIngredient1, 0)
         })
     })
 
@@ -198,18 +154,9 @@ describe('burger-constructor reducer', () => {
         expect(constructorReducer({
             selectedItems: [testBun1, testIngredient1, testIngredient2, testBun1],
             selectedCounts: {
-                '643d69a5c3f7b9001cfa093c': {
-                    type: 'bun',
-                    count: 2,
-                },
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 1,
-                },
-                '643d69a5c3f7b9001cfa0941': {
-                    type: 'main',
-                    count: 1,
-                }
+                ...ingredientWithCount(testBun1, 2),
+                ...ingredientWithCount(testIngredient1, 1),
+                ...ingredientWithCount(testIngredient2, 1)
             }
         }, {
             type: MOVE_CONSTRUCTOR_INSIDE_ITEM,
@@ -220,18 +167,9 @@ describe('burger-constructor reducer', () => {
         })).toEqual({
             selectedItems: [testBun1, testIngredient2, testIngredient1, testBun1],
             selectedCounts: {
-                '643d69a5c3f7b9001cfa093c': {
-                    type: 'bun',
-                    count: 2,
-                },
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 1,
-                },
-                '643d69a5c3f7b9001cfa0941': {
-                    type: 'main',
-                    count: 1,
-                }
+                ...ingredientWithCount(testBun1, 2),
+                ...ingredientWithCount(testIngredient2, 1),
+                ...ingredientWithCount(testIngredient1, 1)
             }
         })
     })
@@ -240,18 +178,9 @@ describe('burger-constructor reducer', () => {
         expect(constructorReducer({
             selectedItems: [testBun1, testIngredient1, testIngredient2, testBun1],
             selectedCounts: {
-                '643d69a5c3f7b9001cfa093c': {
-                    type: 'bun',
-                    count: 2,
-                },
-                '643d69a5c3f7b9001cfa0942': {
-                    type: 'sauce',
-                    count: 1,
-                },
-                '643d69a5c3f7b9001cfa0941': {
-                    type: 'main',
-                    count: 1,
-                }
+                ...ingredientWithCount(testBun1, 2),
+                ...ingredientWithCount(testIngredient1, 1),
+                ...ingredientWithCount(testIngredient2, 1)
             }
         }, {
             type: CLEAR_CONSTRUCTOR,
