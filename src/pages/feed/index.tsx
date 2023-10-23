@@ -10,8 +10,7 @@ import {
     ROUTE_FEED,
 } from '../../utils/constants'
 import {
-    OrderStatusTypes,
-    TOrderData
+    OrderStatusTypes
 } from '../../types'
 import {
     FEED_ORDERS_CONNECTION_START,

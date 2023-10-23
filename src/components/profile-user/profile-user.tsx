@@ -50,14 +50,13 @@ export default function ProfileUser() {
     }
 
     useEffect(() => {
-        const newForm = {
+        setIsFormChanged(false)
+        setForm({
             name: form.name,
             email: form.email,
             password: ''
-        }
-
-        setIsFormChanged(false)
-        setForm(newForm)
+        })
+    // eslint-disable-next-line
     }, [user])
 
     return <form className={styles.form} onSubmit={handleSubmitForm}>

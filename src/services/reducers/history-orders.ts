@@ -36,6 +36,8 @@ const historyOrdersReducer = (state: THistoryOrdersState = initialState, action:
             return {
                 ...state,
                 orders: [],
+                total: 0,
+                totalToday: 0,
                 error: action.payload,
                 wsConnected: false,
             }
@@ -44,6 +46,8 @@ const historyOrdersReducer = (state: THistoryOrdersState = initialState, action:
             return {
                 ...state,
                 orders: [],
+                total: 0,
+                totalToday: 0,
                 error: null,
                 wsConnected: false,
             }
@@ -64,5 +68,6 @@ const historyOrdersReducer = (state: THistoryOrdersState = initialState, action:
 
 export {
     type THistoryOrdersState,
+    initialState,
     historyOrdersReducer,
 }

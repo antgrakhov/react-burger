@@ -27,7 +27,7 @@ const initialState: TConstructorState = {
     selectedCounts: {}
 }
 
-export const constructorReducer = (state = initialState, action: TConstructorActions): TConstructorState => {
+const constructorReducer = (state = initialState, action: TConstructorActions): TConstructorState => {
     switch (action.type) {
         case ADD_CONSTRUCTOR_BUN_ITEM: {
             const newCounts = {...state.selectedCounts}
@@ -98,11 +98,11 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
             } = action
             const newCounts = {...state.selectedCounts}
 
-            if ( newCounts[id] ) {
+            // if ( newCounts[id] ) {
                 newCounts[id].count = newCounts[id].count > 0
                     ? --newCounts[id].count
                     : 0
-            }
+            // }
 
             return {
                 ...state,
@@ -140,4 +140,9 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
             return state
         }
     }
+}
+
+export {
+    initialState,
+    constructorReducer
 }

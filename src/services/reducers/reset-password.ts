@@ -21,7 +21,7 @@ const initialState: TResetPasswordState = {
     resetPasswordFailed: false,
 }
 
-export const resetPasswordReducer = (state: TResetPasswordState = initialState, action: TResetForgotPasswordActions): TResetPasswordState => {
+const resetPasswordReducer = (state: TResetPasswordState = initialState, action: TResetForgotPasswordActions): TResetPasswordState => {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST: {
             return {
@@ -67,4 +67,9 @@ export const resetPasswordReducer = (state: TResetPasswordState = initialState, 
             return state
         }
     }
+}
+
+export {
+    resetPasswordReducer,
+    initialState
 }

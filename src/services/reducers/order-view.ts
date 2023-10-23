@@ -18,7 +18,7 @@ const initialState: TOrderViewState = {
     orderViewFailed: false,
 }
 
-export const orderViewReducer = (state: TOrderViewState = initialState, action: TGetOrderViewActions): TOrderViewState => {
+const orderViewReducer = (state: TOrderViewState = initialState, action: TGetOrderViewActions): TOrderViewState => {
     switch (action.type) {
         case GET_ORDER_VIEW_REQUEST: {
             return {
@@ -33,7 +33,6 @@ export const orderViewReducer = (state: TOrderViewState = initialState, action: 
                 ...state,
                 orders: action.payload,
                 orderViewRequest: false,
-                orderViewFailed: false,
             }
         }
 
@@ -49,4 +48,9 @@ export const orderViewReducer = (state: TOrderViewState = initialState, action: 
         default:
             return state;
     }
+}
+
+export {
+    orderViewReducer,
+    initialState
 }

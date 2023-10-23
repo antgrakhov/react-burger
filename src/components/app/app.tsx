@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {BrowserRouter} from 'react-router-dom'
+import {HashRouter as BrowserRouter} from 'react-router-dom'
 import {useAppDispatch, useAppSelector} from '../../utils/store'
 import AppRoutes from '../../services/routes'
 import AppHeader from '../app-header/app-header'
